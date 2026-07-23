@@ -275,29 +275,84 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
     const activeStage = STAGES[state.questStage];
     if (!activeStage) return;
 
+    // 1. Gather all words inside current stage subcategories
     const stageItems = vocabularyData.filter(item => 
       activeStage.subcategories.includes(item.subcategory)
     );
 
-    let sessionItems = [];
     const levelVal = state.questLevel;
+    const cardCount = state.isReviewReady ? 0 : Math.max(1, 16 - Math.floor((levelVal - 1) * 0.85));
+    const quizCount = 20 - cardCount;
 
+    let finalQuestions = [];
+
+    // --- Generate Flashcard Steps ---
+    const selectedFlashcards = [];
+    const seenWords = state.stageFlashcardsSeen || [];
+
+    if (cardCount > 0) {
+      const unseenStageItems = stageItems.filter(item => !seenWords.includes(item.spanish));
+      const seenStageItems = stageItems.filter(item => seenWords.includes(item.spanish));
+
+      // Shuffle both pools
+      unseenStageItems.sort(() => Math.random() - 0.5);
+      seenStageItems.sort(() => Math.random() - 0.5);
+
+      const takeUnseen = unseenStageItems.slice(0, cardCount);
+      selectedFlashcards.push(...takeUnseen);
+
+      // Backfill from already seen words if we run out of unseen ones
+      if (selectedFlashcards.length < cardCount) {
+        const need = cardCount - selectedFlashcards.length;
+        selectedFlashcards.push(...seenStageItems.slice(0, need));
+      }
+
+      // Mark the newly seen ones
+      const newlySeen = takeUnseen.map(item => item.spanish);
+      if (newlySeen.length > 0 && markFlashcardsSeen) {
+        markFlashcardsSeen(newlySeen);
+      }
+    }
+
+    const cardSteps = selectedFlashcards.map(item => ({
+      item,
+      isCardIntro: true
+    }));
+
+    // --- Generate Quiz Steps ---
+    // Quiz questions must only draw from words that are already in seenWords 
+    // OR are being introduced in this active level (selectedFlashcards)!
+    const currentlyIntroduced = selectedFlashcards.map(item => item.spanish);
+    const eligibleStageItems = stageItems.filter(item => 
+      seenWords.includes(item.spanish) || currentlyIntroduced.includes(item.spanish)
+    );
+
+    // Fallback: If eligibleStageItems is empty, use all stageItems
+    const stageQuizPool = eligibleStageItems.length > 0 ? eligibleStageItems : stageItems;
+
+    let quizItems = [];
     if (state.isReviewReady) {
+      // Review mode: 20 quiz questions from current stage (no flashcards)
       const shuffledStage = [...stageItems].sort(() => Math.random() - 0.5);
-      sessionItems = shuffledStage.slice(0, 20);
+      quizItems = shuffledStage.slice(0, 20);
       
-      if (sessionItems.length < 20) {
-        const needed = 20 - sessionItems.length;
+      // Backfill if current stage has fewer than 20 words
+      if (quizItems.length < 20) {
+        const needed = 20 - quizItems.length;
         const extraPool = vocabularyData.filter(item => !activeStage.subcategories.includes(item.subcategory));
         const extraItems = extraPool.sort(() => Math.random() - 0.5).slice(0, needed);
-        sessionItems = [...sessionItems, ...extraItems];
+        quizItems = [...quizItems, ...extraItems];
       }
     } else {
-      const shuffledCurrent = [...stageItems].sort(() => Math.random() - 0.5);
-      const currentItems = shuffledCurrent.slice(0, 12);
+      // Normal mode: mix current stage words and review items
+      const currentQuizCount = Math.ceil(quizCount * 0.6);
+      const reviewQuizCount = quizCount - currentQuizCount;
 
-      let reviewItems = [];
-      if (state.questStage > 1) {
+      const shuffledCurrent = [...stageQuizPool].sort(() => Math.random() - 0.5);
+      const currentQuizItems = shuffledCurrent.slice(0, currentQuizCount);
+
+      let reviewQuizItems = [];
+      if (state.questStage > 1 && reviewQuizCount > 0) {
         const pastSubcategories = [];
         for (let s = 1; s < state.questStage; s++) {
           pastSubcategories.push(...STAGES[s].subcategories);
@@ -305,36 +360,36 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
         const pastItems = vocabularyData.filter(item => 
           pastSubcategories.includes(item.subcategory)
         );
+        // Past items are automatically eligible because they were introduced in previous stages
         const shuffledPast = pastItems.sort(() => Math.random() - 0.5);
-        reviewItems = shuffledPast.slice(0, 8);
+        reviewQuizItems = shuffledPast.slice(0, reviewQuizCount);
       }
 
-      if (reviewItems.length < 8) {
-        const needed = 20 - currentItems.length;
-        const extra = shuffledCurrent.slice(12, 12 + needed);
-        sessionItems = [...currentItems, ...extra];
+      // Backfill current items if review items are not enough
+      if (reviewQuizItems.length < reviewQuizCount) {
+        const needed = reviewQuizCount - reviewQuizItems.length;
+        const extra = shuffledCurrent.slice(currentQuizCount, currentQuizCount + needed);
+        quizItems = [...currentQuizItems, ...reviewQuizItems, ...extra];
       } else {
-        sessionItems = [...currentItems, ...reviewItems];
+        quizItems = [...currentQuizItems, ...reviewQuizItems];
       }
-      
-      sessionItems.sort(() => Math.random() - 0.5);
     }
 
-    const cardCount = state.isReviewReady ? 0 : Math.max(1, 16 - Math.floor((levelVal - 1) * 0.85));
-    
-    const questions = sessionItems.map((item, idx) => {
-      if (idx < cardCount) {
-        return {
-          item,
-          isCardIntro: true
-        };
-      }
-      return buildProgressiveQuizStep(item, levelVal);
-    });
+    const quizSteps = quizItems.map(item => buildProgressiveQuizStep(item, levelVal));
 
-    questions.sort(() => Math.random() - 0.5);
+    // Combine and shuffle organically
+    finalQuestions = [...cardSteps, ...quizSteps].sort(() => Math.random() - 0.5);
 
-    setQuestQuestions(questions);
+    // Make sure we have exactly 20
+    if (finalQuestions.length < 20) {
+      const needed = 20 - finalQuestions.length;
+      const backfills = stageItems.sort(() => Math.random() - 0.5).slice(0, needed).map(item => buildProgressiveQuizStep(item, levelVal));
+      finalQuestions = [...finalQuestions, ...backfills];
+    } else if (finalQuestions.length > 20) {
+      finalQuestions = finalQuestions.slice(0, 20);
+    }
+
+    setQuestQuestions(finalQuestions);
     setQuestCurrentIdx(0);
     setQuestScore(0);
     setQuestFinished(false);
