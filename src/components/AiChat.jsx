@@ -118,10 +118,25 @@ export default function AiChat({ state, setApiKey, setView }) {
 
   const speakMessage = (text) => {
     if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'es-MX';
-      window.speechSynthesis.speak(utterance);
+      try {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'es-MX';
+
+        const voices = window.speechSynthesis.getVoices();
+        const spanishVoice = voices.find(v => v.lang.toLowerCase() === 'es-mx') ||
+                             voices.find(v => v.lang.toLowerCase() === 'es-es') ||
+                             voices.find(v => v.lang.toLowerCase().includes('es'));
+        if (spanishVoice) {
+          utterance.voice = spanishVoice;
+          utterance.lang = spanishVoice.lang;
+        }
+
+        utterance.rate = 0.85;
+        window.speechSynthesis.speak(utterance);
+      } catch (e) {
+        console.warn("AI Chat Speech Error:", e);
+      }
     }
   };
 
