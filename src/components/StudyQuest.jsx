@@ -167,6 +167,15 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
     window.speechSynthesis.speak(utterance);
   };
 
+  const cleanAnswer = (str) => {
+    if (!str) return "";
+    return str
+      .toLowerCase()
+      .replace(/[¿¡!?.“”"'()\-–—,;:]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  };
+
   // -------------------------------------------------------------
   // QUEST CAMPAIGN CORE LOGIC
   // -------------------------------------------------------------
@@ -281,31 +290,26 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
     );
 
     const levelVal = state.questLevel;
-    const cardCount = state.isReviewReady ? 0 : Math.max(1, 16 - Math.floor((levelVal - 1) * 0.85));
+    const seenWords = state.stageFlashcardsSeen || [];
+    const unseenStageItems = stageItems.filter(item => !seenWords.includes(item.spanish));
+
+    // Calculate target card count we want for this level based on level progression
+    const targetCardCount = state.isReviewReady ? 0 : Math.max(1, 16 - Math.floor((levelVal - 1) * 0.85));
+
+    // Capping cardCount to the number of unseen items so we never show repeated cards as introductions!
+    const cardCount = Math.min(targetCardCount, unseenStageItems.length);
     const quizCount = 20 - cardCount;
 
     let finalQuestions = [];
 
     // --- Generate Flashcard Steps ---
     const selectedFlashcards = [];
-    const seenWords = state.stageFlashcardsSeen || [];
 
     if (cardCount > 0) {
-      const unseenStageItems = stageItems.filter(item => !seenWords.includes(item.spanish));
-      const seenStageItems = stageItems.filter(item => seenWords.includes(item.spanish));
-
-      // Shuffle both pools
+      // Shuffle unseen pool
       unseenStageItems.sort(() => Math.random() - 0.5);
-      seenStageItems.sort(() => Math.random() - 0.5);
-
       const takeUnseen = unseenStageItems.slice(0, cardCount);
       selectedFlashcards.push(...takeUnseen);
-
-      // Backfill from already seen words if we run out of unseen ones
-      if (selectedFlashcards.length < cardCount) {
-        const need = cardCount - selectedFlashcards.length;
-        selectedFlashcards.push(...seenStageItems.slice(0, need));
-      }
 
       // Mark the newly seen ones
       const newlySeen = takeUnseen.map(item => item.spanish);
@@ -513,11 +517,10 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
     if (questAnswered || !typedAnswer.trim()) return;
     setQuestAnswered(true);
 
-    const correctStr = questQuestions[questCurrentIdx].correct.trim().toLowerCase();
-    const userStr = typedAnswer.trim().toLowerCase();
+    const correctStr = questQuestions[questCurrentIdx].correct;
+    const userStr = typedAnswer;
 
-    const isCorrect = correctStr === userStr || 
-                      correctStr.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()¿¡]/g,"").trim() === userStr.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()¿¡]/g,"").trim();
+    const isCorrect = cleanAnswer(correctStr) === cleanAnswer(userStr);
 
     if (isCorrect) {
       setQuestScore(prev => prev + 1);
@@ -539,11 +542,10 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
     if (practiceAnswered || !practiceTyped.trim()) return;
     setPracticeAnswered(true);
 
-    const correctStr = practiceQuestions[practiceCurrentIdx].correct.trim().toLowerCase();
-    const userStr = practiceTyped.trim().toLowerCase();
+    const correctStr = practiceQuestions[practiceCurrentIdx].correct;
+    const userStr = practiceTyped;
 
-    const isCorrect = correctStr === userStr || 
-                      correctStr.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()¿¡]/g,"").trim() === userStr.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()¿¡]/g,"").trim();
+    const isCorrect = cleanAnswer(correctStr) === cleanAnswer(userStr);
 
     if (isCorrect) {
       setPracticeScore(prev => prev + 1);
@@ -769,6 +771,14 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
 
   const currentQuestQ = questQuestions[questCurrentIdx];
   const shakeClass = shakeTrigger ? "shake damage-flash" : healTrigger ? "heal-flash" : "";
+
+  // Helper flags for case-insensitive and punctuation-insensitive correctness evaluation in templates
+  const isQuestUserCorrect = questAnswered && currentQuestQ && (
+    cleanAnswer(questSelected) === cleanAnswer(currentQuestQ.correct)
+  );
+  const isPracticeUserCorrect = practiceAnswered && practiceQuestions[practiceCurrentIdx] && (
+    cleanAnswer(practiceSelected) === cleanAnswer(practiceQuestions[practiceCurrentIdx].correct)
+  );
 
   return (
     <div className={`view-container ${shakeClass}`} style={{ transition: 'background-color 0.25s ease' }}>
@@ -1045,7 +1055,7 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
                       value={typedAnswer}
                       onChange={(e) => setTypedAnswer(e.target.value)}
                       disabled={questAnswered}
-                      className={`quiz-input ${questAnswered ? (questSelected === currentQuestQ.correct ? 'correct' : 'wrong') : ''}`}
+                      className={`quiz-input ${questAnswered ? (isQuestUserCorrect ? 'correct' : 'wrong') : ''}`}
                       style={{ width: '100%', padding: '14px', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--card-border)', borderRadius: '12px', color: 'var(--text-primary)', fontSize: '1.1rem', outline: 'none' }}
                       autoFocus
                     />
@@ -1077,10 +1087,10 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
 
               {questAnswered && (
                 <div 
-                  className={`quiz-feedback-box ${questSelected === currentQuestQ.correct ? 'correct' : 'wrong'}`}
+                  className={`quiz-feedback-box ${isQuestUserCorrect ? 'correct' : 'wrong'}`}
                   style={{ animation: 'pop-in 0.3s ease-out' }}
                 >
-                  {questSelected === currentQuestQ.correct 
+                  {isQuestUserCorrect 
                     ? "¡Correcto! +10 XP | +1 Gold" 
                     : `Incorrecto! -15 HP. Correct translation: "${currentQuestQ.correct}"`
                   }
@@ -1362,7 +1372,7 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
                       value={practiceTyped}
                       onChange={(e) => setPracticeTyped(e.target.value)}
                       disabled={practiceAnswered}
-                      className={`quiz-input ${practiceAnswered ? (practiceSelected === practiceQuestions[practiceCurrentIdx].correct ? 'correct' : 'wrong') : ''}`}
+                      className={`quiz-input ${practiceAnswered ? (isPracticeUserCorrect ? 'correct' : 'wrong') : ''}`}
                       style={{ width: '100%', padding: '14px', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--card-border)', borderRadius: '12px', color: 'var(--text-primary)', fontSize: '1.1rem', outline: 'none' }}
                       autoFocus
                     />
@@ -1394,10 +1404,10 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
 
               {practiceAnswered && (
                 <div 
-                  className={`quiz-feedback-box ${practiceSelected === practiceQuestions[practiceCurrentIdx].correct ? 'correct' : 'wrong'}`}
+                  className={`quiz-feedback-box ${isPracticeUserCorrect ? 'correct' : 'wrong'}`}
                   style={{ animation: 'pop-in 0.3s ease-out' }}
                 >
-                  {practiceSelected === practiceQuestions[practiceCurrentIdx].correct 
+                  {isPracticeUserCorrect 
                     ? "¡Correcto! +10 XP | +1 Gold" 
                     : `Incorrecto! -15 HP. Correct Answer: "${practiceQuestions[practiceCurrentIdx].correct}"`
                   }
