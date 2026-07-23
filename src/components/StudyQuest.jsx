@@ -20,7 +20,7 @@ import {
   Play
 } from 'lucide-react';
 
-export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQuizPerformance, advanceQuest, passStageReview, markFlashcardsSeen, setView, defaultTab = "quest" }) {
+export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, recordQuizPerformance, advanceQuest, passStageReview, markFlashcardsSeen, setView, defaultTab = "quest" }) {
   const [activeTab, setActiveTab] = useState(defaultTab);
 
   useEffect(() => {
@@ -43,6 +43,16 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
   const [shakeTrigger, setShakeTrigger] = useState(false);
   const [healTrigger, setHealTrigger] = useState(false);
   const [typedAnswer, setTypedAnswer] = useState("");
+  const [questMissedQuestions, setQuestMissedQuestions] = useState([]);
+  const [redemptionQuestions, setRedemptionQuestions] = useState([]);
+  const [redemptionActive, setRedemptionActive] = useState(false);
+  const [redemptionCurrentIdx, setRedemptionCurrentIdx] = useState(0);
+  const [redemptionTyped, setRedemptionTyped] = useState("");
+  const [redemptionAnswered, setRedemptionAnswered] = useState(false);
+  const [redemptionSelected, setRedemptionSelected] = useState(null);
+  const [redemptionScore, setRedemptionScore] = useState(0);
+  const [redemptionFailed, setRedemptionFailed] = useState(false);
+  const [redemptionSuccess, setRedemptionSuccess] = useState(false);
   
   const questInputRef = useRef(null);
   const practiceInputRef = useRef(null);
@@ -93,6 +103,28 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
       setSelectedSubcategory(formatted["Nouns"][0]);
     }
   }, []);
+
+  // Listen for user fainting during an active Quest Campaign level
+  useEffect(() => {
+    if (state.fainted && questStarted) {
+      setQuestStarted(false);
+      const finalMissed = [...questMissedQuestions];
+      if (currentQuestQ && !finalMissed.some(q => q.questionWord === currentQuestQ.questionWord)) {
+        finalMissed.push(currentQuestQ);
+      }
+      setRedemptionQuestions(finalMissed);
+      setRedemptionActive(true);
+
+      setQuestFinished(false);
+      setRedemptionCurrentIdx(0);
+      setRedemptionTyped("");
+      setRedemptionAnswered(false);
+      setRedemptionSelected(null);
+      setRedemptionScore(0);
+      setRedemptionFailed(false);
+      setRedemptionSuccess(false);
+    }
+  }, [state.fainted, questStarted]);
 
   // Filter free practice cards when category changes
   useEffect(() => {
@@ -283,6 +315,8 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
     initAudio();
     const activeStage = STAGES[state.questStage];
     if (!activeStage) return;
+
+    setQuestMissedQuestions([]);
 
     // 1. Gather all words inside current stage subcategories
     const stageItems = vocabularyData.filter(item => 
@@ -532,6 +566,14 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
       setQuestSelected(userStr); // marks it wrong
       setShakeTrigger(true);
       playSound('wrong');
+      
+      // Track missed question
+      const currentQ = questQuestions[questCurrentIdx];
+      setQuestMissedQuestions(prev => {
+        if (prev.some(q => q.questionWord === currentQ.questionWord)) return prev;
+        return [...prev, currentQ];
+      });
+
       takeDamage(15);
       setTimeout(() => setShakeTrigger(false), 500);
     }
@@ -557,7 +599,7 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
       setPracticeSelected(userStr);
       setShakeTrigger(true);
       playSound('wrong');
-      takeDamage(15);
+      if (!state.fainted) takeDamage(15);
       setTimeout(() => setShakeTrigger(false), 500);
     }
   };
@@ -591,6 +633,13 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
     } else {
       setShakeTrigger(true);
       playSound('wrong');
+      
+      // Track missed question
+      setQuestMissedQuestions(prev => {
+        if (prev.some(q => q.questionWord === currentQuestQ.questionWord)) return prev;
+        return [...prev, currentQuestQ];
+      });
+
       takeDamage(15);
       setTimeout(() => setShakeTrigger(false), 500);
     }
@@ -606,6 +655,80 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
     } else {
       finishQuestSession();
     }
+  };
+
+  // Redemption Quiz Action Handlers
+  const handleRedemptionAnswer = (choice) => {
+    if (redemptionAnswered) return;
+    setRedemptionAnswered(true);
+    setRedemptionSelected(choice);
+
+    const currentQ = redemptionQuestions[redemptionCurrentIdx];
+    if (choice === currentQ.correct) {
+      playSound('correct');
+      setRedemptionScore(prev => prev + 1);
+    } else {
+      playSound('wrong');
+      setTimeout(() => {
+        setRedemptionFailed(true);
+      }, 800);
+    }
+  };
+
+  const handleRedemptionSubmitTyped = (e) => {
+    e.preventDefault();
+    if (redemptionAnswered || !redemptionTyped.trim()) return;
+    setRedemptionAnswered(true);
+
+    const currentQ = redemptionQuestions[redemptionCurrentIdx];
+    const correctStr = currentQ.correct;
+    const userStr = redemptionTyped;
+
+    const isCorrect = cleanAnswer(correctStr) === cleanAnswer(userStr);
+    setRedemptionSelected(userStr);
+
+    if (isCorrect) {
+      playSound('correct');
+      setRedemptionScore(prev => prev + 1);
+    } else {
+      playSound('wrong');
+      setTimeout(() => {
+        setRedemptionFailed(true);
+      }, 800);
+    }
+  };
+
+  const handleRedemptionNext = () => {
+    setRedemptionSelected(null);
+    setRedemptionAnswered(false);
+    setRedemptionTyped("");
+
+    if (redemptionCurrentIdx < redemptionQuestions.length - 1) {
+      setRedemptionCurrentIdx(prev => prev + 1);
+    } else {
+      setRedemptionSuccess(true);
+    }
+  };
+
+  const handleRestartRedemption = () => {
+    setRedemptionCurrentIdx(0);
+    setRedemptionTyped("");
+    setRedemptionAnswered(false);
+    setRedemptionSelected(null);
+    setRedemptionScore(0);
+    setRedemptionFailed(false);
+    setRedemptionSuccess(false);
+  };
+
+  const handleCancelRedemption = () => {
+    setRedemptionActive(false);
+    setQuestMissedQuestions([]);
+  };
+
+  const handleClaimRedemption = () => {
+    revive(10);
+    setRedemptionActive(false);
+    setQuestMissedQuestions([]);
   };
 
   const finishQuestSession = () => {
@@ -741,7 +864,7 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
     } else {
       setShakeTrigger(true);
       playSound('wrong');
-      takeDamage(15);
+      if (!state.fainted) takeDamage(15);
       setTimeout(() => setShakeTrigger(false), 500);
     }
   };
@@ -789,13 +912,13 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem' }}>Baraja de Aprendizaje (Study & Quest Deck)</h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Campaign quests and custom practice modules.</p>
         </div>
-        <button className="btn btn-secondary" onClick={() => setView('dashboard')}>
+        <button className="btn btn-secondary" onClick={() => { handleCancelRedemption(); setView('dashboard'); }}>
           <ArrowLeft size={16} /> Back to Hub
         </button>
       </div>
 
       {/* Tab Switcher */}
-      {!questStarted && !practiceQuizStarted && (
+      {!questStarted && !practiceQuizStarted && !redemptionActive && (
         <div style={{ display: 'flex', gap: '8px', background: 'rgba(255,255,255,0.03)', padding: '6px', borderRadius: '14px', width: 'fit-content' }}>
           <button 
             className={`btn ${activeTab === 'quest' ? 'btn-primary' : 'btn-secondary'}`}
@@ -817,7 +940,7 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
       {/* -------------------------------------------------------------
           TAB 1: QUEST CAMPAIGN VIEW
           ------------------------------------------------------------- */}
-      {activeTab === "quest" && !questStarted && (
+      {activeTab === "quest" && !questStarted && !redemptionActive && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           
           {/* Quest Status Summary card */}
@@ -1107,7 +1230,7 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
       {/* -------------------------------------------------------------
           TAB 2: FREE PRACTICE VIEW
           ------------------------------------------------------------- */}
-      {activeTab === "practice" && !practiceQuizStarted && (
+      {activeTab === "practice" && !practiceQuizStarted && !redemptionActive && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           
           {/* Selector Header panel */}
@@ -1247,13 +1370,9 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
                 </div>
               )}
 
-              {state.fainted ? (
-                <button className="btn btn-secondary" disabled style={{ opacity: 0.5 }}>You are fainted. Heal first!</button>
-              ) : (
-                <button className="btn btn-primary" onClick={startCustomPracticeQuiz}>
-                  Start Practice Quiz
-                </button>
-              )}
+              <button className="btn btn-primary" onClick={startCustomPracticeQuiz}>
+                Start Practice Quiz
+              </button>
             </div>
           )}
         </div>
@@ -1262,7 +1381,7 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
       {/* -------------------------------------------------------------
           ACTIVE CUSTOM PRACTICE QUIZ SCREEN
           ------------------------------------------------------------- */}
-      {activeTab === "practice" && practiceQuizStarted && (
+      {activeTab === "practice" && practiceQuizStarted && !redemptionActive && (
         <div className="glass-panel quiz-box">
           
           {practiceQuizFinished ? (
@@ -1419,6 +1538,176 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, recordQu
             </div>
           )}
 
+        </div>
+      )}
+
+      {/* -------------------------------------------------------------
+          REDEMPTION QUIZ GAMEPLAY SCREEN
+          ------------------------------------------------------------- */}
+      {redemptionActive && redemptionQuestions.length > 0 && (
+        <div className="glass-panel quiz-box" style={{ borderColor: 'var(--warning)', boxShadow: '0 0 25px rgba(245, 158, 11, 0.15)' }}>
+          
+          <div className="quiz-header">
+            <span style={{ fontSize: '0.9rem', color: 'var(--warning)', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Swords size={16} /> REDEMPTION QUIZ
+            </span>
+            <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+              Question {redemptionCurrentIdx + 1} of {redemptionQuestions.length}
+            </span>
+          </div>
+
+          <div style={{ padding: '8px 12px', background: 'rgba(245, 158, 11, 0.1)', borderRadius: '10px', fontSize: '0.85rem', color: 'var(--warning)', textAlign: 'center', marginBottom: '16px', fontWeight: '500' }}>
+            Answer all missed questions correctly to revive with 10 HP!
+          </div>
+
+          {/* Question card */}
+          {(() => {
+            const currentQ = redemptionQuestions[redemptionCurrentIdx];
+            if (!currentQ) return null;
+
+            const isRedemptionCorrect = redemptionAnswered && (
+              redemptionSelected === currentQ.correct || cleanAnswer(redemptionSelected) === cleanAnswer(currentQ.correct)
+            );
+
+            return (
+              <div>
+                <div className="quiz-question-card">
+                  {currentQ.isConjugation ? (
+                    <>
+                      <div className="quiz-question-lbl">Conjugate the verb for this pronoun:</div>
+                      <h3 className="quiz-word" style={{ color: 'var(--primary)' }}>{currentQ.questionWord}</h3>
+                      <p style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', fontStyle: 'italic', marginBottom: '12px' }}>({currentQ.meaning})</p>
+                      <div style={{ display: 'inline-block', background: 'rgba(250, 204, 21, 0.1)', padding: '6px 14px', borderRadius: '16px', color: 'var(--gold)', fontWeight: 'bold', fontSize: '0.9rem' }}>
+                        Pronoun: {currentQ.pronoun}
+                      </div>
+                    </>
+                  ) : currentQ.isFillInTheBlank ? (
+                    <>
+                      <div className="quiz-question-lbl">Completar la frase (Fill in the blank):</div>
+                      <h3 className="quiz-word" style={{ color: 'var(--accent)' }}>{currentQ.questionWord}</h3>
+                      <p style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', fontStyle: 'italic', marginBottom: '12px' }}>({currentQ.meaning})</p>
+                    </>
+                  ) : (
+                    <>
+                      <div className="quiz-question-lbl">
+                        {currentQ.type === 2 ? "Type the Spanish translation:" : "Choose the correct translation:"}
+                      </div>
+                      <h3 className="quiz-word">{currentQ.questionWord}</h3>
+                    </>
+                  )}
+                </div>
+
+                {redemptionFailed ? (
+                  <div style={{ textAlign: 'center', padding: '20px 0' }}>
+                    <div style={{ fontSize: '3rem', marginBottom: '10px' }}>💀</div>
+                    <h3 style={{ color: 'var(--danger)', marginBottom: '10px' }}>Redemption Failed!</h3>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '20px' }}>
+                      You made a mistake. You can try the redemption quiz again, or visit the shop/practice section.
+                    </p>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '280px', margin: '0 auto' }}>
+                      <button className="btn btn-primary" onClick={handleRestartRedemption}>
+                        Try Redemption Again
+                      </button>
+                      <button className="btn btn-secondary" onClick={handleCancelRedemption}>
+                        Exit to Hub
+                      </button>
+                    </div>
+                  </div>
+                ) : redemptionSuccess ? (
+                  <div style={{ textAlign: 'center', padding: '20px 0' }}>
+                    <div style={{ fontSize: '3rem', marginBottom: '10px' }}>💖</div>
+                    <h3 style={{ color: 'var(--accent)', marginBottom: '10px' }}>Redemption Successful!</h3>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '20px' }}>
+                      Excellent! You answered all missed questions correctly.
+                    </p>
+                    <button className="btn btn-accent" onClick={handleClaimRedemption} style={{ width: '100%', maxWidth: '240px', margin: '0 auto' }}>
+                      Claim & Revive (10 HP)
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    {currentQ.isConjugation || currentQ.isFillInTheBlank || currentQ.type !== 2 ? (
+                      <div className="quiz-choices-grid">
+                        {currentQ.choices.map((choice, idx) => {
+                          let btnClass = "";
+                          if (redemptionAnswered) {
+                            if (choice === currentQ.correct) {
+                              btnClass = "correct";
+                            } else if (choice === redemptionSelected) {
+                              btnClass = "wrong";
+                            }
+                          }
+
+                          return (
+                            <button
+                              key={idx}
+                              className={`quiz-choice-btn ${btnClass}`}
+                              onClick={() => handleRedemptionAnswer(choice)}
+                              disabled={redemptionAnswered}
+                            >
+                              {choice}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <form onSubmit={handleRedemptionSubmitTyped}>
+                        <div className="quiz-input-wrapper" style={{ marginTop: '16px' }}>
+                          <input
+                            type="text"
+                            placeholder="Type the Spanish translation..."
+                            value={redemptionTyped}
+                            onChange={(e) => setRedemptionTyped(e.target.value)}
+                            disabled={redemptionAnswered}
+                            className={`quiz-input ${redemptionAnswered ? (isRedemptionCorrect ? 'correct' : 'wrong') : ''}`}
+                            style={{ width: '100%', padding: '14px', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--card-border)', borderRadius: '12px', color: 'var(--text-primary)', fontSize: '1.1rem', outline: 'none' }}
+                            autoFocus
+                          />
+                          
+                          {/* Accent Buttons row */}
+                          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginTop: '10px', justifyContent: 'center' }}>
+                            {['á', 'é', 'í', 'ó', 'ú', 'ñ', 'ü', '¿', '¡'].map(char => (
+                              <button
+                                key={char}
+                                type="button"
+                                className="btn btn-secondary"
+                                disabled={redemptionAnswered}
+                                onClick={() => setRedemptionTyped(prev => prev + char)}
+                                style={{ padding: '6px 12px', fontSize: '1rem', minWidth: '38px', height: '38px', borderRadius: '8px' }}
+                              >
+                                {char}
+                              </button>
+                            ))}
+                          </div>
+
+                          {!redemptionAnswered && (
+                            <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '16px' }} disabled={!redemptionTyped.trim()}>
+                              Submit Translation
+                            </button>
+                          )}
+                        </div>
+                      </form>
+                    )}
+
+                    {redemptionAnswered && (
+                      <div 
+                        className={`quiz-feedback-box ${isRedemptionCorrect ? 'correct' : 'wrong'}`}
+                        style={{ animation: 'pop-in 0.3s ease-out' }}
+                      >
+                        {isRedemptionCorrect
+                          ? "¡Correcto!" 
+                          : `Incorrecto. Correct answer: "${currentQ.correct}"`
+                        }
+                        <button className="btn btn-primary" onClick={handleRedemptionNext} style={{ width: '100%', marginTop: '16px' }}>
+                          Next Question <ArrowRight size={16} />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })()}
         </div>
       )}
 

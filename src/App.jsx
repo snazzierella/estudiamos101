@@ -86,6 +86,7 @@ export default function App() {
             addXp={addXp}
             addGold={addGold}
             takeDamage={takeDamage}
+            revive={revive}
             recordQuizPerformance={recordQuizPerformance}
             advanceQuest={advanceQuest}
             passStageReview={passStageReview}

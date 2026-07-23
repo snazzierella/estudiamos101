@@ -118,10 +118,10 @@ export function useGameState() {
     }));
   };
 
-  const revive = () => {
+  const revive = (hpAmount = 100) => {
     setState(prev => ({
       ...prev,
-      hp: 100,
+      hp: hpAmount,
       fainted: false
     }));
   };
@@ -181,8 +181,9 @@ export function useGameState() {
       let newFainted = prev.fainted;
 
       if (itemKey === "redPotion") {
-        if (prev.hp < 100) {
+        if (prev.fainted || prev.hp < 100) {
           newHp = Math.min(100, prev.hp + 50);
+          newFainted = false;
           newInventory.redPotion -= 1;
           success = true;
         }
