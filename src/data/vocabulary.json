@@ -1,0 +1,4478 @@
+[
+  {
+    "spanish": "el hombre",
+    "english": "man",
+    "category": "Nouns",
+    "subcategory": "People and Professions"
+  },
+  {
+    "spanish": "el/la enfermero/a",
+    "english": "nurse",
+    "category": "Nouns",
+    "subcategory": "People and Professions"
+  },
+  {
+    "spanish": "la mujer",
+    "english": "woman",
+    "category": "Nouns",
+    "subcategory": "People and Professions"
+  },
+  {
+    "spanish": "el/la dentista",
+    "english": "dentist",
+    "category": "Nouns",
+    "subcategory": "People and Professions"
+  },
+  {
+    "spanish": "el muchacho / la muchacha",
+    "english": "boy / girl",
+    "category": "Nouns",
+    "subcategory": "People and Professions"
+  },
+  {
+    "spanish": "el/la médico/a",
+    "english": "physician / medical doctor",
+    "category": "Nouns",
+    "subcategory": "People and Professions"
+  },
+  {
+    "spanish": "el chico / la chica",
+    "english": "boy / girl",
+    "category": "Nouns",
+    "subcategory": "People and Professions"
+  },
+  {
+    "spanish": "el/la secretario/a",
+    "english": "secretary",
+    "category": "Nouns",
+    "subcategory": "People and Professions"
+  },
+  {
+    "spanish": "el niño / la niña",
+    "english": "child",
+    "category": "Nouns",
+    "subcategory": "People and Professions"
+  },
+  {
+    "spanish": "el/la piloto",
+    "english": "pilot",
+    "category": "Nouns",
+    "subcategory": "People and Professions"
+  },
+  {
+    "spanish": "el/la estudiante",
+    "english": "student",
+    "category": "Nouns",
+    "subcategory": "People and Professions"
+  },
+  {
+    "spanish": "el/la abogado/a",
+    "english": "lawyer",
+    "category": "Nouns",
+    "subcategory": "People and Professions"
+  },
+  {
+    "spanish": "el profesor / la profesora",
+    "english": "professor / teacher",
+    "category": "Nouns",
+    "subcategory": "People and Professions"
+  },
+  {
+    "spanish": "el/la periodista",
+    "english": "journalist",
+    "category": "Nouns",
+    "subcategory": "People and Professions"
+  },
+  {
+    "spanish": "el señor",
+    "english": "Mr. / sir",
+    "category": "Nouns",
+    "subcategory": "People and Professions"
+  },
+  {
+    "spanish": "el/la cocinero/a",
+    "english": "cook",
+    "category": "Nouns",
+    "subcategory": "People and Professions"
+  },
+  {
+    "spanish": "la señorita",
+    "english": "Ms. / miss",
+    "category": "Nouns",
+    "subcategory": "People and Professions"
+  },
+  {
+    "spanish": "el/la mesero/a",
+    "english": "waiter / waitress",
+    "category": "Nouns",
+    "subcategory": "People and Professions"
+  },
+  {
+    "spanish": "el/la doctor/a",
+    "english": "doctor",
+    "category": "Nouns",
+    "subcategory": "People and Professions"
+  },
+  {
+    "spanish": "los parientes",
+    "english": "relatives",
+    "category": "Nouns",
+    "subcategory": "Family"
+  },
+  {
+    "spanish": "el/la tío/a",
+    "english": "uncle / aunt",
+    "category": "Nouns",
+    "subcategory": "Family"
+  },
+  {
+    "spanish": "los padres",
+    "english": "parents",
+    "category": "Nouns",
+    "subcategory": "Family"
+  },
+  {
+    "spanish": "el/la primo/a",
+    "english": "cousin",
+    "category": "Nouns",
+    "subcategory": "Family"
+  },
+  {
+    "spanish": "la madre / la mamá",
+    "english": "mother / mom",
+    "category": "Nouns",
+    "subcategory": "Family"
+  },
+  {
+    "spanish": "el/la sobrino/a",
+    "english": "nephew / niece",
+    "category": "Nouns",
+    "subcategory": "Family"
+  },
+  {
+    "spanish": "el padre / el papá",
+    "english": "father / dad",
+    "category": "Nouns",
+    "subcategory": "Family"
+  },
+  {
+    "spanish": "el/la hijo/a",
+    "english": "son / daughter",
+    "category": "Nouns",
+    "subcategory": "Family"
+  },
+  {
+    "spanish": "el esposo / la esposa",
+    "english": "husband / wife",
+    "category": "Nouns",
+    "subcategory": "Family"
+  },
+  {
+    "spanish": "el/la nieto/a",
+    "english": "grandson / granddaughter",
+    "category": "Nouns",
+    "subcategory": "Family"
+  },
+  {
+    "spanish": "la pareja",
+    "english": "couple / partner",
+    "category": "Nouns",
+    "subcategory": "Family"
+  },
+  {
+    "spanish": "el padrastro",
+    "english": "stepfather",
+    "category": "Nouns",
+    "subcategory": "Family"
+  },
+  {
+    "spanish": "el novio / la novia",
+    "english": "boyfriend / girlfriend",
+    "category": "Nouns",
+    "subcategory": "Family"
+  },
+  {
+    "spanish": "la madrastra",
+    "english": "stepmother",
+    "category": "Nouns",
+    "subcategory": "Family"
+  },
+  {
+    "spanish": "el hermano / la hermana",
+    "english": "brother / sister",
+    "category": "Nouns",
+    "subcategory": "Family"
+  },
+  {
+    "spanish": "el/la hijastro/a",
+    "english": "stepchild",
+    "category": "Nouns",
+    "subcategory": "Family"
+  },
+  {
+    "spanish": "el/la medio/a hermano/a",
+    "english": "half-sibling",
+    "category": "Nouns",
+    "subcategory": "Family"
+  },
+  {
+    "spanish": "el suegro / la suegra",
+    "english": "father / mother-in-law",
+    "category": "Nouns",
+    "subcategory": "Family"
+  },
+  {
+    "spanish": "el/la hermanastro/a",
+    "english": "step-sibling",
+    "category": "Nouns",
+    "subcategory": "Family"
+  },
+  {
+    "spanish": "el cuñado / la cuñada",
+    "english": "brother / sister-in-law",
+    "category": "Nouns",
+    "subcategory": "Family"
+  },
+  {
+    "spanish": "el/la abuelo/a",
+    "english": "grandfather / grandmother",
+    "category": "Nouns",
+    "subcategory": "Family"
+  },
+  {
+    "spanish": "el/la amigo/a",
+    "english": "friend",
+    "category": "Nouns",
+    "subcategory": "Family"
+  },
+  {
+    "spanish": "la mascota",
+    "english": "pet",
+    "category": "Nouns",
+    "subcategory": "Animals and Pets"
+  },
+  {
+    "spanish": "la tortuga",
+    "english": "turtle",
+    "category": "Nouns",
+    "subcategory": "Animals and Pets"
+  },
+  {
+    "spanish": "el perro",
+    "english": "dog",
+    "category": "Nouns",
+    "subcategory": "Animals and Pets"
+  },
+  {
+    "spanish": "el caballo",
+    "english": "horse",
+    "category": "Nouns",
+    "subcategory": "Animals and Pets"
+  },
+  {
+    "spanish": "el gato / la gata",
+    "english": "cat",
+    "category": "Nouns",
+    "subcategory": "Animals and Pets"
+  },
+  {
+    "spanish": "el lobo",
+    "english": "wolf",
+    "category": "Nouns",
+    "subcategory": "Animals and Pets"
+  },
+  {
+    "spanish": "el pájaro",
+    "english": "bird",
+    "category": "Nouns",
+    "subcategory": "Animals and Pets"
+  },
+  {
+    "spanish": "el elefante",
+    "english": "elephant",
+    "category": "Nouns",
+    "subcategory": "Animals and Pets"
+  },
+  {
+    "spanish": "el pez / los peces",
+    "english": "fish",
+    "category": "Nouns",
+    "subcategory": "Animals and Pets"
+  },
+  {
+    "spanish": "la jirafa",
+    "english": "giraffe",
+    "category": "Nouns",
+    "subcategory": "Animals and Pets"
+  },
+  {
+    "spanish": "el conejo",
+    "english": "rabbit",
+    "category": "Nouns",
+    "subcategory": "Animals and Pets"
+  },
+  {
+    "spanish": "la abeja",
+    "english": "bee",
+    "category": "Nouns",
+    "subcategory": "Animals and Pets"
+  },
+  {
+    "spanish": "el cuy",
+    "english": "guinea pig",
+    "category": "Nouns",
+    "subcategory": "Animals and Pets"
+  },
+  {
+    "spanish": "la universidad",
+    "english": "university",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "el cuaderno",
+    "english": "notebook",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "la escuela",
+    "english": "school",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "la carpeta",
+    "english": "folder",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "la clase",
+    "english": "class",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "el papel",
+    "english": "paper",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "el salón de clases",
+    "english": "classroom",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "el bolígrafo",
+    "english": "pen",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "la pizarra",
+    "english": "chalkboard",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "el marcador",
+    "english": "marker",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "la tiza",
+    "english": "chalk",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "el lápiz",
+    "english": "pencil",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "el proyector",
+    "english": "projector",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "la computadora",
+    "english": "computer",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "el mapa",
+    "english": "map",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "la calculadora",
+    "english": "calculator",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "la bandera",
+    "english": "flag",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "el teléfono",
+    "english": "telephone / phone",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "el pupitre",
+    "english": "student desk",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "el reloj",
+    "english": "clock / watch",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "el escritorio",
+    "english": "teacher desk / writing desk",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "la luz",
+    "english": "light",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "la mesa",
+    "english": "table",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "la pared",
+    "english": "wall",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "la silla",
+    "english": "chair",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "la puerta",
+    "english": "door",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "la mochila",
+    "english": "backpack",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "la ventana",
+    "english": "window",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "el libro",
+    "english": "book",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "la cortina",
+    "english": "curtain",
+    "category": "Nouns",
+    "subcategory": "Classroom and Office"
+  },
+  {
+    "spanish": "el curso",
+    "english": "course",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "la biología",
+    "english": "biology",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "el semestre",
+    "english": "semester",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "la comunicación",
+    "english": "communications",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "el horario",
+    "english": "schedule",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "la economía",
+    "english": "economics",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "el trabajo",
+    "english": "assignment / job",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "la educación",
+    "english": "education",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "la tarea",
+    "english": "homework",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "la filosofía",
+    "english": "philosophy",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "el examen / la prueba",
+    "english": "test / exam",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "las finanzas",
+    "english": "finance",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "la calificación / la nota",
+    "english": "grade",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "la historia",
+    "english": "history",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "la especialización",
+    "english": "major",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "la informática",
+    "english": "computer science",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "el compañero de clase",
+    "english": "classmate",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "la ingeniería",
+    "english": "engineering",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "el auditorio",
+    "english": "auditorium",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "el inglés",
+    "english": "English",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "la biblioteca",
+    "english": "library",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "las lenguas",
+    "english": "languages",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "la cafetería",
+    "english": "cafeteria",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "la literatura",
+    "english": "literature",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "el centro estudiantil",
+    "english": "student center",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "las matemáticas",
+    "english": "mathematics",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "el estadio",
+    "english": "stadium",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "la música",
+    "english": "music",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "el gimnasio",
+    "english": "gymnasium",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "los negocios",
+    "english": "business",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "el laboratorio",
+    "english": "laboratory",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "la psicología",
+    "english": "psychology",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "la librería",
+    "english": "bookstore",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "la química",
+    "english": "chemistry",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "la residencia estudiantil",
+    "english": "dormitory",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "la sociología",
+    "english": "sociology",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "el arte",
+    "english": "art",
+    "category": "Nouns",
+    "subcategory": "The University and Courses"
+  },
+  {
+    "spanish": "la casa",
+    "english": "house",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "el armario / el clóset",
+    "english": "closet",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "el apartamento",
+    "english": "apartment",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "la sala",
+    "english": "living room",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "el cuarto",
+    "english": "room",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "el sofá",
+    "english": "sofa",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "los muebles",
+    "english": "furniture",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "el sillón",
+    "english": "armchair",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "las llaves",
+    "english": "keys",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "la alfombra",
+    "english": "rug / carpet",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "el baño",
+    "english": "bathroom",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "el comedor",
+    "english": "dining room",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "el inodoro",
+    "english": "toilet",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "la cocina",
+    "english": "kitchen",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "la bañera",
+    "english": "bathtub",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "el refrigerador / la nevera / el refri",
+    "english": "refrigerator / freezer / fridge",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "la ducha",
+    "english": "shower",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "el fregadero",
+    "english": "kitchen sink",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "el lavabo",
+    "english": "sink",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "la estufa",
+    "english": "stove",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "el espejo",
+    "english": "mirror",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "el horno",
+    "english": "oven",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "el dormitorio",
+    "english": "bedroom",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "el microondas",
+    "english": "microwave",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "la cama",
+    "english": "bed",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "el patio",
+    "english": "patio",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "la mesita de noche",
+    "english": "nightstand",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "el jardín",
+    "english": "garden",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "la lámpara",
+    "english": "lamp",
+    "category": "Nouns",
+    "subcategory": "The House and Furniture"
+  },
+  {
+    "spanish": "la ciudad",
+    "english": "city",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "el supermercado",
+    "english": "supermarket",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "el barrio",
+    "english": "neighborhood",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "el negocio / la tienda",
+    "english": "business / store",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "la calle",
+    "english": "street",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "el bar",
+    "english": "bar",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "la plaza",
+    "english": "plaza / square",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "el café",
+    "english": "café",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "el aeropuerto",
+    "english": "airport",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "el restaurante",
+    "english": "restaurant",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "la estación de metro",
+    "english": "subway station",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "el club / la discoteca",
+    "english": "club / dance club",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "la parada del autobús",
+    "english": "bus stop",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "el cine",
+    "english": "movie theater",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "el banco",
+    "english": "bank",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "el teatro",
+    "english": "theater",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "el correo",
+    "english": "post office",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "el museo",
+    "english": "museum",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "el hospital",
+    "english": "hospital",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "el parque",
+    "english": "park",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "la farmacia",
+    "english": "pharmacy",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "la piscina",
+    "english": "pool",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "la iglesia",
+    "english": "church",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "el zoológico",
+    "english": "zoo",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "el centro comercial",
+    "english": "mall",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "el edificio",
+    "english": "building",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "el mercado",
+    "english": "market",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "el hotel",
+    "english": "hotel",
+    "category": "Nouns",
+    "subcategory": "Places in the City"
+  },
+  {
+    "spanish": "la comida",
+    "english": "food",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el jamón",
+    "english": "ham",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el desayuno",
+    "english": "breakfast",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el bistec",
+    "english": "steak",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el almuerzo",
+    "english": "lunch",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la crema",
+    "english": "cream",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la merienda",
+    "english": "snack",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el huevo",
+    "english": "egg",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la cena",
+    "english": "dinner",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la mantequilla",
+    "english": "butter",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el postre",
+    "english": "dessert",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el queso",
+    "english": "cheese",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el durazno",
+    "english": "peach",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el yogur",
+    "english": "yogurt",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la fresa",
+    "english": "strawberry",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la leche",
+    "english": "milk",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la manzana",
+    "english": "apple",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la salsa de tomate",
+    "english": "ketchup",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el melón",
+    "english": "melon",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la mayonesa",
+    "english": "mayonnaise",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la naranja",
+    "english": "orange",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la mostaza",
+    "english": "mustard",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la piña",
+    "english": "pineapple",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el pepinillo",
+    "english": "pickle",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la banana",
+    "english": "banana",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la pimienta",
+    "english": "pepper",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la sandía",
+    "english": "watermelon",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la sal",
+    "english": "salt",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "las uvas",
+    "english": "grapes",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la salsa picante",
+    "english": "hot sauce",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el brócoli",
+    "english": "broccoli",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el ajo",
+    "english": "garlic",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la cebolla",
+    "english": "onion",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el agua",
+    "english": "water",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la ensalada",
+    "english": "salad",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el café",
+    "english": "coffee",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la lechuga",
+    "english": "lettuce",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el té",
+    "english": "tea",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el maíz",
+    "english": "corn",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el jugo / el zumo",
+    "english": "juice",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el pepino",
+    "english": "cucumber",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el refresco",
+    "english": "soda",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el tomate",
+    "english": "tomato",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la limonada",
+    "english": "lemonade",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la zanahoria",
+    "english": "carrot",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la cerveza",
+    "english": "beer",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el arroz",
+    "english": "rice",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el vino",
+    "english": "wine",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el azúcar",
+    "english": "sugar",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el flan",
+    "english": "flan",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el cereal",
+    "english": "cereal",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el helado",
+    "english": "ice cream",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "los frijoles",
+    "english": "beans",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "las galletas",
+    "english": "cookies",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el pan",
+    "english": "bread",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el pastel",
+    "english": "cake",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "las papas / patatas",
+    "english": "potatoes",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la pizza",
+    "english": "pizza",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "los camarones",
+    "english": "shrimp",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "los tacos",
+    "english": "tacos",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la carne",
+    "english": "meat",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "los tamales",
+    "english": "tamales",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el pavo",
+    "english": "turkey",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el chocolate",
+    "english": "chocolate",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el pescado",
+    "english": "fish",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la vainilla",
+    "english": "vanilla",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "el pollo",
+    "english": "chicken",
+    "category": "Nouns",
+    "subcategory": "Food and Drinks"
+  },
+  {
+    "spanish": "la cuchara",
+    "english": "spoon",
+    "category": "Nouns",
+    "subcategory": "Tableware and Utensils"
+  },
+  {
+    "spanish": "la taza",
+    "english": "mug / cup",
+    "category": "Nouns",
+    "subcategory": "Tableware and Utensils"
+  },
+  {
+    "spanish": "el cuchillo",
+    "english": "knife",
+    "category": "Nouns",
+    "subcategory": "Tableware and Utensils"
+  },
+  {
+    "spanish": "el vaso",
+    "english": "drinking glass",
+    "category": "Nouns",
+    "subcategory": "Tableware and Utensils"
+  },
+  {
+    "spanish": "el tenedor",
+    "english": "fork",
+    "category": "Nouns",
+    "subcategory": "Tableware and Utensils"
+  },
+  {
+    "spanish": "la olla",
+    "english": "cooking pot",
+    "category": "Nouns",
+    "subcategory": "Tableware and Utensils"
+  },
+  {
+    "spanish": "la copa",
+    "english": "wine glass",
+    "category": "Nouns",
+    "subcategory": "Tableware and Utensils"
+  },
+  {
+    "spanish": "el plato",
+    "english": "plate / dish",
+    "category": "Nouns",
+    "subcategory": "Tableware and Utensils"
+  },
+  {
+    "spanish": "la hora",
+    "english": "hour / time",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "enero",
+    "english": "January",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "el minuto",
+    "english": "minute",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "febrero",
+    "english": "February",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "el segundo",
+    "english": "second",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "marzo",
+    "english": "March",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "el día",
+    "english": "day",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "abril",
+    "english": "April",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "la noche",
+    "english": "night",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "mayo",
+    "english": "May",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "la mañana",
+    "english": "morning / tomorrow",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "junio",
+    "english": "June",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "la tarde",
+    "english": "afternoon",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "julio",
+    "english": "July",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "el año",
+    "english": "year",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "agosto",
+    "english": "August",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "el mes",
+    "english": "month",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "septiembre",
+    "english": "September",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "el fin de semana",
+    "english": "weekend",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "octubre",
+    "english": "October",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "lunes",
+    "english": "Monday",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "noviembre",
+    "english": "November",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "martes",
+    "english": "Tuesday",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "diciembre",
+    "english": "December",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "miércoles",
+    "english": "Wednesday",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "la estación",
+    "english": "season",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "jueves",
+    "english": "Thursday",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "el invierno",
+    "english": "winter",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "viernes",
+    "english": "Friday",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "la primavera",
+    "english": "spring",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "sábado",
+    "english": "Saturday",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "el verano",
+    "english": "summer",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "domingo",
+    "english": "Sunday",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "el otoño",
+    "english": "autumn / fall",
+    "category": "Nouns",
+    "subcategory": "Time, Days, Months, and Seasons"
+  },
+  {
+    "spanish": "el clima / el tiempo",
+    "english": "weather / climate",
+    "category": "Nouns",
+    "subcategory": "Weather and Nature"
+  },
+  {
+    "spanish": "el cielo",
+    "english": "sky",
+    "category": "Nouns",
+    "subcategory": "Weather and Nature"
+  },
+  {
+    "spanish": "el sol",
+    "english": "sun",
+    "category": "Nouns",
+    "subcategory": "Weather and Nature"
+  },
+  {
+    "spanish": "la playa",
+    "english": "beach",
+    "category": "Nouns",
+    "subcategory": "Weather and Nature"
+  },
+  {
+    "spanish": "la lluvia",
+    "english": "rain",
+    "category": "Nouns",
+    "subcategory": "Weather and Nature"
+  },
+  {
+    "spanish": "el mar / el océano",
+    "english": "sea / ocean",
+    "category": "Nouns",
+    "subcategory": "Weather and Nature"
+  },
+  {
+    "spanish": "la nieve",
+    "english": "snow",
+    "category": "Nouns",
+    "subcategory": "Weather and Nature"
+  },
+  {
+    "spanish": "el lago",
+    "english": "lake",
+    "category": "Nouns",
+    "subcategory": "Weather and Nature"
+  },
+  {
+    "spanish": "el viento",
+    "english": "wind",
+    "category": "Nouns",
+    "subcategory": "Weather and Nature"
+  },
+  {
+    "spanish": "la montaña",
+    "english": "mountain",
+    "category": "Nouns",
+    "subcategory": "Weather and Nature"
+  },
+  {
+    "spanish": "la nube",
+    "english": "cloud",
+    "category": "Nouns",
+    "subcategory": "Weather and Nature"
+  },
+  {
+    "spanish": "el árbol",
+    "english": "tree",
+    "category": "Nouns",
+    "subcategory": "Weather and Nature"
+  },
+  {
+    "spanish": "la niebla",
+    "english": "fog",
+    "category": "Nouns",
+    "subcategory": "Weather and Nature"
+  },
+  {
+    "spanish": "la madera",
+    "english": "wood",
+    "category": "Nouns",
+    "subcategory": "Weather and Nature"
+  },
+  {
+    "spanish": "el relámpago",
+    "english": "lightning",
+    "category": "Nouns",
+    "subcategory": "Weather and Nature"
+  },
+  {
+    "spanish": "el suelo",
+    "english": "ground / floor",
+    "category": "Nouns",
+    "subcategory": "Weather and Nature"
+  },
+  {
+    "spanish": "la temperatura",
+    "english": "temperature",
+    "category": "Nouns",
+    "subcategory": "Weather and Nature"
+  },
+  {
+    "spanish": "los deportes",
+    "english": "sports",
+    "category": "Nouns",
+    "subcategory": "Sports and Hobbies"
+  },
+  {
+    "spanish": "el pasatiempo",
+    "english": "hobby / pastime",
+    "category": "Nouns",
+    "subcategory": "Sports and Hobbies"
+  },
+  {
+    "spanish": "el fútbol",
+    "english": "soccer",
+    "category": "Nouns",
+    "subcategory": "Sports and Hobbies"
+  },
+  {
+    "spanish": "los videojuegos",
+    "english": "video games",
+    "category": "Nouns",
+    "subcategory": "Sports and Hobbies"
+  },
+  {
+    "spanish": "el fútbol americano",
+    "english": "American football",
+    "category": "Nouns",
+    "subcategory": "Sports and Hobbies"
+  },
+  {
+    "spanish": "la guitarra",
+    "english": "guitar",
+    "category": "Nouns",
+    "subcategory": "Sports and Hobbies"
+  },
+  {
+    "spanish": "el básquetbol",
+    "english": "basketball",
+    "category": "Nouns",
+    "subcategory": "Sports and Hobbies"
+  },
+  {
+    "spanish": "el piano",
+    "english": "piano",
+    "category": "Nouns",
+    "subcategory": "Sports and Hobbies"
+  },
+  {
+    "spanish": "el béisbol",
+    "english": "baseball",
+    "category": "Nouns",
+    "subcategory": "Sports and Hobbies"
+  },
+  {
+    "spanish": "la música",
+    "english": "music",
+    "category": "Nouns",
+    "subcategory": "Sports and Hobbies"
+  },
+  {
+    "spanish": "el golf",
+    "english": "golf",
+    "category": "Nouns",
+    "subcategory": "Sports and Hobbies"
+  },
+  {
+    "spanish": "el rompecabezas",
+    "english": "puzzle",
+    "category": "Nouns",
+    "subcategory": "Sports and Hobbies"
+  },
+  {
+    "spanish": "el tenis",
+    "english": "tennis",
+    "category": "Nouns",
+    "subcategory": "Sports and Hobbies"
+  },
+  {
+    "spanish": "la cometa",
+    "english": "kite",
+    "category": "Nouns",
+    "subcategory": "Sports and Hobbies"
+  },
+  {
+    "spanish": "el vóleibol",
+    "english": "volleyball",
+    "category": "Nouns",
+    "subcategory": "Sports and Hobbies"
+  },
+  {
+    "spanish": "los juegos de mesa",
+    "english": "board games",
+    "category": "Nouns",
+    "subcategory": "Sports and Hobbies"
+  },
+  {
+    "spanish": "la natación",
+    "english": "swimming",
+    "category": "Nouns",
+    "subcategory": "Sports and Hobbies"
+  },
+  {
+    "spanish": "el nombre",
+    "english": "first name",
+    "category": "Nouns",
+    "subcategory": "Other Common Nouns"
+  },
+  {
+    "spanish": "los centavos",
+    "english": "cents",
+    "category": "Nouns",
+    "subcategory": "Other Common Nouns"
+  },
+  {
+    "spanish": "el apellido",
+    "english": "last name",
+    "category": "Nouns",
+    "subcategory": "Other Common Nouns"
+  },
+  {
+    "spanish": "el sueldo",
+    "english": "salary",
+    "category": "Nouns",
+    "subcategory": "Other Common Nouns"
+  },
+  {
+    "spanish": "la palabra",
+    "english": "word",
+    "category": "Nouns",
+    "subcategory": "Other Common Nouns"
+  },
+  {
+    "spanish": "la ropa",
+    "english": "clothing",
+    "category": "Nouns",
+    "subcategory": "Other Common Nouns"
+  },
+  {
+    "spanish": "la oración",
+    "english": "sentence / prayer",
+    "category": "Nouns",
+    "subcategory": "Other Common Nouns"
+  },
+  {
+    "spanish": "el vestido",
+    "english": "dress",
+    "category": "Nouns",
+    "subcategory": "Other Common Nouns"
+  },
+  {
+    "spanish": "la pregunta",
+    "english": "question",
+    "category": "Nouns",
+    "subcategory": "Other Common Nouns"
+  },
+  {
+    "spanish": "el suéter",
+    "english": "sweater",
+    "category": "Nouns",
+    "subcategory": "Other Common Nouns"
+  },
+  {
+    "spanish": "el idioma / el lenguaje",
+    "english": "language",
+    "category": "Nouns",
+    "subcategory": "Other Common Nouns"
+  },
+  {
+    "spanish": "los calcetines",
+    "english": "socks",
+    "category": "Nouns",
+    "subcategory": "Other Common Nouns"
+  },
+  {
+    "spanish": "el cumpleaños",
+    "english": "birthday",
+    "category": "Nouns",
+    "subcategory": "Other Common Nouns"
+  },
+  {
+    "spanish": "las sandalias",
+    "english": "sandals",
+    "category": "Nouns",
+    "subcategory": "Other Common Nouns"
+  },
+  {
+    "spanish": "las vacaciones",
+    "english": "vacations",
+    "category": "Nouns",
+    "subcategory": "Other Common Nouns"
+  },
+  {
+    "spanish": "el mundo",
+    "english": "world",
+    "category": "Nouns",
+    "subcategory": "Other Common Nouns"
+  },
+  {
+    "spanish": "la fiesta",
+    "english": "party",
+    "category": "Nouns",
+    "subcategory": "Other Common Nouns"
+  },
+  {
+    "spanish": "el país",
+    "english": "country",
+    "category": "Nouns",
+    "subcategory": "Other Common Nouns"
+  },
+  {
+    "spanish": "el regalo",
+    "english": "gift / present",
+    "category": "Nouns",
+    "subcategory": "Other Common Nouns"
+  },
+  {
+    "spanish": "el lugar",
+    "english": "place",
+    "category": "Nouns",
+    "subcategory": "Other Common Nouns"
+  },
+  {
+    "spanish": "el dinero",
+    "english": "money",
+    "category": "Nouns",
+    "subcategory": "Other Common Nouns"
+  },
+  {
+    "spanish": "la vida",
+    "english": "life",
+    "category": "Nouns",
+    "subcategory": "Other Common Nouns"
+  },
+  {
+    "spanish": "los dólares",
+    "english": "dollars",
+    "category": "Nouns",
+    "subcategory": "Other Common Nouns"
+  },
+  {
+    "spanish": "andar",
+    "english": "to ride / walk (e.g., andar en bicicleta)",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "llegar",
+    "english": "to arrive",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "ayudar",
+    "english": "to help",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "mandar",
+    "english": "to send",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "bailar",
+    "english": "to dance",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "mirar",
+    "english": "to look at / watch",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "buscar",
+    "english": "to look for",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "nadar",
+    "english": "to swim",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "caminar",
+    "english": "to walk",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "navegar",
+    "english": "to surf / navigate (e.g., navegar el internet)",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "cantar",
+    "english": "to sing",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "necesitar",
+    "english": "to need",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "cocinar",
+    "english": "to cook",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "pasar",
+    "english": "to spend (time) / pass",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "comprar",
+    "english": "to buy",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "pescar",
+    "english": "to fish",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "descansar",
+    "english": "to rest",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "practicar",
+    "english": "to practice",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "desear",
+    "english": "to wish / want",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "preguntar",
+    "english": "to ask",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "enseñar",
+    "english": "to teach",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "regresar",
+    "english": "to return / go back",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "escuchar",
+    "english": "to listen to",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "tocar",
+    "english": "to play (an instrument) / touch",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "esquiar",
+    "english": "to ski",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "tomar",
+    "english": "to take / drink",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "estudiar",
+    "english": "to study",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "trabajar",
+    "english": "to work",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "ganar",
+    "english": "to win / earn",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "trepar",
+    "english": "to climb (e.g., trepar árboles)",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "hablar",
+    "english": "to talk / speak",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "usar",
+    "english": "to use",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "levantar",
+    "english": "to lift (e.g., levantar pesas - weights)",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "viajar",
+    "english": "to travel",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "llamar",
+    "english": "to call",
+    "category": "Verbs",
+    "subcategory": "Regular -ar Verbs"
+  },
+  {
+    "spanish": "aprender",
+    "english": "to learn",
+    "category": "Verbs",
+    "subcategory": "Regular -er Verbs"
+  },
+  {
+    "spanish": "creer",
+    "english": "to believe",
+    "category": "Verbs",
+    "subcategory": "Regular -er Verbs"
+  },
+  {
+    "spanish": "beber",
+    "english": "to drink",
+    "category": "Verbs",
+    "subcategory": "Regular -er Verbs"
+  },
+  {
+    "spanish": "deber",
+    "english": "must / should / owe",
+    "category": "Verbs",
+    "subcategory": "Regular -er Verbs"
+  },
+  {
+    "spanish": "comer",
+    "english": "to eat",
+    "category": "Verbs",
+    "subcategory": "Regular -er Verbs"
+  },
+  {
+    "spanish": "leer",
+    "english": "to read",
+    "category": "Verbs",
+    "subcategory": "Regular -er Verbs"
+  },
+  {
+    "spanish": "comprender",
+    "english": "to understand",
+    "category": "Verbs",
+    "subcategory": "Regular -er Verbs"
+  },
+  {
+    "spanish": "tejer",
+    "english": "to knit",
+    "category": "Verbs",
+    "subcategory": "Regular -er Verbs"
+  },
+  {
+    "spanish": "correr",
+    "english": "to run",
+    "category": "Verbs",
+    "subcategory": "Regular -er Verbs"
+  },
+  {
+    "spanish": "vender",
+    "english": "to sell",
+    "category": "Verbs",
+    "subcategory": "Regular -er Verbs"
+  },
+  {
+    "spanish": "abrir",
+    "english": "to open",
+    "category": "Verbs",
+    "subcategory": "Regular -ir Verbs"
+  },
+  {
+    "spanish": "describir",
+    "english": "to describe",
+    "category": "Verbs",
+    "subcategory": "Regular -ir Verbs"
+  },
+  {
+    "spanish": "compartir",
+    "english": "to share",
+    "category": "Verbs",
+    "subcategory": "Regular -ir Verbs"
+  },
+  {
+    "spanish": "escribir",
+    "english": "to write",
+    "category": "Verbs",
+    "subcategory": "Regular -ir Verbs"
+  },
+  {
+    "spanish": "cumplir",
+    "english": "to complete / fulfill (e.g., cumplir años)",
+    "category": "Verbs",
+    "subcategory": "Regular -ir Verbs"
+  },
+  {
+    "spanish": "recibir",
+    "english": "to receive",
+    "category": "Verbs",
+    "subcategory": "Regular -ir Verbs"
+  },
+  {
+    "spanish": "decidir",
+    "english": "to decide",
+    "category": "Verbs",
+    "subcategory": "Regular -ir Verbs"
+  },
+  {
+    "spanish": "vivir",
+    "english": "to live",
+    "category": "Verbs",
+    "subcategory": "Regular -ir Verbs"
+  },
+  {
+    "spanish": "ser",
+    "english": "to be (identity, origin, profession, inherent traits, dates)",
+    "category": "Verbs",
+    "subcategory": "Core Irregular Verbs"
+  },
+  {
+    "spanish": "ir",
+    "english": "to go",
+    "category": "Verbs",
+    "subcategory": "Core Irregular Verbs"
+  },
+  {
+    "spanish": "estar",
+    "english": "to be (location, temporary states, emotions, progressive)",
+    "category": "Verbs",
+    "subcategory": "Core Irregular Verbs"
+  },
+  {
+    "spanish": "haber",
+    "english": "to have (auxiliary; source of 'hay' - there is/are)",
+    "category": "Verbs",
+    "subcategory": "Core Irregular Verbs"
+  },
+  {
+    "spanish": "almorzar",
+    "english": "to eat lunch",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (o -> ue)"
+  },
+  {
+    "spanish": "jugar",
+    "english": "to play (games/sports) [u -> ue]",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (o -> ue)"
+  },
+  {
+    "spanish": "costar",
+    "english": "to cost",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (o -> ue)"
+  },
+  {
+    "spanish": "poder",
+    "english": "to be able to / can",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (o -> ue)"
+  },
+  {
+    "spanish": "devolver",
+    "english": "to return a thing (give back)",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (o -> ue)"
+  },
+  {
+    "spanish": "recordar",
+    "english": "to remember",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (o -> ue)"
+  },
+  {
+    "spanish": "dormir",
+    "english": "to sleep",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (o -> ue)"
+  },
+  {
+    "spanish": "volver",
+    "english": "to return / come back",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (o -> ue)"
+  },
+  {
+    "spanish": "encontrar",
+    "english": "to find",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (o -> ue)"
+  },
+  {
+    "spanish": "cerrar",
+    "english": "to close",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (e -> ie)"
+  },
+  {
+    "spanish": "preferir",
+    "english": "to prefer",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (e -> ie)"
+  },
+  {
+    "spanish": "comenzar",
+    "english": "to start / begin",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (e -> ie)"
+  },
+  {
+    "spanish": "querer",
+    "english": "to want / love",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (e -> ie)"
+  },
+  {
+    "spanish": "empezar",
+    "english": "to start / begin",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (e -> ie)"
+  },
+  {
+    "spanish": "sentir",
+    "english": "to feel",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (e -> ie)"
+  },
+  {
+    "spanish": "entender",
+    "english": "to understand",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (e -> ie)"
+  },
+  {
+    "spanish": "tener",
+    "english": "to have (has irregular yo: tengo)",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (e -> ie)"
+  },
+  {
+    "spanish": "pensar",
+    "english": "to think",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (e -> ie)"
+  },
+  {
+    "spanish": "venir",
+    "english": "to come (has irregular yo: vengo)",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (e -> ie)"
+  },
+  {
+    "spanish": "perder",
+    "english": "to lose",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (e -> ie)"
+  },
+  {
+    "spanish": "decir",
+    "english": "to say / tell (has irregular yo: digo)",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (e -> i)"
+  },
+  {
+    "spanish": "seguir",
+    "english": "to follow / continue (has irregular yo: sigo)",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (e -> i)"
+  },
+  {
+    "spanish": "pedir",
+    "english": "to ask for / request",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (e -> i)"
+  },
+  {
+    "spanish": "servir",
+    "english": "to serve",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (e -> i)"
+  },
+  {
+    "spanish": "reír",
+    "english": "to laugh",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (e -> i)"
+  },
+  {
+    "spanish": "sonreír",
+    "english": "to smile",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (e -> i)"
+  },
+  {
+    "spanish": "repetir",
+    "english": "to repeat",
+    "category": "Verbs",
+    "subcategory": "Stem-Changing Verbs (e -> i)"
+  },
+  {
+    "spanish": "dar",
+    "english": "to give (yo doy)",
+    "category": "Verbs",
+    "subcategory": "Irregular Yo Form Verbs"
+  },
+  {
+    "spanish": "salir",
+    "english": "to leave / go out (yo salgo)",
+    "category": "Verbs",
+    "subcategory": "Irregular Yo Form Verbs"
+  },
+  {
+    "spanish": "hacer",
+    "english": "to do / make (yo hago)",
+    "category": "Verbs",
+    "subcategory": "Irregular Yo Form Verbs"
+  },
+  {
+    "spanish": "traer",
+    "english": "to bring (yo traigo)",
+    "category": "Verbs",
+    "subcategory": "Irregular Yo Form Verbs"
+  },
+  {
+    "spanish": "oír",
+    "english": "to hear (yo oigo)",
+    "category": "Verbs",
+    "subcategory": "Irregular Yo Form Verbs"
+  },
+  {
+    "spanish": "valer",
+    "english": "to be worth (yo valgo)",
+    "category": "Verbs",
+    "subcategory": "Irregular Yo Form Verbs"
+  },
+  {
+    "spanish": "poner",
+    "english": "to put / place (yo pongo)",
+    "category": "Verbs",
+    "subcategory": "Irregular Yo Form Verbs"
+  },
+  {
+    "spanish": "ver",
+    "english": "to see (yo veo)",
+    "category": "Verbs",
+    "subcategory": "Irregular Yo Form Verbs"
+  },
+  {
+    "spanish": "saber",
+    "english": "to know (info, facts, skills / how to do something)",
+    "category": "Verbs",
+    "subcategory": "Verbs for Knowing"
+  },
+  {
+    "spanish": "conocer",
+    "english": "to know (a person, place, or be familiar with)",
+    "category": "Verbs",
+    "subcategory": "Verbs for Knowing"
+  },
+  {
+    "spanish": "gustar",
+    "english": "to like / be pleasing (literally: to please)",
+    "category": "Verbs",
+    "subcategory": "Verbs Structured Like Gustar"
+  },
+  {
+    "spanish": "encantar",
+    "english": "to love / be enchanting (literally: to enchant)",
+    "category": "Verbs",
+    "subcategory": "Verbs Structured Like Gustar"
+  },
+  {
+    "spanish": "doler",
+    "english": "to hurt / be painful (o -> ue)",
+    "category": "Verbs",
+    "subcategory": "Verbs Structured Like Gustar"
+  },
+  {
+    "spanish": "molestar",
+    "english": "to mind / be bothersome (literally: to annoy)",
+    "category": "Verbs",
+    "subcategory": "Verbs Structured Like Gustar"
+  },
+  {
+    "spanish": "rojo/a",
+    "english": "red",
+    "category": "Adjectives",
+    "subcategory": "Colors"
+  },
+  {
+    "spanish": "naranja",
+    "english": "orange",
+    "category": "Adjectives",
+    "subcategory": "Colors"
+  },
+  {
+    "spanish": "amarillo/a",
+    "english": "yellow",
+    "category": "Adjectives",
+    "subcategory": "Colors"
+  },
+  {
+    "spanish": "rosado/a",
+    "english": "pink",
+    "category": "Adjectives",
+    "subcategory": "Colors"
+  },
+  {
+    "spanish": "azul",
+    "english": "blue",
+    "category": "Adjectives",
+    "subcategory": "Colors"
+  },
+  {
+    "spanish": "marrón",
+    "english": "brown",
+    "category": "Adjectives",
+    "subcategory": "Colors"
+  },
+  {
+    "spanish": "azul claro",
+    "english": "light blue",
+    "category": "Adjectives",
+    "subcategory": "Colors"
+  },
+  {
+    "spanish": "gris",
+    "english": "gray",
+    "category": "Adjectives",
+    "subcategory": "Colors"
+  },
+  {
+    "spanish": "azul oscuro",
+    "english": "dark blue",
+    "category": "Adjectives",
+    "subcategory": "Colors"
+  },
+  {
+    "spanish": "negro/a",
+    "english": "black",
+    "category": "Adjectives",
+    "subcategory": "Colors"
+  },
+  {
+    "spanish": "verde",
+    "english": "green",
+    "category": "Adjectives",
+    "subcategory": "Colors"
+  },
+  {
+    "spanish": "blanco/a",
+    "english": "white",
+    "category": "Adjectives",
+    "subcategory": "Colors"
+  },
+  {
+    "spanish": "morado/a",
+    "english": "purple",
+    "category": "Adjectives",
+    "subcategory": "Colors"
+  },
+  {
+    "spanish": "alto/a",
+    "english": "tall",
+    "category": "Adjectives",
+    "subcategory": "Physical Appearance"
+  },
+  {
+    "spanish": "grande",
+    "english": "big / large",
+    "category": "Adjectives",
+    "subcategory": "Physical Appearance"
+  },
+  {
+    "spanish": "bajo/a",
+    "english": "short (height)",
+    "category": "Adjectives",
+    "subcategory": "Physical Appearance"
+  },
+  {
+    "spanish": "pequeño/a",
+    "english": "small / little",
+    "category": "Adjectives",
+    "subcategory": "Physical Appearance"
+  },
+  {
+    "spanish": "gordo/a",
+    "english": "fat",
+    "category": "Adjectives",
+    "subcategory": "Physical Appearance"
+  },
+  {
+    "spanish": "joven",
+    "english": "young",
+    "category": "Adjectives",
+    "subcategory": "Physical Appearance"
+  },
+  {
+    "spanish": "delgado/a",
+    "english": "thin / slender",
+    "category": "Adjectives",
+    "subcategory": "Physical Appearance"
+  },
+  {
+    "spanish": "viejo/a",
+    "english": "old",
+    "category": "Adjectives",
+    "subcategory": "Physical Appearance"
+  },
+  {
+    "spanish": "bonito/a",
+    "english": "pretty / beautiful",
+    "category": "Adjectives",
+    "subcategory": "Physical Appearance"
+  },
+  {
+    "spanish": "pesado/a",
+    "english": "heavy",
+    "category": "Adjectives",
+    "subcategory": "Physical Appearance"
+  },
+  {
+    "spanish": "feo/a",
+    "english": "ugly",
+    "category": "Adjectives",
+    "subcategory": "Physical Appearance"
+  },
+  {
+    "spanish": "redondo/a",
+    "english": "round",
+    "category": "Adjectives",
+    "subcategory": "Physical Appearance"
+  },
+  {
+    "spanish": "guapo/a",
+    "english": "handsome / good-looking",
+    "category": "Adjectives",
+    "subcategory": "Physical Appearance"
+  },
+  {
+    "spanish": "amable",
+    "english": "nice / kind",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "sociable",
+    "english": "sociable / outgoing",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "antipático/a",
+    "english": "unfriendly / mean",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "feliz",
+    "english": "happy",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "simpático/a",
+    "english": "pleasant / nice",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "alegre",
+    "english": "joyful / cheerful",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "cariñoso/a",
+    "english": "affectionate",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "optimista",
+    "english": "optimistic",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "bueno/a",
+    "english": "good",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "pesimista",
+    "english": "pessimistic",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "malo/a",
+    "english": "bad",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "trabajador(a)",
+    "english": "hardworking",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "inteligente",
+    "english": "intelligent",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "generoso/a",
+    "english": "generous",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "tonto/a",
+    "english": "silly / foolish / dumb",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "egoísta",
+    "english": "selfish",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "vivo/a",
+    "english": "clever / alert",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "honesto/a",
+    "english": "honest",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "listo/a",
+    "english": "clever (with ser) / ready (with estar)",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "deshonesto/a",
+    "english": "dishonest",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "cómico/a",
+    "english": "funny",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "idealista",
+    "english": "idealistic",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "interesante",
+    "english": "interesting",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "realista",
+    "english": "realistic",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "aburrido/a",
+    "english": "boring (with ser) / bored (with estar)",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "importante",
+    "english": "important",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "paciente",
+    "english": "patient",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "fácil",
+    "english": "easy",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "impaciente",
+    "english": "impatient",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "difícil",
+    "english": "difficult",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "tranquilo/a",
+    "english": "calm / quiet",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "rico/a",
+    "english": "wealthy / rich / delicious (food)",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "serio/a",
+    "english": "serious",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "resiliente",
+    "english": "resilient",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "tímido/a",
+    "english": "shy / timid",
+    "category": "Adjectives",
+    "subcategory": "Personality & Qualities"
+  },
+  {
+    "spanish": "contento/a",
+    "english": "happy / content",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "sorprendido/a",
+    "english": "surprised",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "triste",
+    "english": "sad",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "emocionado/a",
+    "english": "excited",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "deprimido/a",
+    "english": "depressed",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "confundido/a",
+    "english": "confused",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "enfermo/a",
+    "english": "sick",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "enamorado/a",
+    "english": "in love",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "sano/a",
+    "english": "healthy",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "orgulloso/a",
+    "english": "proud",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "en forma",
+    "english": "fit / in good shape",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "despierto/a",
+    "english": "awake",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "cansado/a",
+    "english": "tired",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "dormido/a",
+    "english": "asleep",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "estresado/a",
+    "english": "stressed",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "vivo/a",
+    "english": "alive",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "nervioso/a",
+    "english": "nervous",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "muerto/a",
+    "english": "dead",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "preocupado/a",
+    "english": "worried",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "abierto/a",
+    "english": "open",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "asustado/a",
+    "english": "scared / frightened",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "cerrado/a",
+    "english": "closed",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "frustrado/a",
+    "english": "frustrated",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "limpio/a",
+    "english": "clean",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "enojado/a",
+    "english": "angry",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "sucio/a",
+    "english": "dirty",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "avergonzado/a",
+    "english": "embarrassed",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "ocupado/a",
+    "english": "busy",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "celoso/a",
+    "english": "jealous",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "embarazada",
+    "english": "pregnant",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "interesado/a",
+    "english": "interested",
+    "category": "Adjectives",
+    "subcategory": "Emotions & Conditions"
+  },
+  {
+    "spanish": "argentino/a",
+    "english": "Argentinian",
+    "category": "Adjectives",
+    "subcategory": "Nationalities"
+  },
+  {
+    "spanish": "guatemalteco/a",
+    "english": "Guatemalan",
+    "category": "Adjectives",
+    "subcategory": "Nationalities"
+  },
+  {
+    "spanish": "boliviano/a",
+    "english": "Bolivian",
+    "category": "Adjectives",
+    "subcategory": "Nationalities"
+  },
+  {
+    "spanish": "hondureño/a",
+    "english": "Honduran",
+    "category": "Adjectives",
+    "subcategory": "Nationalities"
+  },
+  {
+    "spanish": "canadiense",
+    "english": "Canadian",
+    "category": "Adjectives",
+    "subcategory": "Nationalities"
+  },
+  {
+    "spanish": "mexicano/a",
+    "english": "Mexican",
+    "category": "Adjectives",
+    "subcategory": "Nationalities"
+  },
+  {
+    "spanish": "chileno/a",
+    "english": "Chilean",
+    "category": "Adjectives",
+    "subcategory": "Nationalities"
+  },
+  {
+    "spanish": "nicaragüense",
+    "english": "Nicaraguan",
+    "category": "Adjectives",
+    "subcategory": "Nationalities"
+  },
+  {
+    "spanish": "colombiano/a",
+    "english": "Colombian",
+    "category": "Adjectives",
+    "subcategory": "Nationalities"
+  },
+  {
+    "spanish": "panameño/a",
+    "english": "Panamanian",
+    "category": "Adjectives",
+    "subcategory": "Nationalities"
+  },
+  {
+    "spanish": "costarricense",
+    "english": "Costa Rican",
+    "category": "Adjectives",
+    "subcategory": "Nationalities"
+  },
+  {
+    "spanish": "paraguayo/a",
+    "english": "Paraguayan",
+    "category": "Adjectives",
+    "subcategory": "Nationalities"
+  },
+  {
+    "spanish": "cubano/a",
+    "english": "Cuban",
+    "category": "Adjectives",
+    "subcategory": "Nationalities"
+  },
+  {
+    "spanish": "peruano/a",
+    "english": "Peruvian",
+    "category": "Adjectives",
+    "subcategory": "Nationalities"
+  },
+  {
+    "spanish": "ecuatoriano/a",
+    "english": "Ecuadorian",
+    "category": "Adjectives",
+    "subcategory": "Nationalities"
+  },
+  {
+    "spanish": "dominicano/a",
+    "english": "Dominican",
+    "category": "Adjectives",
+    "subcategory": "Nationalities"
+  },
+  {
+    "spanish": "salvadoreño/a",
+    "english": "Salvadoran",
+    "category": "Adjectives",
+    "subcategory": "Nationalities"
+  },
+  {
+    "spanish": "uruguayo/a",
+    "english": "Uruguayan",
+    "category": "Adjectives",
+    "subcategory": "Nationalities"
+  },
+  {
+    "spanish": "estadounidense",
+    "english": "American (from USA)",
+    "category": "Adjectives",
+    "subcategory": "Nationalities"
+  },
+  {
+    "spanish": "venezolano/a",
+    "english": "Venezuelan",
+    "category": "Adjectives",
+    "subcategory": "Nationalities"
+  },
+  {
+    "spanish": "español / española",
+    "english": "Spanish",
+    "category": "Adjectives",
+    "subcategory": "Nationalities"
+  },
+  {
+    "spanish": "mi / mis",
+    "english": "my",
+    "category": "Adjectives",
+    "subcategory": "Possessive & Quantitative Adjectives"
+  },
+  {
+    "spanish": "mucho/a/os/as",
+    "english": "much / a lot / many",
+    "category": "Adjectives",
+    "subcategory": "Possessive & Quantitative Adjectives"
+  },
+  {
+    "spanish": "tu / tus",
+    "english": "your (informal singular)",
+    "category": "Adjectives",
+    "subcategory": "Possessive & Quantitative Adjectives"
+  },
+  {
+    "spanish": "alguno/a/os/as",
+    "english": "some / any",
+    "category": "Adjectives",
+    "subcategory": "Possessive & Quantitative Adjectives"
+  },
+  {
+    "spanish": "su / sus",
+    "english": "his / her / your (formal singular) / their / your (plural)",
+    "category": "Adjectives",
+    "subcategory": "Possessive & Quantitative Adjectives"
+  },
+  {
+    "spanish": "ninguno/a",
+    "english": "none / not any",
+    "category": "Adjectives",
+    "subcategory": "Possessive & Quantitative Adjectives"
+  },
+  {
+    "spanish": "nuestro/a/os/as",
+    "english": "our",
+    "category": "Adjectives",
+    "subcategory": "Possessive & Quantitative Adjectives"
+  },
+  {
+    "spanish": "cada",
+    "english": "every / each",
+    "category": "Adjectives",
+    "subcategory": "Possessive & Quantitative Adjectives"
+  },
+  {
+    "spanish": "vuestro/a/os/as",
+    "english": "your (informal plural - Spain)",
+    "category": "Adjectives",
+    "subcategory": "Possessive & Quantitative Adjectives"
+  },
+  {
+    "spanish": "nublado",
+    "english": "cloudy",
+    "category": "Adjectives",
+    "subcategory": "Weather Adjectives"
+  },
+  {
+    "spanish": "despejado",
+    "english": "clear (sky)",
+    "category": "Adjectives",
+    "subcategory": "Weather Adjectives"
+  },
+  {
+    "spanish": "soleado",
+    "english": "sunny",
+    "category": "Adjectives",
+    "subcategory": "Weather Adjectives"
+  },
+  {
+    "spanish": "caliente",
+    "english": "hot",
+    "category": "Adjectives",
+    "subcategory": "Weather Adjectives"
+  },
+  {
+    "spanish": "húmedo",
+    "english": "humid",
+    "category": "Adjectives",
+    "subcategory": "Weather Adjectives"
+  },
+  {
+    "spanish": "viejo/a",
+    "english": "old (for objects)",
+    "category": "Adjectives",
+    "subcategory": "Miscellaneous Adjectives"
+  },
+  {
+    "spanish": "roto/a",
+    "english": "broken",
+    "category": "Adjectives",
+    "subcategory": "Miscellaneous Adjectives"
+  },
+  {
+    "spanish": "antiguo/a",
+    "english": "antique / ancient",
+    "category": "Adjectives",
+    "subcategory": "Miscellaneous Adjectives"
+  },
+  {
+    "spanish": "apagado/a",
+    "english": "turned off / extinguished",
+    "category": "Adjectives",
+    "subcategory": "Miscellaneous Adjectives"
+  },
+  {
+    "spanish": "útil(es)",
+    "english": "useful",
+    "category": "Adjectives",
+    "subcategory": "Miscellaneous Adjectives"
+  },
+  {
+    "spanish": "extranjero/a",
+    "english": "foreign",
+    "category": "Adjectives",
+    "subcategory": "Miscellaneous Adjectives"
+  },
+  {
+    "spanish": "prohibido/a",
+    "english": "prohibited",
+    "category": "Adjectives",
+    "subcategory": "Miscellaneous Adjectives"
+  },
+  {
+    "spanish": "favorito/a",
+    "english": "favorite",
+    "category": "Adjectives",
+    "subcategory": "Miscellaneous Adjectives"
+  },
+  {
+    "spanish": "¡Hola!",
+    "english": "hello",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "Adiós",
+    "english": "goodbye",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "Buenos días",
+    "english": "good morning",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "Chao",
+    "english": "bye",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "¿Cómo estás (tú)?",
+    "english": "how are you? (informal)",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "Hasta luego",
+    "english": "see you later",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "¿Cómo está (usted)?",
+    "english": "how are you? (formal)",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "Hasta mañana",
+    "english": "see you tomorrow",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "Bien",
+    "english": "well / fine",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "Hasta pronto",
+    "english": "see you soon",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "Mal",
+    "english": "not well / bad",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "¡Nos vemos!",
+    "english": "see you later / we'll see each other",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "Más o menos",
+    "english": "so-so / okay",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "¿Qué tal?",
+    "english": "how's it going?",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "¿Cómo te llamas?",
+    "english": "What is your name? (informal)",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "Lo siento",
+    "english": "I'm sorry",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "¿Cómo se llama?",
+    "english": "What is your name? (formal)",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "¡Felicitaciones! / ¡Felicidades!",
+    "english": "congratulations",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "Me llamo...",
+    "english": "My name is...",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "¡Qué bien!",
+    "english": "that's great!",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "Encantado/a",
+    "english": "nice to meet you (masc/fem)",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "¿De veras?",
+    "english": "really?",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "Mucho gusto",
+    "english": "nice to meet you",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "¿Qué pasa?",
+    "english": "what's going on?",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "Igualmente",
+    "english": "likewise / same here",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "Oh, ¡qué horror!",
+    "english": "Oh, how terrible!",
+    "category": "Grammar & Conversation",
+    "subcategory": "Greetings, Goodbyes, & Conversation"
+  },
+  {
+    "spanish": "el",
+    "english": "definite article: the (masculine singular)",
+    "category": "Grammar & Conversation",
+    "subcategory": "Articles"
+  },
+  {
+    "spanish": "un",
+    "english": "indefinite article: a / an (masculine singular)",
+    "category": "Grammar & Conversation",
+    "subcategory": "Articles"
+  },
+  {
+    "spanish": "la",
+    "english": "definite article: the (feminine singular)",
+    "category": "Grammar & Conversation",
+    "subcategory": "Articles"
+  },
+  {
+    "spanish": "una",
+    "english": "indefinite article: a / an (feminine singular)",
+    "category": "Grammar & Conversation",
+    "subcategory": "Articles"
+  },
+  {
+    "spanish": "los",
+    "english": "definite article: the (masculine plural)",
+    "category": "Grammar & Conversation",
+    "subcategory": "Articles"
+  },
+  {
+    "spanish": "unos",
+    "english": "indefinite article: some (masculine plural)",
+    "category": "Grammar & Conversation",
+    "subcategory": "Articles"
+  },
+  {
+    "spanish": "las",
+    "english": "definite article: the (feminine plural)",
+    "category": "Grammar & Conversation",
+    "subcategory": "Articles"
+  },
+  {
+    "spanish": "unas",
+    "english": "indefinite article: some (feminine plural)",
+    "category": "Grammar & Conversation",
+    "subcategory": "Articles"
+  },
+  {
+    "spanish": "yo",
+    "english": "subject pronoun: I",
+    "category": "Grammar & Conversation",
+    "subcategory": "Subject & Indirect Object Pronouns"
+  },
+  {
+    "spanish": "ustedes",
+    "english": "subject pronoun: you plural (formal/informal Latin America)",
+    "category": "Grammar & Conversation",
+    "subcategory": "Subject & Indirect Object Pronouns"
+  },
+  {
+    "spanish": "tú",
+    "english": "subject pronoun: you (informal singular)",
+    "category": "Grammar & Conversation",
+    "subcategory": "Subject & Indirect Object Pronouns"
+  },
+  {
+    "spanish": "me",
+    "english": "indirect object: (to) me",
+    "category": "Grammar & Conversation",
+    "subcategory": "Subject & Indirect Object Pronouns"
+  },
+  {
+    "spanish": "él",
+    "english": "subject pronoun: he",
+    "category": "Grammar & Conversation",
+    "subcategory": "Subject & Indirect Object Pronouns"
+  },
+  {
+    "spanish": "te",
+    "english": "indirect object: (to) you (informal)",
+    "category": "Grammar & Conversation",
+    "subcategory": "Subject & Indirect Object Pronouns"
+  },
+  {
+    "spanish": "ella",
+    "english": "subject pronoun: she",
+    "category": "Grammar & Conversation",
+    "subcategory": "Subject & Indirect Object Pronouns"
+  },
+  {
+    "spanish": "le",
+    "english": "indirect object: (to) him / her / you (formal)",
+    "category": "Grammar & Conversation",
+    "subcategory": "Subject & Indirect Object Pronouns"
+  },
+  {
+    "spanish": "usted",
+    "english": "subject pronoun: you (formal singular)",
+    "category": "Grammar & Conversation",
+    "subcategory": "Subject & Indirect Object Pronouns"
+  },
+  {
+    "spanish": "nos",
+    "english": "indirect object: (to) us",
+    "category": "Grammar & Conversation",
+    "subcategory": "Subject & Indirect Object Pronouns"
+  },
+  {
+    "spanish": "nosotros / nosotras",
+    "english": "subject pronoun: we (masc/fem)",
+    "category": "Grammar & Conversation",
+    "subcategory": "Subject & Indirect Object Pronouns"
+  },
+  {
+    "spanish": "os",
+    "english": "indirect object: (to) you plural (informal Spain)",
+    "category": "Grammar & Conversation",
+    "subcategory": "Subject & Indirect Object Pronouns"
+  },
+  {
+    "spanish": "vosotros / vosotras",
+    "english": "subject pronoun: you plural (informal Spain)",
+    "category": "Grammar & Conversation",
+    "subcategory": "Subject & Indirect Object Pronouns"
+  },
+  {
+    "spanish": "les",
+    "english": "indirect object: (to) them / you plural",
+    "category": "Grammar & Conversation",
+    "subcategory": "Subject & Indirect Object Pronouns"
+  },
+  {
+    "spanish": "ellos / ellas",
+    "english": "subject pronoun: they (masc/fem)",
+    "category": "Grammar & Conversation",
+    "subcategory": "Subject & Indirect Object Pronouns"
+  },
+  {
+    "spanish": "¿Qué?",
+    "english": "What?",
+    "category": "Grammar & Conversation",
+    "subcategory": "Question Words"
+  },
+  {
+    "spanish": "¿A dónde? / ¿Adónde?",
+    "english": "To where?",
+    "category": "Grammar & Conversation",
+    "subcategory": "Question Words"
+  },
+  {
+    "spanish": "¿Cuál? / ¿Cuáles?",
+    "english": "Which / Which ones?",
+    "category": "Grammar & Conversation",
+    "subcategory": "Question Words"
+  },
+  {
+    "spanish": "¿Quién? / ¿Quiénes?",
+    "english": "Who (singular/plural)?",
+    "category": "Grammar & Conversation",
+    "subcategory": "Question Words"
+  },
+  {
+    "spanish": "¿Cómo?",
+    "english": "How? / What is... like?",
+    "category": "Grammar & Conversation",
+    "subcategory": "Question Words"
+  },
+  {
+    "spanish": "¿Cuándo?",
+    "english": "When?",
+    "category": "Grammar & Conversation",
+    "subcategory": "Question Words"
+  },
+  {
+    "spanish": "¿Dónde?",
+    "english": "Where?",
+    "category": "Grammar & Conversation",
+    "subcategory": "Question Words"
+  },
+  {
+    "spanish": "¿Cuánto/a/os/as?",
+    "english": "How much / How many?",
+    "category": "Grammar & Conversation",
+    "subcategory": "Question Words"
+  },
+  {
+    "spanish": "¿De dónde?",
+    "english": "From where?",
+    "category": "Grammar & Conversation",
+    "subcategory": "Question Words"
+  },
+  {
+    "spanish": "¿Por qué?",
+    "english": "Why?",
+    "category": "Grammar & Conversation",
+    "subcategory": "Question Words"
+  },
+  {
+    "spanish": "a",
+    "english": "to / at",
+    "category": "Grammar & Conversation",
+    "subcategory": "Prepositions and Location Words"
+  },
+  {
+    "spanish": "a la izquierda de",
+    "english": "to the left of",
+    "category": "Grammar & Conversation",
+    "subcategory": "Prepositions and Location Words"
+  },
+  {
+    "spanish": "de",
+    "english": "of / from / about",
+    "category": "Grammar & Conversation",
+    "subcategory": "Prepositions and Location Words"
+  },
+  {
+    "spanish": "debajo de",
+    "english": "under / underneath",
+    "category": "Grammar & Conversation",
+    "subcategory": "Prepositions and Location Words"
+  },
+  {
+    "spanish": "en",
+    "english": "in / on / at",
+    "category": "Grammar & Conversation",
+    "subcategory": "Prepositions and Location Words"
+  },
+  {
+    "spanish": "detrás de",
+    "english": "behind",
+    "category": "Grammar & Conversation",
+    "subcategory": "Prepositions and Location Words"
+  },
+  {
+    "spanish": "con",
+    "english": "with",
+    "category": "Grammar & Conversation",
+    "subcategory": "Prepositions and Location Words"
+  },
+  {
+    "spanish": "cerca de",
+    "english": "close to / near",
+    "category": "Grammar & Conversation",
+    "subcategory": "Prepositions and Location Words"
+  },
+  {
+    "spanish": "alrededor",
+    "english": "around",
+    "category": "Grammar & Conversation",
+    "subcategory": "Prepositions and Location Words"
+  },
+  {
+    "spanish": "lejos de",
+    "english": "far from",
+    "category": "Grammar & Conversation",
+    "subcategory": "Prepositions and Location Words"
+  },
+  {
+    "spanish": "al lado de",
+    "english": "beside / next to",
+    "category": "Grammar & Conversation",
+    "subcategory": "Prepositions and Location Words"
+  },
+  {
+    "spanish": "entre",
+    "english": "between",
+    "category": "Grammar & Conversation",
+    "subcategory": "Prepositions and Location Words"
+  },
+  {
+    "spanish": "enfrente de",
+    "english": "in front of",
+    "category": "Grammar & Conversation",
+    "subcategory": "Prepositions and Location Words"
+  },
+  {
+    "spanish": "después de",
+    "english": "after",
+    "category": "Grammar & Conversation",
+    "subcategory": "Prepositions and Location Words"
+  },
+  {
+    "spanish": "a la derecha de",
+    "english": "to the right of",
+    "category": "Grammar & Conversation",
+    "subcategory": "Prepositions and Location Words"
+  },
+  {
+    "spanish": "y",
+    "english": "and",
+    "category": "Grammar & Conversation",
+    "subcategory": "Conjunctions"
+  },
+  {
+    "spanish": "porque",
+    "english": "because",
+    "category": "Grammar & Conversation",
+    "subcategory": "Conjunctions"
+  },
+  {
+    "spanish": "o",
+    "english": "or",
+    "category": "Grammar & Conversation",
+    "subcategory": "Conjunctions"
+  },
+  {
+    "spanish": "ni",
+    "english": "neither / nor",
+    "category": "Grammar & Conversation",
+    "subcategory": "Conjunctions"
+  },
+  {
+    "spanish": "pero",
+    "english": "but",
+    "category": "Grammar & Conversation",
+    "subcategory": "Conjunctions"
+  },
+  {
+    "spanish": "hoy",
+    "english": "today",
+    "category": "Grammar & Conversation",
+    "subcategory": "Adverbs of Time and Frequency"
+  },
+  {
+    "spanish": "esta tarde",
+    "english": "this afternoon",
+    "category": "Grammar & Conversation",
+    "subcategory": "Adverbs of Time and Frequency"
+  },
+  {
+    "spanish": "ayer",
+    "english": "yesterday",
+    "category": "Grammar & Conversation",
+    "subcategory": "Adverbs of Time and Frequency"
+  },
+  {
+    "spanish": "esta noche",
+    "english": "tonight / this evening",
+    "category": "Grammar & Conversation",
+    "subcategory": "Adverbs of Time and Frequency"
+  },
+  {
+    "spanish": "anteayer",
+    "english": "the day before yesterday",
+    "category": "Grammar & Conversation",
+    "subcategory": "Adverbs of Time and Frequency"
+  },
+  {
+    "spanish": "esta semana",
+    "english": "this week",
+    "category": "Grammar & Conversation",
+    "subcategory": "Adverbs of Time and Frequency"
+  },
+  {
+    "spanish": "mañana",
+    "english": "tomorrow",
+    "category": "Grammar & Conversation",
+    "subcategory": "Adverbs of Time and Frequency"
+  },
+  {
+    "spanish": "este año",
+    "english": "this year",
+    "category": "Grammar & Conversation",
+    "subcategory": "Adverbs of Time and Frequency"
+  },
+  {
+    "spanish": "pasado mañana",
+    "english": "the day after tomorrow",
+    "category": "Grammar & Conversation",
+    "subcategory": "Adverbs of Time and Frequency"
+  },
+  {
+    "spanish": "el próximo año",
+    "english": "next year",
+    "category": "Grammar & Conversation",
+    "subcategory": "Adverbs of Time and Frequency"
+  },
+  {
+    "spanish": "en tres días",
+    "english": "in three days",
+    "category": "Grammar & Conversation",
+    "subcategory": "Adverbs of Time and Frequency"
+  },
+  {
+    "spanish": "ahora",
+    "english": "now",
+    "category": "Grammar & Conversation",
+    "subcategory": "Adverbs of Time and Frequency"
+  },
+  {
+    "spanish": "que viene",
+    "english": "next (e.g., la semana que viene)",
+    "category": "Grammar & Conversation",
+    "subcategory": "Adverbs of Time and Frequency"
+  },
+  {
+    "spanish": "ahora mismo / ahorita",
+    "english": "right now",
+    "category": "Grammar & Conversation",
+    "subcategory": "Adverbs of Time and Frequency"
+  },
+  {
+    "spanish": "siempre",
+    "english": "always",
+    "category": "Grammar & Conversation",
+    "subcategory": "Adverbs of Time and Frequency"
+  },
+  {
+    "spanish": "a veces",
+    "english": "sometimes",
+    "category": "Grammar & Conversation",
+    "subcategory": "Adverbs of Time and Frequency"
+  },
+  {
+    "spanish": "sí",
+    "english": "yes",
+    "category": "Grammar & Conversation",
+    "subcategory": "Other Useful Words"
+  },
+  {
+    "spanish": "mucho",
+    "english": "a lot / very much",
+    "category": "Grammar & Conversation",
+    "subcategory": "Other Useful Words"
+  },
+  {
+    "spanish": "no",
+    "english": "no / not",
+    "category": "Grammar & Conversation",
+    "subcategory": "Other Useful Words"
+  },
+  {
+    "spanish": "también",
+    "english": "also / too",
+    "category": "Grammar & Conversation",
+    "subcategory": "Other Useful Words"
+  },
+  {
+    "spanish": "más",
+    "english": "more",
+    "category": "Grammar & Conversation",
+    "subcategory": "Other Useful Words"
+  },
+  {
+    "spanish": "tampoco",
+    "english": "neither / not either",
+    "category": "Grammar & Conversation",
+    "subcategory": "Other Useful Words"
+  },
+  {
+    "spanish": "cero",
+    "english": "0",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "veinticuatro",
+    "english": "24",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "uno",
+    "english": "1",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "veinticinco",
+    "english": "25",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "dos",
+    "english": "2",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "veintiséis",
+    "english": "26",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "tres",
+    "english": "3",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "veintisiete",
+    "english": "27",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "cuatro",
+    "english": "4",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "veintiocho",
+    "english": "28",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "cinco",
+    "english": "5",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "veintinueve",
+    "english": "29",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "seis",
+    "english": "6",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "treinta",
+    "english": "30",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "siete",
+    "english": "7",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "cuarenta",
+    "english": "40",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "ocho",
+    "english": "8",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "cincuenta",
+    "english": "50",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "nueve",
+    "english": "9",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "sesenta",
+    "english": "60",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "diez",
+    "english": "10",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "setenta",
+    "english": "70",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "once",
+    "english": "11",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "ochenta",
+    "english": "80",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "doce",
+    "english": "12",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "noventa",
+    "english": "90",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "trece",
+    "english": "13",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "cien / ciento",
+    "english": "100",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "catorce",
+    "english": "14",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "doscientos/as",
+    "english": "200",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "quince",
+    "english": "15",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "trescientos/as",
+    "english": "300",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "dieciséis",
+    "english": "16",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "cuatrocientos/as",
+    "english": "400",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "diecisiete",
+    "english": "17",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "quinientos/as",
+    "english": "500",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "dieciocho",
+    "english": "18",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "seiscientos/as",
+    "english": "600",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "diecinueve",
+    "english": "19",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "setecientos/as",
+    "english": "700",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "veinte",
+    "english": "20",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "ochocientos/as",
+    "english": "800",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "veintiuno",
+    "english": "21",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "novecientos/as",
+    "english": "900",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "veintidós",
+    "english": "22",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "mil",
+    "english": "1,000",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "veintitrés",
+    "english": "23",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "un millón",
+    "english": "1,000,000",
+    "category": "Grammar & Conversation",
+    "subcategory": "Numbers"
+  },
+  {
+    "spanish": "la mujer come una manzana roja",
+    "english": "the woman eats a red apple",
+    "category": "Sentences",
+    "subcategory": "Syllabus Sentences"
+  },
+  {
+    "spanish": "el muchacho tiene un perro negro",
+    "english": "the boy has a black dog",
+    "category": "Sentences",
+    "subcategory": "Syllabus Sentences"
+  },
+  {
+    "spanish": "nosotros vivimos en una casa grande",
+    "english": "we live in a big house",
+    "category": "Sentences",
+    "subcategory": "Syllabus Sentences"
+  },
+  {
+    "spanish": "ellos quieren almorzar en la cafetería",
+    "english": "they want to eat lunch in the cafeteria",
+    "category": "Sentences",
+    "subcategory": "Syllabus Sentences"
+  },
+  {
+    "spanish": "el estudiante hace la tarea en la biblioteca",
+    "english": "the student does homework in the library",
+    "category": "Sentences",
+    "subcategory": "Syllabus Sentences"
+  },
+  {
+    "spanish": "yo no sé la respuesta",
+    "english": "I do not know the answer",
+    "category": "Sentences",
+    "subcategory": "Syllabus Sentences"
+  },
+  {
+    "spanish": "el maestro enseña la clase de español",
+    "english": "the teacher teaches the Spanish class",
+    "category": "Sentences",
+    "subcategory": "Syllabus Sentences"
+  },
+  {
+    "spanish": "dónde está la residencia estudiantil",
+    "english": "where is the student residence hall",
+    "category": "Sentences",
+    "subcategory": "Syllabus Sentences"
+  },
+  {
+    "spanish": "hace mucho frío en el invierno",
+    "english": "it is very cold in the winter",
+    "category": "Sentences",
+    "subcategory": "Syllabus Sentences"
+  },
+  {
+    "spanish": "nosotros preferimos jugar al fútbol",
+    "english": "we prefer to play soccer",
+    "category": "Sentences",
+    "subcategory": "Syllabus Sentences"
+  },
+  {
+    "spanish": "mi familia prefiere comer pollo con arroz",
+    "english": "my family prefers to eat chicken with rice",
+    "category": "Sentences",
+    "subcategory": "Syllabus Sentences"
+  },
+  {
+    "spanish": "yo tengo que estudiar para el examen",
+    "english": "I have to study for the exam",
+    "category": "Sentences",
+    "subcategory": "Syllabus Sentences"
+  },
+  {
+    "spanish": "ella habla español muy bien",
+    "english": "she speaks Spanish very well",
+    "category": "Sentences",
+    "subcategory": "Syllabus Sentences"
+  },
+  {
+    "spanish": "qué quieres comer hoy",
+    "english": "what do you want to eat today",
+    "category": "Sentences",
+    "subcategory": "Syllabus Sentences"
+  },
+  {
+    "spanish": "el libro está encima del escritorio",
+    "english": "the book is on top of the desk",
+    "category": "Sentences",
+    "subcategory": "Syllabus Sentences"
+  },
+  {
+    "spanish": "la escuela está cerca de la casa",
+    "english": "the school is near the house",
+    "category": "Sentences",
+    "subcategory": "Syllabus Sentences"
+  },
+  {
+    "spanish": "nosotros compramos pan en el mercado",
+    "english": "we buy bread in the market",
+    "category": "Sentences",
+    "subcategory": "Syllabus Sentences"
+  },
+  {
+    "spanish": "a qué hora es la clase de inglés",
+    "english": "what time is the English class",
+    "category": "Sentences",
+    "subcategory": "Syllabus Sentences"
+  },
+  {
+    "spanish": "yo vengo a la universidad en autobús",
+    "english": "I come to the university by bus",
+    "category": "Sentences",
+    "subcategory": "Syllabus Sentences"
+  },
+  {
+    "spanish": "mi amigo duerme en la clase",
+    "english": "my friend sleeps in the class",
+    "category": "Sentences",
+    "subcategory": "Syllabus Sentences"
+  }
+]
