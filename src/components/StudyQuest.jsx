@@ -235,6 +235,25 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
       .trim();
   };
 
+  const compareAnswers = (correct, user) => {
+    const cleanCorrect = cleanAnswer(correct);
+    const cleanUser = cleanAnswer(user);
+
+    if (cleanCorrect === cleanUser) return true;
+
+    // Check if correct has options separated by "/" (doublets)
+    if (correct && correct.includes("/")) {
+      const parts = correct.split("/");
+      for (let part of parts) {
+        if (cleanAnswer(part) === cleanUser) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  };
+
   // -------------------------------------------------------------
   // QUEST CAMPAIGN CORE LOGIC
   // -------------------------------------------------------------
@@ -621,7 +640,7 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
     const correctStr = questQuestions[questCurrentIdx].correct;
     const userStr = typedAnswer;
 
-    const isCorrect = cleanAnswer(correctStr) === cleanAnswer(userStr);
+    const isCorrect = compareAnswers(correctStr, userStr);
 
     if (isCorrect) {
       setQuestScore(prev => prev + 1);
@@ -660,7 +679,7 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
     const correctStr = practiceQuestions[practiceCurrentIdx].correct;
     const userStr = practiceTyped;
 
-    const isCorrect = cleanAnswer(correctStr) === cleanAnswer(userStr);
+    const isCorrect = compareAnswers(correctStr, userStr);
 
     if (isCorrect) {
       setPracticeScore(prev => prev + 1);
@@ -975,10 +994,10 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
 
   // Helper flags for case-insensitive and punctuation-insensitive correctness evaluation in templates
   const isQuestUserCorrect = questAnswered && currentQuestQ && (
-    cleanAnswer(questSelected) === cleanAnswer(currentQuestQ.correct)
+    compareAnswers(currentQuestQ.correct, questSelected)
   );
   const isPracticeUserCorrect = practiceAnswered && practiceQuestions[practiceCurrentIdx] && (
-    cleanAnswer(practiceSelected) === cleanAnswer(practiceQuestions[practiceCurrentIdx].correct)
+    compareAnswers(practiceQuestions[practiceCurrentIdx].correct, practiceSelected)
   );
 
   return (

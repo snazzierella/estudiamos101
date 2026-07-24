@@ -6,7 +6,7 @@
     "subcategory": "People and Professions"
   },
   {
-    "spanish": "el/la enfermero/a",
+    "spanish": "el enfermero / la enfermera",
     "english": "nurse",
     "category": "Nouns",
     "subcategory": "People and Professions"
@@ -18,7 +18,7 @@
     "subcategory": "People and Professions"
   },
   {
-    "spanish": "el/la dentista",
+    "spanish": "el dentista / la dentista",
     "english": "dentist",
     "category": "Nouns",
     "subcategory": "People and Professions"
@@ -30,7 +30,7 @@
     "subcategory": "People and Professions"
   },
   {
-    "spanish": "el/la médico/a",
+    "spanish": "el médico / la médica",
     "english": "physician / medical doctor",
     "category": "Nouns",
     "subcategory": "People and Professions"
@@ -42,7 +42,7 @@
     "subcategory": "People and Professions"
   },
   {
-    "spanish": "el/la secretario/a",
+    "spanish": "el secretario / la secretaria",
     "english": "secretary",
     "category": "Nouns",
     "subcategory": "People and Professions"
@@ -54,19 +54,19 @@
     "subcategory": "People and Professions"
   },
   {
-    "spanish": "el/la piloto",
+    "spanish": "el piloto / la piloto",
     "english": "pilot",
     "category": "Nouns",
     "subcategory": "People and Professions"
   },
   {
-    "spanish": "el/la estudiante",
+    "spanish": "el estudiante / la estudiante",
     "english": "student",
     "category": "Nouns",
     "subcategory": "People and Professions"
   },
   {
-    "spanish": "el/la abogado/a",
+    "spanish": "el abogado / la abogada",
     "english": "lawyer",
     "category": "Nouns",
     "subcategory": "People and Professions"
@@ -78,7 +78,7 @@
     "subcategory": "People and Professions"
   },
   {
-    "spanish": "el/la periodista",
+    "spanish": "el periodista / la periodista",
     "english": "journalist",
     "category": "Nouns",
     "subcategory": "People and Professions"
@@ -90,7 +90,7 @@
     "subcategory": "People and Professions"
   },
   {
-    "spanish": "el/la cocinero/a",
+    "spanish": "el cocinero / la cocinera",
     "english": "cook",
     "category": "Nouns",
     "subcategory": "People and Professions"
@@ -102,13 +102,13 @@
     "subcategory": "People and Professions"
   },
   {
-    "spanish": "el/la mesero/a",
+    "spanish": "el mesero / la mesera",
     "english": "waiter / waitress",
     "category": "Nouns",
     "subcategory": "People and Professions"
   },
   {
-    "spanish": "el/la doctor/a",
+    "spanish": "el doctor / la doctora",
     "english": "doctor",
     "category": "Nouns",
     "subcategory": "People and Professions"
@@ -120,7 +120,7 @@
     "subcategory": "Family"
   },
   {
-    "spanish": "el/la tío/a",
+    "spanish": "el tío / la tía",
     "english": "uncle / aunt",
     "category": "Nouns",
     "subcategory": "Family"
@@ -132,7 +132,7 @@
     "subcategory": "Family"
   },
   {
-    "spanish": "el/la primo/a",
+    "spanish": "el primo / la prima",
     "english": "cousin",
     "category": "Nouns",
     "subcategory": "Family"
@@ -144,7 +144,7 @@
     "subcategory": "Family"
   },
   {
-    "spanish": "el/la sobrino/a",
+    "spanish": "el sobrino / la sobrina",
     "english": "nephew / niece",
     "category": "Nouns",
     "subcategory": "Family"
@@ -156,7 +156,7 @@
     "subcategory": "Family"
   },
   {
-    "spanish": "el/la hijo/a",
+    "spanish": "el hijo / la hija",
     "english": "son / daughter",
     "category": "Nouns",
     "subcategory": "Family"
@@ -168,7 +168,7 @@
     "subcategory": "Family"
   },
   {
-    "spanish": "el/la nieto/a",
+    "spanish": "el nieto / la nieta",
     "english": "grandson / granddaughter",
     "category": "Nouns",
     "subcategory": "Family"
@@ -204,13 +204,13 @@
     "subcategory": "Family"
   },
   {
-    "spanish": "el/la hijastro/a",
+    "spanish": "el hijastro / la hijastra",
     "english": "stepchild",
     "category": "Nouns",
     "subcategory": "Family"
   },
   {
-    "spanish": "el/la medio/a hermano/a",
+    "spanish": "el medio hermano / la media hermana",
     "english": "half-sibling",
     "category": "Nouns",
     "subcategory": "Family"
@@ -222,7 +222,7 @@
     "subcategory": "Family"
   },
   {
-    "spanish": "el/la hermanastro/a",
+    "spanish": "el hermanastro / la hermanastra",
     "english": "step-sibling",
     "category": "Nouns",
     "subcategory": "Family"
@@ -234,13 +234,13 @@
     "subcategory": "Family"
   },
   {
-    "spanish": "el/la abuelo/a",
+    "spanish": "el abuelo / la abuela",
     "english": "grandfather / grandmother",
     "category": "Nouns",
     "subcategory": "Family"
   },
   {
-    "spanish": "el/la amigo/a",
+    "spanish": "el amigo / la amiga",
     "english": "friend",
     "category": "Nouns",
     "subcategory": "Family"
