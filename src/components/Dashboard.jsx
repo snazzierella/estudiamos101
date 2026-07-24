@@ -12,6 +12,7 @@ import {
   Heart,
   Plus
 } from 'lucide-react';
+import NarfySprite from './NarfySprite';
 
 const RANKS = [
   { level: 1, title: "Estudiante Novato (Novice Learner)", icon: "🎒" },
@@ -415,6 +416,17 @@ export default function Dashboard({ state, useItem, claimBounty, feedNarfy, play
         <div className="glass-panel" style={{ padding: '20px' }}>
           <h4 style={{ fontFamily: 'var(--font-display)', marginBottom: '12px', fontSize: '1rem' }}>Mochila (Quick Items & Pets)</h4>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'rgba(0,0,0,0.15)', padding: '10px 14px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.02)', overflow: 'hidden' }}>
+              <div style={{ width: '60px', height: '60px', overflow: 'hidden', display: 'flex', justifyContent: 'center', alignItems: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: '10px' }}>
+                <div style={{ transform: 'scale(0.55)', margin: '-15px' }}>
+                  <NarfySprite action="sit" />
+                </div>
+              </div>
+              <div>
+                <span style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--primary)', display: 'block' }}>Narfy (Mascota)</span>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>Tu Red Heeler. Feed bones or play fetch!</span>
+              </div>
+            </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.02)', padding: '8px 12px', borderRadius: '10px' }}>
               <div>
                 <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Poción Roja (+50 HP)</span>

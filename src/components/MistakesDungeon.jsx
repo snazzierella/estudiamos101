@@ -148,7 +148,7 @@ export default function MistakesDungeon({ state, takeDamage, heal, removeMistake
     while (distractors.length < 3) {
       const rand = vocabularyData[Math.floor(Math.random() * vocabularyData.length)];
       const val = isEsToEn ? formatEnglishPrompt(rand.spanish, rand.english) : rand.spanish;
-      if (val.toLowerCase() !== correctText.toLowerCase() && !distractors.includes(val) && val.length < 35) {
+      if (val.toLowerCase() !== correctText.toLowerCase() && !checkSynonyms(val, correctText) && !distractors.includes(val) && val.length < 35) {
         distractors.push(val);
       }
     }
@@ -163,6 +163,21 @@ export default function MistakesDungeon({ state, takeDamage, heal, removeMistake
     });
   };
 
+  const SYNONYM_GROUPS = [
+    ["adiós", "adios", "chao", "bye", "goodbye", "bye-bye"],
+    ["andar", "caminar", "to walk", "walk"],
+    ["bonito", "lindo", "hermoso", "pretty", "beautiful", "lovely"],
+    ["maestro", "profesor", "teacher", "professor"],
+    ["coche", "carro", "auto", "car", "automobile"],
+    ["bolígrafo", "pluma", "pen"],
+    ["conversar", "hablar", "to talk", "to speak", "talk", "speak", "converse"],
+    ["computadora", "ordenador", "computer"],
+    ["estudiante", "alumno", "student"],
+    ["apartamento", "departamento", "apartment"],
+    ["lápiz", "lapiz", "pencil"],
+    ["esposa", "mujer", "wife", "woman"],
+  ];
+
   const cleanAnswer = (str) => {
     if (!str) return "";
     return str
@@ -172,14 +187,26 @@ export default function MistakesDungeon({ state, takeDamage, heal, removeMistake
       .trim();
   };
 
+  const checkSynonyms = (val1, val2) => {
+    const c1 = cleanAnswer(val1);
+    const c2 = cleanAnswer(val2);
+    if (c1 === c2) return true;
+    
+    for (let group of SYNONYM_GROUPS) {
+      const cleanGroup = group.map(g => cleanAnswer(g));
+      if (cleanGroup.includes(c1) && cleanGroup.includes(c2)) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   const compareAnswers = (correct, user) => {
-    const cleanCorrect = cleanAnswer(correct);
-    const cleanUser = cleanAnswer(user);
-    if (cleanCorrect === cleanUser) return true;
+    if (checkSynonyms(correct, user)) return true;
     if (correct && correct.includes("/")) {
       const parts = correct.split("/");
       for (let part of parts) {
-        if (cleanAnswer(part) === cleanUser) return true;
+        if (checkSynonyms(part, user)) return true;
       }
     }
     return false;

@@ -454,6 +454,22 @@ export default function GameShop({ state, buyItem, useItem, buyEquipment, equipI
               </div>
               <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>Protects streak</span>
             </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <span style={{ display: 'block', fontSize: '0.9rem', fontWeight: 600 }}>🍖 Hueso Jugoso</span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Owned: {state.inventory.juicyBone || 0}</span>
+              </div>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>Feed on Hub</span>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <span style={{ display: 'block', fontSize: '0.9rem', fontWeight: 600 }}>🥎 Pelota Divertida</span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Owned: {state.inventory.funBall || 0}</span>
+              </div>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>Play on Hub</span>
+            </div>
           </div>
         </div>
       </div>

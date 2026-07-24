@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Gamepad2, Coins, ArrowLeft, Trophy, Check, ArrowRight, ShieldAlert } from 'lucide-react';
+import NarfySprite from './NarfySprite';
 
 const ADVENTURES = [
   {
@@ -62,7 +63,7 @@ export default function MiniGames({ state, addXp, addGold, completeAdventure, in
   // 3. Narfy State
   const [narfyInput, setNarfyInput] = useState("");
   const [narfyTaught, setNarfyTaught] = useState([]); // correr, andar, comer, dormir, hablar
-  const [narfyAnim, setNarfyAnim] = useState("🐕");
+  const [narfyAction, setNarfyAction] = useState("sit");
   const [narfyTargetTrick, setNarfyTargetTrick] = useState("run"); // run, walk, eat, sleep, speak
   const [narfyFeedback, setNarfyFeedback] = useState("Narfy is sitting. Teach him to: run (Type the Spanish command!)");
   const [narfySuccess, setNarfySuccess] = useState(false);
@@ -105,7 +106,7 @@ export default function MiniGames({ state, addXp, addGold, completeAdventure, in
   const restartNarfy = () => {
     setNarfyInput("");
     setNarfyTaught([]);
-    setNarfyAnim("🐕");
+    setNarfyAction("sit");
     setNarfyTargetTrick("run");
     setNarfyFeedback("Narfy is sitting. Teach him to: run (Type the Spanish command!)");
     setNarfySuccess(false);
@@ -273,24 +274,38 @@ export default function MiniGames({ state, addXp, addGold, completeAdventure, in
     const cmd = narfyInput.trim().toLowerCase();
     setNarfyInput("");
 
-    let correctSpanish = "";
-    if (narfyTargetTrick === "run") correctSpanish = "correr";
-    else if (narfyTargetTrick === "walk") correctSpanish = "andar";
-    else if (narfyTargetTrick === "eat") correctSpanish = "comer";
-    else if (narfyTargetTrick === "sleep") correctSpanish = "dormir";
-    else if (narfyTargetTrick === "speak") correctSpanish = "hablar";
+    // Accept synonyms for dog tricks:
+    // run = correr
+    // walk = andar, caminar
+    // eat = comer
+    // sleep = dormir
+    // speak = hablar, conversar, platicar
+    const isCorrect = (
+      (narfyTargetTrick === "run" && cmd === "correr") ||
+      (narfyTargetTrick === "walk" && (cmd === "andar" || cmd === "caminar")) ||
+      (narfyTargetTrick === "eat" && cmd === "comer") ||
+      (narfyTargetTrick === "sleep" && cmd === "dormir") ||
+      (narfyTargetTrick === "speak" && (cmd === "hablar" || cmd === "conversar" || cmd === "platicar"))
+    );
 
-    if (cmd === correctSpanish) {
-      let anim = "🐕";
+    if (isCorrect) {
+      let action = "sit";
       let desc = "";
-      if (cmd === "correr") { anim = "🐕💨"; desc = "Narfy zooms around!"; }
-      else if (cmd === "andar") { anim = "🐕🚶‍♂️"; desc = "Narfy walks politely next to you!"; }
-      else if (cmd === "comer") { anim = "🐕🍖"; desc = "Narfy gobbles up a treat!"; }
-      else if (cmd === "dormir") { anim = "💤🐕"; desc = "Narfy curls up and snoozes!"; }
-      else if (cmd === "hablar") { anim = "🐕🗣️"; desc = "Narfy barks: ¡Guau! ¡Guau!"; }
+      if (narfyTargetTrick === "run") { action = "run"; desc = "Narfy zooms around!"; }
+      else if (narfyTargetTrick === "walk") { action = "walk"; desc = "Narfy walks politely next to you!"; }
+      else if (narfyTargetTrick === "eat") { action = "eat"; desc = "Narfy gobbles up a treat!"; }
+      else if (narfyTargetTrick === "sleep") { action = "sleep"; desc = "Narfy curls up and snoozes!"; }
+      else if (narfyTargetTrick === "speak") { action = "speak"; desc = "Narfy barks: ¡Guau! ¡Guau!"; }
 
       setNarfyTaught(prev => [...prev, cmd]);
-      setNarfyAnim(anim);
+      setNarfyAction(action);
+      
+      // Auto return to sit after 3 seconds for non-sleeping tricks
+      if (action !== "sleep") {
+        setTimeout(() => {
+          setNarfyAction("sit");
+        }, 3000);
+      }
 
       const nextIndex = TRICK_FLOW.indexOf(narfyTargetTrick) + 1;
       if (nextIndex < TRICK_FLOW.length) {
@@ -308,7 +323,7 @@ export default function MiniGames({ state, addXp, addGold, completeAdventure, in
       }
     } else {
       setMistakeCount(prev => prev + 1);
-      setNarfyAnim("🐕❓");
+      setNarfyAction("sit");
       setNarfyFeedback(`Incorrect. Narfy tilts his head. How do you say "${narfyTargetTrick}" in Spanish?`);
     }
   };
@@ -738,8 +753,8 @@ export default function MiniGames({ state, addXp, addGold, completeAdventure, in
                     Translate the requested English command to teach Narfy. Target command: <strong style={{ color: 'var(--primary)' }}>{narfyTargetTrick}</strong>.
                   </p>
 
-                  <div className="game-graphics-box">
-                    <pre className="dog-narfy-ascii" style={{ fontSize: '2.5rem', margin: '0' }}>{narfyAnim}</pre>
+                  <div className="game-graphics-box" style={{ background: 'rgba(0,0,0,0.1)', borderRadius: '16px', padding: '16px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <NarfySprite action={narfyAction} />
                   </div>
 
                   <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontStyle: 'italic', background: 'rgba(0,0,0,0.1)', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.02)' }}>
