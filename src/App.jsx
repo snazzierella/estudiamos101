@@ -37,7 +37,13 @@ export default function App() {
     equipItem,
     addMistake,
     removeMistake,
-    toggleAutoSpeak
+    toggleAutoSpeak,
+    claimBounty,
+    incrementBountyCount,
+    feedNarfy,
+    playWithNarfy,
+    updateWordMastery,
+    setDifficultyMode
   } = useGameState();
 
   const [view, setView] = useState('dashboard');
@@ -100,13 +106,14 @@ export default function App() {
             markFlashcardsSeen={markFlashcardsSeen}
             recordWordAnsweredCorrectly={recordWordAnsweredCorrectly}
             addMistake={addMistake}
+            updateWordMastery={updateWordMastery}
             toggleAutoSpeak={toggleAutoSpeak}
             setView={setView}
             defaultTab={studyQuestTab}
           />
         );
       case 'chat':
-        return <AiChat state={state} setApiKey={setApiKey} setView={setView} />;
+        return <AiChat state={state} setApiKey={setApiKey} setView={setView} incrementBountyCount={incrementBountyCount} />;
       case 'shop':
         return (
           <GameShop 
@@ -137,6 +144,7 @@ export default function App() {
             addXp={addXp}
             addGold={addGold}
             completeAdventure={completeAdventure}
+            incrementBountyCount={incrementBountyCount}
             setView={setView}
           />
         );
@@ -147,6 +155,9 @@ export default function App() {
           <Dashboard 
             state={state}
             useItem={useItem}
+            claimBounty={claimBounty}
+            feedNarfy={feedNarfy}
+            playWithNarfy={playWithNarfy}
             setView={setView}
             setStudyQuestTab={setStudyQuestTab}
             onOpenSettings={() => setShowSettings(true)}
@@ -251,12 +262,35 @@ export default function App() {
               />
               <div>
                 <label htmlFor="excludeVosotros" style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)', cursor: 'pointer', display: 'block' }}>
-                  Exclude "vosotros" forms
+                  Exclude \"vosotros\" forms
                 </label>
                 <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', display: 'block' }}>
                   Hides Spain-specific plural forms in conjugation quizzes.
                 </span>
               </div>
+            </div>
+
+            {/* Difficulty selector radio group */}
+            <div className="form-group" style={{ marginTop: '14px', background: 'rgba(255,255,255,0.02)', padding: '10px 14px', borderRadius: '10px', border: '1px solid var(--card-border)' }}>
+              <label className="form-label" style={{ fontWeight: 700, fontSize: '0.85rem', marginBottom: '8px', display: 'block' }}>Dificultad (Difficulty Mode)</label>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                {['relaxed', 'standard', 'hardcore'].map(mode => (
+                  <button 
+                    key={mode}
+                    type="button"
+                    className={`btn ${state.difficultyMode === mode ? 'btn-primary' : 'btn-secondary'}`}
+                    onClick={() => setDifficultyMode(mode)}
+                    style={{ flex: 1, textTransform: 'capitalize', fontSize: '0.75rem', padding: '6px' }}
+                  >
+                    {mode === 'relaxed' ? 'Relaxed' : mode === 'hardcore' ? 'Hardcore' : 'Standard'}
+                  </button>
+                ))}
+              </div>
+              <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', display: 'block', marginTop: '6px' }}>
+                {state.difficultyMode === 'relaxed' && "Relaxed: No quiz damage. 50% XP/Gold rewards."}
+                {state.difficultyMode === 'standard' && "Standard: 15 HP damage on mistakes."}
+                {state.difficultyMode === 'hardcore' && "Hardcore: 30 HP damage. Fainting resets quest level. 2x XP/Gold rewards!"}
+              </span>
             </div>
 
             <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>

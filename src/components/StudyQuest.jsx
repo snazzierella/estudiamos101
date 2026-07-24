@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import vocabularyData from '../data/vocabulary.json';
 import { STAGES, getStageForSubcategory, formatEnglishPrompt } from '../utils/difficultyMapper';
-import { generateConjugationQuestion, generateFillInTheBlank } from '../utils/conjugationHelper';
+import { generateConjugationQuestion, generateFillInTheBlank, conjugate } from '../utils/conjugationHelper';
 import { 
   BookOpen, 
   Swords, 
@@ -20,7 +20,23 @@ import {
   Play
 } from 'lucide-react';
 
-export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, recordWordAnsweredCorrectly, recordQuizPerformance, advanceQuest, passStageReview, markFlashcardsSeen, addMistake, toggleAutoSpeak, setView, defaultTab = "quest" }) {
+export default function StudyQuest({ 
+  state, 
+  addXp, 
+  addGold, 
+  takeDamage, 
+  revive, 
+  recordWordAnsweredCorrectly, 
+  recordQuizPerformance, 
+  advanceQuest, 
+  passStageReview, 
+  markFlashcardsSeen, 
+  addMistake, 
+  updateWordMastery, 
+  toggleAutoSpeak, 
+  setView, 
+  defaultTab = "quest" 
+}) {
   const [activeTab, setActiveTab] = useState(defaultTab);
 
   useEffect(() => {
@@ -53,6 +69,12 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
   const [redemptionScore, setRedemptionScore] = useState(0);
   const [redemptionFailed, setRedemptionFailed] = useState(false);
   const [redemptionSuccess, setRedemptionSuccess] = useState(false);
+
+  // RPG & Combo details
+  const [comboCount, setComboCount] = useState(0);
+  const [maxCombo, setMaxCombo] = useState(0);
+  const [codexVerb, setCodexVerb] = useState(null);
+  const [isListening, setIsListening] = useState(false);
   
   const questInputRef = useRef(null);
   const practiceInputRef = useRef(null);
@@ -123,6 +145,7 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
       setRedemptionScore(0);
       setRedemptionFailed(false);
       setRedemptionSuccess(false);
+      setComboCount(0);
     }
   }, [state.fainted, questStarted]);
 
@@ -202,11 +225,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
     if (!speechAvailable) return;
     try {
       window.speechSynthesis.cancel();
-      
-      // Clean up text for natural pronunciation:
-      // 1. Take only the first option if split by "/" or " o " (e.g., despierto/a -> despierto, nosotros / nosotras -> nosotros)
-      // 2. Remove parenthetical clarifications like (tú) or (usted)
-      // 3. Remove punctuation like ¿, ¡, !, ?, etc.
       let clean = text
         .split("/")[0]
         .split(" o ")[0]
@@ -250,7 +268,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
 
     if (cleanCorrect === cleanUser) return true;
 
-    // Check if correct has options separated by "/" (doublets)
     if (correct && correct.includes("/")) {
       const parts = correct.split("/");
       for (let part of parts) {
@@ -259,8 +276,45 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
         }
       }
     }
-
     return false;
+  };
+
+  // Web Speech API Voice Dictation
+  const handleVoiceInput = (mode) => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Speech recognition is not supported in this browser. Please use Chrome or Edge.");
+      return;
+    }
+    
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'es-MX';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+
+    recognition.onerror = (e) => {
+      console.error("Speech Recognition Error", e);
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognition.onresult = (event) => {
+      const text = event.results[0][0].transcript;
+      if (mode === "quest") {
+        setTypedAnswer(text);
+      } else if (mode === "practice") {
+        setPracticeTyped(text);
+      }
+    };
+
+    recognition.start();
   };
 
   // -------------------------------------------------------------
@@ -286,7 +340,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
       }
     }
 
-    // 1. Determine question format progressively
     let format = "mc"; // "mc", "conjugation", "typing"
     
     if (L <= 5) {
@@ -299,7 +352,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
       format = Math.random() > 0.3 ? (isVerb && !state.excludeVosotros ? "conjugation" : "typing") : "mc";
     }
 
-    // 2. Build question based on format
     if (format === "conjugation") {
       const qSpec = generateConjugationQuestion(item, { excludeVosotros: state.excludeVosotros });
       if (qSpec) {
@@ -320,7 +372,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
       const correctText = item.spanish;
       const questionText = formatEnglishPrompt(item.spanish, item.english);
       
-      // Fallback to MC if too long/complex
       if (item.spanish.includes("/") || item.spanish.includes("(") || item.spanish.length > 25) {
         format = "mc";
       } else {
@@ -345,7 +396,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
     const answeredCorrectlyBefore = state.wordsAnsweredCorrectly?.includes(item.spanish);
 
     if (answeredCorrectlyBefore) {
-      // 1. Try to pull from same subcategory
       const sameSub = vocabularyData.filter(rand => rand.subcategory === item.subcategory);
       const shuffledSub = [...sameSub].sort(() => Math.random() - 0.5);
       for (let rand of shuffledSub) {
@@ -360,7 +410,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
         if (distractors.length === 3) break;
       }
 
-      // 2. Try to pull from same category if not enough
       if (distractors.length < 3) {
         const sameCat = vocabularyData.filter(rand => rand.category === item.category);
         const shuffledCat = [...sameCat].sort(() => Math.random() - 0.5);
@@ -378,7 +427,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
       }
     }
 
-    // 3. Fallback to general pool if needed (or if first time)
     if (distractors.length < 3) {
       const shuffledAll = [...vocabularyData].sort(() => Math.random() - 0.5);
       for (let rand of shuffledAll) {
@@ -412,35 +460,57 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
     if (!activeStage) return;
 
     setQuestMissedQuestions([]);
+    setComboCount(0);
+    setMaxCombo(0);
 
-    // 1. Gather all words inside current stage subcategories
-    const stageItems = vocabularyData.filter(item => 
+    // Leitner Box / SRS Weighting selection:
+    // Gather all words in stage, look up mastery, low mastery (<=2) gets weight 3.
+    const stageItemsRaw = vocabularyData.filter(item => 
       activeStage.subcategories.includes(item.subcategory)
     );
+
+    const wordMastery = state.wordMastery || {};
+    const weightedItems = [];
+    stageItemsRaw.forEach(item => {
+      const rating = wordMastery[item.spanish] !== undefined ? wordMastery[item.spanish] : 2;
+      const weight = rating <= 2 ? 3 : 1;
+      for (let w = 0; w < weight; w++) {
+        weightedItems.push(item);
+      }
+    });
+
+    const getUniqueItems = (weighted, count, excludeSet = []) => {
+      const result = [];
+      const seen = new Set(excludeSet);
+      const shuffled = [...weighted].sort(() => Math.random() - 0.5);
+      for (let x of shuffled) {
+        if (!seen.has(x.spanish)) {
+          result.push(x);
+          seen.add(x.spanish);
+        }
+        if (result.length === count) break;
+      }
+      return result;
+    };
+
+    const stageItems = getUniqueItems(weightedItems, stageItemsRaw.length);
 
     const levelVal = state.questLevel;
     const seenWords = state.stageFlashcardsSeen || [];
     const unseenStageItems = stageItems.filter(item => !seenWords.includes(item.spanish));
 
-    // Calculate target card count we want for this level based on level progression
     const targetCardCount = state.isReviewReady ? 0 : Math.max(1, 16 - Math.floor((levelVal - 1) * 0.85));
-
-    // Capping cardCount to the number of unseen items so we never show repeated cards as introductions!
     const cardCount = Math.min(targetCardCount, unseenStageItems.length);
     const quizCount = 20 - cardCount;
 
     let finalQuestions = [];
-
-    // --- Generate Flashcard Steps ---
     const selectedFlashcards = [];
 
     if (cardCount > 0) {
-      // Shuffle unseen pool
       unseenStageItems.sort(() => Math.random() - 0.5);
       const takeUnseen = unseenStageItems.slice(0, cardCount);
       selectedFlashcards.push(...takeUnseen);
 
-      // Mark the newly seen ones
       const newlySeen = takeUnseen.map(item => item.spanish);
       if (newlySeen.length > 0 && markFlashcardsSeen) {
         markFlashcardsSeen(newlySeen);
@@ -452,24 +522,18 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
       isCardIntro: true
     }));
 
-    // --- Generate Quiz Steps ---
-    // Quiz questions must only draw from words that are already in seenWords 
-    // OR are being introduced in this active level (selectedFlashcards)!
     const currentlyIntroduced = selectedFlashcards.map(item => item.spanish);
     const eligibleStageItems = stageItems.filter(item => 
       seenWords.includes(item.spanish) || currentlyIntroduced.includes(item.spanish)
     );
 
-    // Fallback: If eligibleStageItems is empty, use all stageItems
     const stageQuizPool = eligibleStageItems.length > 0 ? eligibleStageItems : stageItems;
 
     let quizItems = [];
     if (state.isReviewReady) {
-      // Review mode: 20 quiz questions from current stage (no flashcards)
       const shuffledStage = [...stageItems].sort(() => Math.random() - 0.5);
       quizItems = shuffledStage.slice(0, 20);
       
-      // Backfill if current stage has fewer than 20 words
       if (quizItems.length < 20) {
         const needed = 20 - quizItems.length;
         const extraPool = vocabularyData.filter(item => !activeStage.subcategories.includes(item.subcategory));
@@ -477,7 +541,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
         quizItems = [...quizItems, ...extraItems];
       }
     } else {
-      // Normal mode: mix current stage words and review items
       const currentQuizCount = Math.ceil(quizCount * 0.6);
       const reviewQuizCount = quizCount - currentQuizCount;
 
@@ -493,12 +556,10 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
         const pastItems = vocabularyData.filter(item => 
           pastSubcategories.includes(item.subcategory)
         );
-        // Past items are automatically eligible because they were introduced in previous stages
         const shuffledPast = pastItems.sort(() => Math.random() - 0.5);
         reviewQuizItems = shuffledPast.slice(0, reviewQuizCount);
       }
 
-      // Backfill current items if review items are not enough
       if (reviewQuizItems.length < reviewQuizCount) {
         const needed = reviewQuizCount - reviewQuizItems.length;
         const extra = shuffledCurrent.slice(currentQuizCount, currentQuizCount + needed);
@@ -509,11 +570,8 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
     }
 
     const quizSteps = quizItems.map(item => buildProgressiveQuizStep(item, levelVal));
-
-    // Combine and shuffle organically
     finalQuestions = [...cardSteps, ...quizSteps].sort(() => Math.random() - 0.5);
 
-    // Make sure we have exactly 20
     if (finalQuestions.length < 20) {
       const needed = 20 - finalQuestions.length;
       const backfills = stageItems.sort(() => Math.random() - 0.5).slice(0, needed).map(item => buildProgressiveQuizStep(item, levelVal));
@@ -534,82 +592,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
     setQuestFailMsg("");
   };
 
-  const buildQuizStep = (item) => {
-    if (item.category === "Sentences") {
-      const fillSpec = generateFillInTheBlank(item);
-      if (fillSpec) {
-        return {
-          item,
-          isCardIntro: false,
-          isConjugation: false,
-          isFillInTheBlank: true,
-          questionWord: fillSpec.sentence,
-          meaning: fillSpec.meaning,
-          correct: fillSpec.correct,
-          choices: fillSpec.choices
-        };
-      }
-    }
-
-    const isVerb = item.category === "Verbs" && item.subcategory !== "Verbs Structured Like Gustar";
-    // If it's a verb stage and not excluded, do conjugation with 40% probability
-    const wantsConjugation = isVerb && !state.excludeVosotros && Math.random() > 0.6;
-
-    if (wantsConjugation) {
-      const qSpec = generateConjugationQuestion(item, { excludeVosotros: state.excludeVosotros });
-      if (qSpec) {
-        return {
-          item,
-          isCardIntro: false,
-          isConjugation: true,
-          questionWord: qSpec.verb,
-          meaning: qSpec.meaning,
-          pronoun: qSpec.pronoun,
-          correct: qSpec.correct,
-          choices: qSpec.choices
-        };
-      }
-    }
-
-    // Determine type: 0 = MC es->en, 1 = MC en->es, 2 = written en->es (typing!)
-    let qType = Math.floor(Math.random() * 3);
-    if (qType === 2 && (item.spanish.includes("/") || item.spanish.includes("(") || item.spanish.length > 25)) {
-      qType = Math.random() > 0.5 ? 0 : 1;
-    }
-
-    const isEsToEn = qType === 0;
-    const correctText = isEsToEn ? formatEnglishPrompt(item.spanish, item.english) : item.spanish;
-    const questionText = isEsToEn ? item.spanish : formatEnglishPrompt(item.spanish, item.english);
-
-    // distractor choices
-    const distractors = [];
-    while (distractors.length < 3) {
-      const rand = vocabularyData[Math.floor(Math.random() * vocabularyData.length)];
-      const val = isEsToEn ? formatEnglishPrompt(rand.spanish, rand.english) : rand.spanish;
-      if (
-        val.toLowerCase() !== correctText.toLowerCase() && 
-        !distractors.includes(val) &&
-        val.length < 35
-      ) {
-        distractors.push(val);
-      }
-    }
-    const choices = [correctText, ...distractors].sort(() => Math.random() - 0.5);
-
-    return {
-      item,
-      isCardIntro: false,
-      isConjugation: false,
-      type: qType,
-      questionWord: questionText,
-      correct: correctText,
-      choices: choices
-    };
-  };
-
-  // -------------------------------------------------------------
-  // ACCENT CHARACTERS INSERTION HELPERS
-  // -------------------------------------------------------------
   const handleQuestInsertAccent = (char) => {
     if (!questInputRef.current) return;
     const input = questInputRef.current;
@@ -646,36 +628,51 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
     if (questAnswered || !typedAnswer.trim()) return;
     setQuestAnswered(true);
 
-    const correctStr = questQuestions[questCurrentIdx].correct;
+    const currentQ = questQuestions[questCurrentIdx];
+    const correctStr = currentQ.correct;
     const userStr = typedAnswer;
-
     const isCorrect = compareAnswers(correctStr, userStr);
 
     if (isCorrect) {
       setQuestScore(prev => prev + 1);
-      setQuestSelected(correctStr); // sets selector value to match correct key
+      setQuestSelected(correctStr);
       setHealTrigger(true);
       playSound('correct');
       
-      const currentQ = questQuestions[questCurrentIdx];
-      if (recordWordAnsweredCorrectly && currentQ && currentQ.item) {
-        recordWordAnsweredCorrectly(currentQ.item.spanish);
+      // Update Leitner SRS
+      if (updateWordMastery && currentQ.item) {
+        updateWordMastery(currentQ.item.spanish, true);
       }
 
+      // Combo count increment
+      setComboCount(prev => {
+        const next = prev + 1;
+        setMaxCombo(m => Math.max(m, next));
+        return next;
+      });
+
+      if (recordWordAnsweredCorrectly && currentQ.item) {
+        recordWordAnsweredCorrectly(currentQ.item.spanish);
+      }
       setTimeout(() => setHealTrigger(false), 500);
     } else {
-      setQuestSelected(userStr); // marks it wrong
+      setQuestSelected(userStr);
       setShakeTrigger(true);
       playSound('wrong');
       
-      // Track missed question
-      const currentQ = questQuestions[questCurrentIdx];
+      setComboCount(0); // reset combo
+
+      // Update Leitner SRS
+      if (updateWordMastery && currentQ.item) {
+        updateWordMastery(currentQ.item.spanish, false);
+      }
+
       setQuestMissedQuestions(prev => {
         if (prev.some(q => q.questionWord === currentQ.questionWord)) return prev;
         return [...prev, currentQ];
       });
 
-      if (addMistake && currentQ && currentQ.item) {
+      if (addMistake && currentQ.item) {
         addMistake(currentQ.item.spanish);
       }
 
@@ -689,9 +686,9 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
     if (practiceAnswered || !practiceTyped.trim()) return;
     setPracticeAnswered(true);
 
-    const correctStr = practiceQuestions[practiceCurrentIdx].correct;
+    const currentQ = practiceQuestions[practiceCurrentIdx];
+    const correctStr = currentQ.correct;
     const userStr = practiceTyped;
-
     const isCorrect = compareAnswers(correctStr, userStr);
 
     if (isCorrect) {
@@ -699,13 +696,18 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
       setPracticeSelected(correctStr);
       setHealTrigger(true);
       playSound('correct');
+      if (updateWordMastery && currentQ.item) {
+        updateWordMastery(currentQ.item.spanish, true);
+      }
       setTimeout(() => setHealTrigger(false), 500);
     } else {
       setPracticeSelected(userStr);
       setShakeTrigger(true);
       playSound('wrong');
-      const currentQ = practiceQuestions[practiceCurrentIdx];
-      if (addMistake && currentQ && currentQ.item) {
+      if (updateWordMastery && currentQ.item) {
+        updateWordMastery(currentQ.item.spanish, false);
+      }
+      if (addMistake && currentQ.item) {
         addMistake(currentQ.item.spanish);
       }
       if (!state.fainted) takeDamage(15);
@@ -713,9 +715,8 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
     }
   };
 
-  // User Actions during Quest
   const handleQuestCardLearned = () => {
-    addXp(2); // safe card intro gives small XP
+    addXp(2);
     setHealTrigger(true);
     setTimeout(() => setHealTrigger(false), 500);
 
@@ -732,30 +733,44 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
     setQuestSelected(choice);
     setQuestAnswered(true);
 
-    const isCorrect = choice.trim().toLowerCase() === questQuestions[questCurrentIdx].correct.trim().toLowerCase();
+    const currentQ = questQuestions[questCurrentIdx];
+    const isCorrect = choice.trim().toLowerCase() === currentQ.correct.trim().toLowerCase();
 
     if (isCorrect) {
       setQuestScore(prev => prev + 1);
       setHealTrigger(true);
       playSound('correct');
       
-      if (recordWordAnsweredCorrectly && currentQuestQ && currentQuestQ.item) {
-        recordWordAnsweredCorrectly(currentQuestQ.item.spanish);
+      if (updateWordMastery && currentQ.item) {
+        updateWordMastery(currentQ.item.spanish, true);
       }
 
+      setComboCount(prev => {
+        const next = prev + 1;
+        setMaxCombo(m => Math.max(m, next));
+        return next;
+      });
+
+      if (recordWordAnsweredCorrectly && currentQ.item) {
+        recordWordAnsweredCorrectly(currentQ.item.spanish);
+      }
       setTimeout(() => setHealTrigger(false), 500);
     } else {
       setShakeTrigger(true);
       playSound('wrong');
-      
-      // Track missed question
+      setComboCount(0);
+
+      if (updateWordMastery && currentQ.item) {
+        updateWordMastery(currentQ.item.spanish, false);
+      }
+
       setQuestMissedQuestions(prev => {
-        if (prev.some(q => q.questionWord === currentQuestQ.questionWord)) return prev;
-        return [...prev, currentQuestQ];
+        if (prev.some(q => q.questionWord === currentQ.questionWord)) return prev;
+        return [...prev, currentQ];
       });
 
-      if (addMistake && currentQuestQ && currentQuestQ.item) {
-        addMistake(currentQuestQ.item.spanish);
+      if (addMistake && currentQ.item) {
+        addMistake(currentQ.item.spanish);
       }
 
       takeDamage(15);
@@ -775,7 +790,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
     }
   };
 
-  // Redemption Quiz Action Handlers
   const handleRedemptionAnswer = (choice) => {
     if (redemptionAnswered) return;
     setRedemptionAnswered(true);
@@ -801,7 +815,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
     const currentQ = redemptionQuestions[redemptionCurrentIdx];
     const correctStr = currentQ.correct;
     const userStr = redemptionTyped;
-
     const isCorrect = cleanAnswer(correctStr) === cleanAnswer(userStr);
     setRedemptionSelected(userStr);
 
@@ -853,28 +866,53 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
     setQuestStarted(false);
     setQuestFinished(true);
 
-    // Compute active questions count (ignoring card intros)
     const quizQuestionsCount = questQuestions.filter(q => !q.isCardIntro).length;
 
+    // Apply Combo streak multiplier
+    let comboMultiplier = 1.0;
+    if (maxCombo >= 10) comboMultiplier = 2.0; // 2x rewards for 10 combo streak
+    else if (maxCombo >= 5) comboMultiplier = 1.75;
+    else if (maxCombo >= 3) comboMultiplier = 1.5;
+
+    let baseGoldReward = state.isReviewReady ? 50 : 12;
+    let baseXpReward = state.isReviewReady ? 200 : 60;
+
+    let totalGoldEarned = baseGoldReward;
+    let totalXpEarned = baseXpReward;
+
     if (state.isReviewReady) {
-      // Stage Review gate check
-      const passingRequired = Math.ceil(quizQuestionsCount * 0.7);
+      const passingRequired = Math.ceil(quizQuestionsCount * 0.8); // 80% Boss Review Gate
       const success = passStageReview(questScore, quizQuestionsCount);
       recordQuizPerformance(questScore, quizQuestionsCount);
       if (success) {
-        setQuestSuccessMsg(`¡Excelente! You passed the Review Gate with ${questScore}/${quizQuestionsCount}! You unlocked the next stage and gained bonuses!`);
+        if (comboMultiplier > 1.0) {
+          const extraGold = Math.ceil(baseGoldReward * (comboMultiplier - 1));
+          const extraXp = Math.ceil(baseXpReward * (comboMultiplier - 1));
+          addGold(extraGold);
+          addXp(extraXp);
+          totalGoldEarned += extraGold;
+          totalXpEarned += extraXp;
+        }
+        setQuestSuccessMsg(`¡Excelente! You passed the Review Gate with ${questScore}/${quizQuestionsCount} (${Math.round((questScore/quizQuestionsCount)*100)}%)! Gained ${totalGoldEarned} G & ${totalXpEarned} XP! Next stage unlocked! (Streak Combo Multiplier: ${comboMultiplier}x)`);
       } else {
-        setQuestFailMsg(`Gate Failed! Review Quizzes require a score of 70% or higher (${passingRequired}/${quizQuestionsCount}). You must retake the review.`);
+        setQuestFailMsg(`Gate Failed! Boss reviews require 80% score or higher (${passingRequired}/${quizQuestionsCount}). Please practice and try again.`);
       }
     } else {
-      // Normal Quest level check
       const passingRequired = Math.ceil(quizQuestionsCount * 0.6);
       const success = advanceQuest(questScore, quizQuestionsCount);
       recordQuizPerformance(questScore, quizQuestionsCount);
       if (success) {
-        setQuestSuccessMsg(`Quest Level Cleared! Gained XP and Gold. You scored ${questScore}/${quizQuestionsCount} on vocabulary challenges!`);
+        if (comboMultiplier > 1.0) {
+          const extraGold = Math.ceil(baseGoldReward * (comboMultiplier - 1));
+          const extraXp = Math.ceil(baseXpReward * (comboMultiplier - 1));
+          addGold(extraGold);
+          addXp(extraXp);
+          totalGoldEarned += extraGold;
+          totalXpEarned += extraXp;
+        }
+        setQuestSuccessMsg(`Quest Level Cleared! You scored ${questScore}/${quizQuestionsCount} correct! Gained ${totalGoldEarned} G & ${totalXpEarned} XP. (Streak Combo Multiplier: ${comboMultiplier}x)`);
       } else {
-        setQuestFailMsg(`Quest Failed! You missed 40% or more (score: ${questScore}/${quizQuestionsCount}, required: ${passingRequired}/${quizQuestionsCount}). You must repeat this level.`);
+        setQuestFailMsg(`Quest Failed! You missed 40% or more (Score: ${questScore}/${quizQuestionsCount}, Required: ${passingRequired}/${quizQuestionsCount}).`);
       }
     }
   };
@@ -923,7 +961,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
         }
       }
 
-      // Default Translation Quiz (MC or typing)
       let qType = Math.floor(Math.random() * 3);
       if (qType === 2 && (item.spanish.includes("/") || item.spanish.includes("(") || item.spanish.length > 25)) {
         qType = Math.random() > 0.5 ? 0 : 1;
@@ -967,30 +1004,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
     setPracticeQuizStarted(true);
   };
 
-  const handlePracticeAnswer = (choice) => {
-    if (practiceAnswered) return;
-    setPracticeSelected(choice);
-    setPracticeAnswered(true);
-
-    const isCorrect = choice.trim().toLowerCase() === practiceQuestions[practiceCurrentIdx].correct.trim().toLowerCase();
-
-    if (isCorrect) {
-      setPracticeScore(prev => prev + 1);
-      setHealTrigger(true);
-      playSound('correct');
-      setTimeout(() => setHealTrigger(false), 500);
-    } else {
-      setShakeTrigger(true);
-      playSound('wrong');
-      const currentQ = practiceQuestions[practiceCurrentIdx];
-      if (addMistake && currentQ && currentQ.item) {
-        addMistake(currentQ.item.spanish);
-      }
-      if (!state.fainted) takeDamage(15);
-      setTimeout(() => setShakeTrigger(false), 500);
-    }
-  };
-
   const handlePracticeNext = () => {
     setPracticeSelected(null);
     setPracticeAnswered(false);
@@ -999,7 +1012,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
     if (practiceCurrentIdx < practiceQuestions.length - 1) {
       setPracticeCurrentIdx(prev => prev + 1);
     } else {
-      // Finish Custom Quiz
       const earnedXp = practiceScore * 10;
       const earnedGold = practiceScore;
       addXp(earnedXp);
@@ -1009,7 +1021,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
     }
   };
 
-  // Determine stage visual styling
   const activeStageSpec = STAGES[state.questStage];
   const maxStageProgress = 19;
   const stageProgressPct = Math.round((Math.min(19, state.questLevel - 1) / maxStageProgress) * 100);
@@ -1017,13 +1028,30 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
   const currentQuestQ = questQuestions[questCurrentIdx];
   const shakeClass = shakeTrigger ? "shake damage-flash" : healTrigger ? "heal-flash" : "";
 
-  // Helper flags for case-insensitive and punctuation-insensitive correctness evaluation in templates
   const isQuestUserCorrect = questAnswered && currentQuestQ && (
     compareAnswers(currentQuestQ.correct, questSelected)
   );
   const isPracticeUserCorrect = practiceAnswered && practiceQuestions[practiceCurrentIdx] && (
     compareAnswers(practiceQuestions[practiceCurrentIdx].correct, practiceSelected)
   );
+
+  // RPG Sprite calculations
+  const getHeroSprite = (level) => {
+    if (level >= 15) return "🧙‍♂️✨";
+    if (level >= 10) return "🛡️⚔️";
+    if (level >= 5) return "⚔️";
+    return "🎒";
+  };
+
+  const getMonsterSprite = (category) => {
+    if (category === "Verbs") return "😈";
+    if (category === "Sentences") return "🐉";
+    return "👻";
+  };
+
+  const monsterHpPct = currentQuestQ 
+    ? Math.max(0, Math.round(((questQuestions.length - questCurrentIdx) / questQuestions.length) * 100))
+    : 100;
 
   return (
     <div className={`view-container ${shakeClass}`} style={{ transition: 'background-color 0.25s ease' }}>
@@ -1080,7 +1108,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
       {activeTab === "quest" && !questStarted && !redemptionActive && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           
-          {/* Quest Status Summary card */}
           {questFinished && (
             <div 
               className="glass-panel" 
@@ -1110,7 +1137,7 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
                     <div style={{ borderLeft: '1px solid rgba(255,255,255,0.1)' }}></div>
                     <div>
                       <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>Loot Gained</span>
-                      <strong style={{ fontSize: '1.2rem', color: 'var(--gold)' }}>+{state.isReviewReady ? 30 : 8} Gold</strong>
+                      <strong style={{ fontSize: '1.2rem', color: 'var(--gold)' }}>+{state.isReviewReady ? 50 : 12} Gold</strong>
                     </div>
                   </>
                 )}
@@ -1122,7 +1149,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
             </div>
           )}
 
-          {/* Normal Quest Dashboard panel */}
           {!questFinished && activeStageSpec && (
             <div className="glass-panel" style={{ padding: '30px', maxWidth: '650px', margin: '0 auto', textAlign: 'center' }}>
               <div style={{ fontSize: '3rem', marginBottom: '8px', animation: 'float 3s ease-in-out infinite' }}>🗺️</div>
@@ -1158,13 +1184,12 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
               </div>
 
               {state.isReviewReady ? (
-                /* REVIEW GATE BLOCKED */
                 <div style={{ background: 'rgba(239, 68, 68, 0.03)', border: '1px solid rgba(239, 68, 68, 0.2)', padding: '20px', borderRadius: '16px', marginBottom: '24px' }}>
                   <h4 style={{ color: 'var(--danger)', fontFamily: 'var(--font-display)', fontSize: '1.1rem', marginBottom: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
                     🛡️ Stage Review Gate Active
                   </h4>
                   <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>
-                    You have unlocked all content in Stage {state.questStage}! To level up to Stage {state.questStage + 1}, you must pass the Review Gate. <strong>No freebie flashcard questions. Score 14/20 or higher to pass.</strong>
+                    You have unlocked all content in Stage {state.questStage}! To level up to Stage {state.questStage + 1}, you must pass the Review Gate. <strong>Requires a strict 80% passing grade (16/20 or higher) to pass.</strong>
                   </p>
                 </div>
               ) : (
@@ -1195,7 +1220,19 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
           ACTIVE QUEST GAMEPLAY SCREEN
           ------------------------------------------------------------- */}
       {questStarted && currentQuestQ && (
-        <div className="glass-panel quiz-box">
+        <div 
+          className="glass-panel quiz-box"
+          style={{
+            boxShadow: comboCount >= 10 
+              ? '0 0 35px rgba(239, 68, 68, 0.4)' 
+              : comboCount >= 5 
+                ? '0 0 25px rgba(249, 115, 22, 0.3)' 
+                : comboCount >= 3 
+                  ? '0 0 15px rgba(250, 204, 21, 0.2)' 
+                  : 'none',
+            border: comboCount >= 3 ? '1.5px solid var(--gold)' : '1px solid var(--card-border)'
+          }}
+        >
           
           {/* Header HP details */}
           <div className="quiz-header">
@@ -1216,8 +1253,51 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
             <div className="quiz-progress-fill" style={{ width: `${((questCurrentIdx + 1) / questQuestions.length) * 100}%` }}></div>
           </div>
 
+          {/* RPG Battle Scene Panel */}
+          {!currentQuestQ.isCardIntro && (
+            <div 
+              style={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center', 
+                background: 'rgba(0,0,0,0.2)', 
+                padding: '12px 18px', 
+                borderRadius: '12px', 
+                marginBottom: '16px',
+                border: '1px solid rgba(255,255,255,0.05)',
+                position: 'relative',
+                overflow: 'hidden'
+              }}
+            >
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '2.2rem', marginBottom: '4px' }}>{getHeroSprite(state.level)}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>You (Lv. {state.level})</div>
+              </div>
+
+              {/* Combo Streaks Banner */}
+              {comboCount >= 3 ? (
+                <div style={{ textAlign: 'center', animation: 'pulse 1s infinite' }}>
+                  <div style={{ fontSize: '1rem', color: '#f97316', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em' }}>🔥 STREAK COMBO 🔥</div>
+                  <div style={{ fontSize: '1.4rem', color: 'var(--gold)', fontWeight: 'bold' }}>x{comboCount}</div>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>
+                    {comboCount >= 10 ? '2.0x Gold/XP' : comboCount >= 5 ? '1.75x Gold/XP' : '1.5x Gold/XP'}
+                  </div>
+                </div>
+              ) : (
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>VS Vocab Monster</div>
+              )}
+
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '2.2rem', marginBottom: '4px' }}>{getMonsterSprite(currentQuestQ.item?.category)}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>HP: {monsterHpPct}%</div>
+                <div style={{ width: '60px', height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px', overflow: 'hidden', margin: '4px auto 0' }}>
+                  <div style={{ width: `${monsterHpPct}%`, height: '100%', background: 'var(--danger)' }}></div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {currentQuestQ.isCardIntro ? (
-            /* 1. Flashcard Intro Step */
             <div style={{ textAlign: 'center', animation: 'pop-in 0.3s ease-out' }}>
               <div 
                 className="flashcard-wrapper"
@@ -1228,6 +1308,18 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
                   <div className="flashcard-face flashcard-front">
                     <span className="flashcard-category">Preview New Word (+2 XP)</span>
                     <h3 className="flashcard-term" style={{ fontSize: '2rem' }}>{currentQuestQ.item.spanish}</h3>
+                    
+                    {currentQuestQ.item?.category === "Verbs" && (
+                      <button 
+                        type="button"
+                        className="btn btn-secondary btn-sm"
+                        onClick={(e) => { e.stopPropagation(); setCodexVerb(currentQuestQ.item.spanish); }}
+                        style={{ position: 'absolute', top: '16px', right: '16px', padding: '6px 12px', fontSize: '0.75rem', gap: '4px' }}
+                      >
+                        📖 Codex
+                      </button>
+                    )}
+
                     {speechAvailable && (
                       <button 
                         className="btn btn-secondary"
@@ -1253,7 +1345,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
               </button>
             </div>
           ) : (
-            /* 2. Quiz Challenge Step */
             <div>
               <div className="quiz-question-card">
                 {currentQuestQ.isConjugation ? (
@@ -1278,6 +1369,17 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
                     </div>
                     <h3 className="quiz-word">{currentQuestQ.questionWord}</h3>
                   </>
+                )}
+                
+                {currentQuestQ.item?.category === "Verbs" && (
+                  <button 
+                    type="button"
+                    className="btn btn-secondary btn-sm"
+                    onClick={() => setCodexVerb(currentQuestQ.item.spanish)}
+                    style={{ padding: '4px 10px', fontSize: '0.75rem', margin: '10px auto 0', display: 'flex', alignItems: 'center', gap: '4px', width: 'fit-content' }}
+                  >
+                    📖 Ver Conjugaciones
+                  </button>
                 )}
               </div>
 
@@ -1308,17 +1410,30 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
               ) : (
                 <form onSubmit={handleQuestSubmitTyped}>
                   <div className="quiz-input-wrapper" style={{ marginTop: '16px' }}>
-                    <input
-                      type="text"
-                      ref={questInputRef}
-                      placeholder="Type the Spanish translation..."
-                      value={typedAnswer}
-                      onChange={(e) => setTypedAnswer(e.target.value)}
-                      disabled={questAnswered}
-                      className={`quiz-input ${questAnswered ? (isQuestUserCorrect ? 'correct' : 'wrong') : ''}`}
-                      style={{ width: '100%', padding: '14px', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--card-border)', borderRadius: '12px', color: 'var(--text-primary)', fontSize: '1.1rem', outline: 'none' }}
-                      autoFocus
-                    />
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <input
+                        type="text"
+                        ref={questInputRef}
+                        placeholder="Type the Spanish translation..."
+                        value={typedAnswer}
+                        onChange={(e) => setTypedAnswer(e.target.value)}
+                        disabled={questAnswered}
+                        className={`quiz-input ${questAnswered ? (isQuestUserCorrect ? 'correct' : 'wrong') : ''}`}
+                        style={{ flex: 1, padding: '14px', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--card-border)', borderRadius: '12px', color: 'var(--text-primary)', fontSize: '1.1rem', outline: 'none' }}
+                        autoFocus
+                      />
+                      
+                      {/* Speech Rec Button */}
+                      <button 
+                        type="button" 
+                        className={`btn ${isListening ? 'btn-danger pulse' : 'btn-secondary'}`}
+                        disabled={questAnswered}
+                        onClick={() => handleVoiceInput("quest")}
+                        style={{ padding: '12px', borderRadius: '12px' }}
+                      >
+                        🎤
+                      </button>
+                    </div>
                     
                     {/* Accent Buttons row */}
                     <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginTop: '10px', justifyContent: 'center' }}>
@@ -1351,8 +1466,8 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
                   style={{ animation: 'pop-in 0.3s ease-out' }}
                 >
                   {isQuestUserCorrect 
-                    ? "¡Correcto! +10 XP | +1 Gold" 
-                    : `Incorrecto! -15 HP. Correct translation: "${currentQuestQ.correct}"`
+                    ? `¡Correcto! ${comboCount >= 3 ? `Combo Streak ${comboCount}! ` : ''}` 
+                    : `Incorrecto! Correct translation: "${currentQuestQ.correct}"`
                   }
                   <button className="btn btn-primary" onClick={handleQuestNext} style={{ width: '100%', marginTop: '16px' }}>
                     {questCurrentIdx === questQuestions.length - 1 ? "Finish Quest" : "Next Challenge"} <ArrowRight size={16} />
@@ -1370,7 +1485,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
       {activeTab === "practice" && !practiceQuizStarted && !redemptionActive && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           
-          {/* Selector Header panel */}
           <div className="glass-panel" style={{ padding: '20px' }}>
             <div className="study-selector-row">
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
@@ -1403,7 +1517,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
                   </button>
                 )}
                 
-                {/* Practice Mode Selector Toggle */}
                 <div style={{ display: 'flex', gap: '4px', background: 'rgba(255,255,255,0.03)', padding: '4px', borderRadius: '10px' }}>
                   <button 
                     className={`btn ${practiceMode === 'cards' ? 'btn-primary' : 'btn-secondary'}`}
@@ -1424,7 +1537,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
             </div>
           </div>
 
-          {/* Flashcard practice deck */}
           {practiceMode === "cards" && (
             practiceCards.length > 0 && practiceCards[practiceCurrentIdx] ? (
               <div style={{ textAlign: 'center' }}>
@@ -1434,6 +1546,18 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
                     <div className="flashcard-face flashcard-front">
                       <span className="flashcard-category">{selectedSubcategory}</span>
                       <h3 className="flashcard-term">{practiceCards[practiceCurrentIdx].spanish}</h3>
+                      
+                      {practiceCards[practiceCurrentIdx]?.category === "Verbs" && (
+                        <button 
+                          type="button"
+                          className="btn btn-secondary btn-sm"
+                          onClick={(e) => { e.stopPropagation(); setCodexVerb(practiceCards[practiceCurrentIdx].spanish); }}
+                          style={{ position: 'absolute', top: '16px', right: '16px', padding: '6px 12px', fontSize: '0.75rem', gap: '4px' }}
+                        >
+                          📖 Codex
+                        </button>
+                      )}
+
                       {speechAvailable && (
                         <button 
                           className="btn btn-secondary"
@@ -1483,7 +1607,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
             )
           )}
 
-          {/* Quiz practice setups */}
           {practiceMode === "quiz" && (
             <div className="glass-panel" style={{ padding: '30px', textAlign: 'center', maxWidth: '550px', margin: '0 auto' }}>
               <Swords size={36} color="var(--primary)" style={{ margin: '0 auto 12px' }} />
@@ -1492,7 +1615,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
                 Test yourself in: <strong>{selectedSubcategory}</strong>. You will receive 10 questions. Errors deal damage to your HP!
               </p>
 
-              {/* Quiz conjugation option toggle */}
               {selectedCategory === "Verbs" && selectedSubcategory !== "Verbs Structured Like Gustar" && (
                 <div className="form-group" style={{ maxWidth: '280px', margin: '0 auto 20px', background: 'rgba(255,255,255,0.02)', padding: '10px', borderRadius: '12px', border: '1px solid var(--card-border)' }}>
                   <label className="form-label" style={{ marginBottom: '6px', fontSize: '0.8rem' }}>Quiz Type</label>
@@ -1522,7 +1644,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
         <div className="glass-panel quiz-box">
           
           {practiceQuizFinished ? (
-            /* Practice Finished Screen */
             <div style={{ textAlign: 'center', padding: '10px' }}>
               <Award size={64} color="var(--gold)" style={{ margin: '0 auto 16px', animation: 'float 3s ease-in-out' }} />
               <h3 style={{ fontSize: '1.6rem', fontFamily: 'var(--font-display)', marginBottom: '8px' }}>Practice Complete!</h3>
@@ -1550,7 +1671,6 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
               </div>
             </div>
           ) : (
-            /* Practice Active Card */
             <div>
               <div className="quiz-header">
                 <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
@@ -1578,6 +1698,15 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
                   <div style={{ display: 'inline-block', background: 'rgba(250, 204, 21, 0.1)', padding: '6px 14px', borderRadius: '16px', color: 'var(--gold)', fontWeight: 'bold', fontSize: '0.9rem' }}>
                     Pronoun: {practiceQuestions[practiceCurrentIdx].pronoun}
                   </div>
+                  
+                  <button 
+                    type="button"
+                    className="btn btn-secondary btn-sm"
+                    onClick={() => setCodexVerb(practiceQuestions[practiceCurrentIdx].item.spanish)}
+                    style={{ padding: '4px 10px', fontSize: '0.75rem', margin: '10px auto 0', display: 'flex', alignItems: 'center', gap: '4px', width: 'fit-content' }}
+                  >
+                    📖 Ver Conjugaciones
+                  </button>
                 </div>
               ) : practiceQuestions[practiceCurrentIdx]?.isFillInTheBlank ? (
                 <div className="quiz-question-card">
@@ -1591,6 +1720,17 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
                     {practiceQuestions[practiceCurrentIdx]?.type === 2 ? "Type the Spanish translation:" : "Choose correct translation:"}
                   </div>
                   <h3 className="quiz-word">{practiceQuestions[practiceCurrentIdx]?.questionWord}</h3>
+                  
+                  {practiceQuestions[practiceCurrentIdx]?.item?.category === "Verbs" && (
+                    <button 
+                      type="button"
+                      className="btn btn-secondary btn-sm"
+                      onClick={() => setCodexVerb(practiceQuestions[practiceCurrentIdx].item.spanish)}
+                      style={{ padding: '4px 10px', fontSize: '0.75rem', margin: '10px auto 0', display: 'flex', alignItems: 'center', gap: '4px', width: 'fit-content' }}
+                    >
+                      📖 Ver Conjugaciones
+                    </button>
+                  )}
                 </div>
               )}
 
@@ -1621,17 +1761,28 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
               ) : (
                 <form onSubmit={handlePracticeSubmitTyped}>
                   <div className="quiz-input-wrapper" style={{ marginTop: '16px' }}>
-                    <input
-                      type="text"
-                      ref={practiceInputRef}
-                      placeholder="Type the Spanish translation..."
-                      value={practiceTyped}
-                      onChange={(e) => setPracticeTyped(e.target.value)}
-                      disabled={practiceAnswered}
-                      className={`quiz-input ${practiceAnswered ? (isPracticeUserCorrect ? 'correct' : 'wrong') : ''}`}
-                      style={{ width: '100%', padding: '14px', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--card-border)', borderRadius: '12px', color: 'var(--text-primary)', fontSize: '1.1rem', outline: 'none' }}
-                      autoFocus
-                    />
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <input
+                        type="text"
+                        ref={practiceInputRef}
+                        placeholder="Type the Spanish translation..."
+                        value={practiceTyped}
+                        onChange={(e) => setPracticeTyped(e.target.value)}
+                        disabled={practiceAnswered}
+                        className={`quiz-input ${practiceAnswered ? (isPracticeUserCorrect ? 'correct' : 'wrong') : ''}`}
+                        style={{ flex: 1, padding: '14px', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--card-border)', borderRadius: '12px', color: 'var(--text-primary)', fontSize: '1.1rem', outline: 'none' }}
+                        autoFocus
+                      />
+                      <button 
+                        type="button" 
+                        className={`btn ${isListening ? 'btn-danger pulse' : 'btn-secondary'}`}
+                        disabled={practiceAnswered}
+                        onClick={() => handleVoiceInput("practice")}
+                        style={{ padding: '12px', borderRadius: '12px' }}
+                      >
+                        🎤
+                      </button>
+                    </div>
                     
                     {/* Accent Buttons row */}
                     <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginTop: '10px', justifyContent: 'center' }}>
@@ -1665,7 +1816,7 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
                 >
                   {isPracticeUserCorrect 
                     ? "¡Correcto! +10 XP | +1 Gold" 
-                    : `Incorrecto! -15 HP. Correct Answer: "${practiceQuestions[practiceCurrentIdx].correct}"`
+                    : `Incorrecto! Correct Answer: "${practiceQuestions[practiceCurrentIdx].correct}"`
                   }
                   <button className="btn btn-primary" onClick={handlePracticeNext} style={{ width: '100%', marginTop: '16px' }}>
                     Next Question <ArrowRight size={16} />
@@ -1845,6 +1996,57 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
               </div>
             );
           })()}
+        </div>
+      )}
+
+      {/* -------------------------------------------------------------
+          CONJUGATION CODEX VERB CHART POPUP MODAL
+          ------------------------------------------------------------- */}
+      {codexVerb && (
+        <div className="modal-overlay" style={{ zIndex: 9999 }}>
+          <div className="glass-panel modal-content" style={{ animation: 'pop-in 0.3s ease-out', maxWidth: '400px', width: '90%' }}>
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', color: 'var(--primary)', marginBottom: '4px' }}>
+              📖 Codex de Conjugación
+            </h3>
+            <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '16px' }}>
+              Present tense forms for verb: <strong>"{codexVerb}"</strong>
+            </p>
+            
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem', textAlign: 'left' }}>
+              <thead>
+                <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+                  <th style={{ padding: '8px', color: 'var(--text-secondary)' }}>Pronombre</th>
+                  <th style={{ padding: '8px', color: 'var(--primary)', fontWeight: 'bold' }}>Forma</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { pronoun: "yo", translation: "I" },
+                  { pronoun: "tú", translation: "you (inf)" },
+                  { pronoun: "él / ella / usted", translation: "he/she/you (formal)" },
+                  { pronoun: "nosotros / nosotras", translation: "we" },
+                  { pronoun: "vosotros / vosotras", translation: "you all (Spain)" },
+                  { pronoun: "ellos / ellas / ustedes", translation: "they/you all" }
+                ].map((p, idx) => {
+                  const conjugated = conjugate(codexVerb, idx);
+                  return (
+                    <tr key={idx} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                      <td style={{ padding: '8px', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
+                        {p.pronoun} <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>({p.translation})</span>
+                      </td>
+                      <td style={{ padding: '8px', color: 'var(--text-primary)', fontWeight: 600 }}>
+                        {conjugated}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+            
+            <button className="btn btn-secondary" onClick={() => setCodexVerb(null)} style={{ marginTop: '20px', width: '100%' }}>
+              Cerrar Codex
+            </button>
+          </div>
         </div>
       )}
 

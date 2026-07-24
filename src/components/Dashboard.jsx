@@ -22,7 +22,7 @@ const RANKS = [
   { level: 15, title: "Leyenda del Léxico (Lexicon Legend)", icon: "👑" },
 ];
 
-export default function Dashboard({ state, useItem, setView, setStudyQuestTab, onOpenSettings }) {
+export default function Dashboard({ state, useItem, claimBounty, feedNarfy, playWithNarfy, setView, setStudyQuestTab, onOpenSettings }) {
   const rank = [...RANKS].reverse().find(r => state.level >= r.level) || RANKS[0];
   
   const xpNeeded = state.level * 100;
@@ -30,6 +30,8 @@ export default function Dashboard({ state, useItem, setView, setStudyQuestTab, o
   
   const hasPotions = (state.inventory.redPotion || 0) > 0;
   const hasElixirs = (state.inventory.goldenElixir || 0) > 0;
+
+  const maxHp = state.equipped?.ring === "ringOfLife" ? 150 : 100;
 
   const handleUsePotion = () => {
     useItem('redPotion');
@@ -71,8 +73,69 @@ export default function Dashboard({ state, useItem, setView, setStudyQuestTab, o
           </div>
         )}
 
+        {/* Daily Bounties Checklist */}
+        <div className="glass-panel" style={{ padding: '20px', border: '1px solid rgba(250, 204, 21, 0.15)', background: 'rgba(250, 204, 21, 0.02)' }}>
+          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', color: 'var(--gold)', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            ⚔️ Desafíos Diarios (Daily Bounties)
+          </h3>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', marginBottom: '16px' }}>Complete daily tasks to earn bonus Gold Coins (+50 G each)! Resets daily.</p>
+          
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '12px' }}>
+            {/* Quest bounty */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255, 255, 255, 0.01)', padding: '12px 16px', borderRadius: '12px', border: '1px solid var(--card-border)' }}>
+              <div>
+                <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)' }}>Doble Esfuerzo</span>
+                <p style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>Complete 2 quest levels: <strong>{Math.min(2, state.dailyBounties?.questCount || 0)} / 2</strong></p>
+              </div>
+              <div>
+                {state.dailyBounties?.claimed?.quest ? (
+                  <span style={{ fontSize: '0.75rem', color: 'var(--accent)', fontWeight: 'bold' }}>Claimed ✓</span>
+                ) : (state.dailyBounties?.questCount || 0) >= 2 ? (
+                  <button className="btn btn-accent btn-sm" onClick={() => claimBounty("quest")} style={{ padding: '4px 10px', fontSize: '0.75rem' }}>Claim 50 G</button>
+                ) : (
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Locked</span>
+                )}
+              </div>
+            </div>
+
+            {/* Chat bounty */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255, 255, 255, 0.01)', padding: '12px 16px', borderRadius: '12px', border: '1px solid var(--card-border)' }}>
+              <div>
+                <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)' }}>Habla con Elena</span>
+                <p style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>Send 3 chat messages: <strong>{Math.min(3, state.dailyBounties?.chatMessageCount || 0)} / 3</strong></p>
+              </div>
+              <div>
+                {state.dailyBounties?.claimed?.chat ? (
+                  <span style={{ fontSize: '0.75rem', color: 'var(--accent)', fontWeight: 'bold' }}>Claimed ✓</span>
+                ) : (state.dailyBounties?.chatMessageCount || 0) >= 3 ? (
+                  <button className="btn btn-accent btn-sm" onClick={() => claimBounty("chat")} style={{ padding: '4px 10px', fontSize: '0.75rem' }}>Claim 50 G</button>
+                ) : (
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Locked</span>
+                )}
+              </div>
+            </div>
+
+            {/* Minigame bounty */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255, 255, 255, 0.01)', padding: '12px 16px', borderRadius: '12px', border: '1px solid var(--card-border)' }}>
+              <div>
+                <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)' }}>Victoria Impecable</span>
+                <p style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>Win a mini-game: <strong>{state.dailyBounties?.perfectMiniGame ? "1 / 1" : "0 / 1"}</strong></p>
+              </div>
+              <div>
+                {state.dailyBounties?.claimed?.minigame ? (
+                  <span style={{ fontSize: '0.75rem', color: 'var(--accent)', fontWeight: 'bold' }}>Claimed ✓</span>
+                ) : state.dailyBounties?.perfectMiniGame ? (
+                  <button className="btn btn-accent btn-sm" onClick={() => claimBounty("minigame")} style={{ padding: '4px 10px', fontSize: '0.75rem' }}>Claim 50 G</button>
+                ) : (
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Locked</span>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="menu-grid">
-          {/* Card 1: Continue Quest (Progressive Campaign) */}
+          {/* Card 1: Continue Quest */}
           <div 
             className={`glass-panel menu-card accent-card ${state.fainted ? 'disabled' : ''}`}
             onClick={() => {
@@ -92,7 +155,7 @@ export default function Dashboard({ state, useItem, setView, setStudyQuestTab, o
             </div>
           </div>
 
-          {/* Card 2: Practice Deck (Flashcards & Custom Quizzes) */}
+          {/* Card 2: Practice Deck */}
           <div 
             className="glass-panel menu-card" 
             onClick={() => {
@@ -222,7 +285,7 @@ export default function Dashboard({ state, useItem, setView, setStudyQuestTab, o
           {/* Equipment Slots */}
           <div style={{ marginTop: '20px', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '16px', textAlign: 'left' }}>
             <h4 style={{ fontSize: '0.8rem', textTransform: 'uppercase', color: 'var(--text-secondary)', letterSpacing: '0.05em', marginBottom: '10px', fontWeight: 600 }}>Equipamiento (Gear)</h4>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '10px' }}>
               <div 
                 onClick={() => setView('shop')}
                 style={{ 
@@ -272,17 +335,68 @@ export default function Dashboard({ state, useItem, setView, setStudyQuestTab, o
                 <div style={{ fontSize: '0.65rem', color: state.equipped?.amulet ? 'var(--text-primary)' : 'var(--text-muted)' }}>Amuleto</div>
               </div>
             </div>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+              <div 
+                onClick={() => setView('shop')}
+                style={{ 
+                  background: 'rgba(255,255,255,0.02)', 
+                  border: state.equipped?.head ? '1px dashed var(--primary)' : '1px dashed rgba(255,255,255,0.1)', 
+                  borderRadius: '10px', 
+                  padding: '8px', 
+                  textAlign: 'center', 
+                  cursor: 'pointer',
+                  transition: 'var(--transition-smooth)'
+                }}
+                title={state.equipped?.head === 'crownOfLegend' ? "Crown of Legend (Trophy)" : "Click to go to Shop"}
+              >
+                <div style={{ fontSize: '1.2rem', marginBottom: '2px' }}>{state.equipped?.head === 'crownOfLegend' ? "👑" : "🫳"}</div>
+                <div style={{ fontSize: '0.65rem', color: state.equipped?.head ? 'var(--text-primary)' : 'var(--text-muted)' }}>Corona</div>
+              </div>
+              <div 
+                onClick={() => setView('shop')}
+                style={{ 
+                  background: 'rgba(255,255,255,0.02)', 
+                  border: state.equipped?.cloak ? '1px dashed var(--primary)' : '1px dashed rgba(255,255,255,0.1)', 
+                  borderRadius: '10px', 
+                  padding: '8px', 
+                  textAlign: 'center', 
+                  cursor: 'pointer',
+                  transition: 'var(--transition-smooth)'
+                }}
+                title={state.equipped?.cloak === 'cloakOfStealth' ? "Cloak of Stealth (15% dodge)" : "Click to go to Shop"}
+              >
+                <div style={{ fontSize: '1.2rem', marginBottom: '2px' }}>{state.equipped?.cloak === 'cloakOfStealth' ? "🧥" : "🫳"}</div>
+                <div style={{ fontSize: '0.65rem', color: state.equipped?.cloak ? 'var(--text-primary)' : 'var(--text-muted)' }}>Capa</div>
+              </div>
+              <div 
+                onClick={() => setView('shop')}
+                style={{ 
+                  background: 'rgba(255,255,255,0.02)', 
+                  border: state.equipped?.ring ? '1px dashed var(--primary)' : '1px dashed rgba(255,255,255,0.1)', 
+                  borderRadius: '10px', 
+                  padding: '8px', 
+                  textAlign: 'center', 
+                  cursor: 'pointer',
+                  transition: 'var(--transition-smooth)'
+                }}
+                title={state.equipped?.ring === 'ringOfLife' ? "Ring of Life (+50 Max HP)" : "Click to go to Shop"}
+              >
+                <div style={{ fontSize: '1.2rem', marginBottom: '2px' }}>{state.equipped?.ring === 'ringOfLife' ? "💍" : "🫳"}</div>
+                <div style={{ fontSize: '0.65rem', color: state.equipped?.ring ? 'var(--text-primary)' : 'var(--text-muted)' }}>Anillo</div>
+              </div>
+            </div>
           </div>
 
           <div className="stat-row">
             <div className="stat-label">
               <span>Salud (Health)</span>
               <span style={{ color: state.hp < 30 ? 'var(--danger)' : 'var(--text-primary)', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <Heart size={14} fill={state.hp < 30 ? 'var(--danger)' : 'currentColor'} /> {state.hp}/100
+                <Heart size={14} fill={state.hp < 30 ? 'var(--danger)' : 'currentColor'} /> {state.hp} / {maxHp}
               </span>
             </div>
             <div className="progress-bar-outer">
-              <div className="progress-bar-inner hp" style={{ width: `${state.hp}%` }}></div>
+              <div className="progress-bar-inner hp" style={{ width: `${(state.hp / maxHp) * 100}%` }}></div>
             </div>
           </div>
 
@@ -299,7 +413,7 @@ export default function Dashboard({ state, useItem, setView, setStudyQuestTab, o
 
         {/* Quick Inventory / Potion panel */}
         <div className="glass-panel" style={{ padding: '20px' }}>
-          <h4 style={{ fontFamily: 'var(--font-display)', marginBottom: '12px', fontSize: '1rem' }}>Mochila (Quick Items)</h4>
+          <h4 style={{ fontFamily: 'var(--font-display)', marginBottom: '12px', fontSize: '1rem' }}>Mochila (Quick Items & Pets)</h4>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.02)', padding: '8px 12px', borderRadius: '10px' }}>
               <div>
@@ -309,7 +423,7 @@ export default function Dashboard({ state, useItem, setView, setStudyQuestTab, o
               <button 
                 className="btn btn-primary" 
                 style={{ padding: '6px 12px', fontSize: '0.8rem', borderRadius: '8px' }}
-                disabled={hasPotions && state.hp >= 100 || state.fainted}
+                disabled={hasPotions && state.hp >= maxHp || state.fainted}
                 onClick={handleUsePotion}
               >
                 Use
@@ -324,7 +438,7 @@ export default function Dashboard({ state, useItem, setView, setStudyQuestTab, o
               <button 
                 className="btn btn-accent" 
                 style={{ padding: '6px 12px', fontSize: '0.8rem', borderRadius: '8px' }}
-                disabled={hasElixirs && !state.fainted && state.hp >= 100}
+                disabled={hasElixirs && !state.fainted && state.hp >= maxHp}
                 onClick={handleUseElixir}
               >
                 Use
@@ -338,6 +452,39 @@ export default function Dashboard({ state, useItem, setView, setStudyQuestTab, o
               </div>
               <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>Auto-use</span>
             </div>
+
+            {/* Juicy Bone */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.02)', padding: '8px 12px', borderRadius: '10px' }}>
+              <div>
+                <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>🍖 Hueso Jugoso (+20 HP)</span>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Bones owned: {state.inventory?.juicyBone || 0}</div>
+              </div>
+              <button 
+                className="btn btn-primary" 
+                style={{ padding: '6px 12px', fontSize: '0.8rem', borderRadius: '8px' }}
+                disabled={(state.inventory?.juicyBone || 0) <= 0 || state.hp >= maxHp || state.fainted}
+                onClick={feedNarfy}
+              >
+                Feed
+              </button>
+            </div>
+
+            {/* Fun Ball */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.02)', padding: '8px 12px', borderRadius: '10px' }}>
+              <div>
+                <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>🥎 Pelota Divertida (+100 XP)</span>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Balls owned: {state.inventory?.funBall || 0}</div>
+              </div>
+              <button 
+                className="btn btn-accent" 
+                style={{ padding: '6px 12px', fontSize: '0.8rem', borderRadius: '8px' }}
+                disabled={(state.inventory?.funBall || 0) <= 0}
+                onClick={playWithNarfy}
+              >
+                Play
+              </button>
+            </div>
+
           </div>
         </div>
       </div>

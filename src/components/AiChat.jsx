@@ -67,7 +67,7 @@ const MOCK_CONVERSATION_STEPS = [
   }
 ];
 
-export default function AiChat({ state, setApiKey, setView }) {
+export default function AiChat({ state, setApiKey, setView, incrementBountyCount }) {
   const [messages, setMessages] = useState([
     {
       id: "welcome",
@@ -165,6 +165,10 @@ export default function AiChat({ state, setApiKey, setView }) {
     setInputText("");
     setSuggestions([]);
     setLoading(true);
+
+    if (incrementBountyCount) {
+      incrementBountyCount("chat");
+    }
 
     const apiKey = state.apiKeys.gemini;
 

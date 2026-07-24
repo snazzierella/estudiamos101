@@ -42,7 +42,7 @@ const EQUIP_ITEMS = [
     slot: "shield",
     name: "Escudo de Madera (Wooden Shield)",
     desc: "Reduces error damage from 15 HP to 10 HP in quizzes.",
-    cost: 60,
+    cost: 1000,
     icon: "🛡️",
     theme: "gold-item"
   },
@@ -51,7 +51,7 @@ const EQUIP_ITEMS = [
     slot: "weapon",
     name: "Espada de Sabiduría (Wisdom Sword)",
     desc: "Grants a permanent +20% XP boost on correct quest answers.",
-    cost: 75,
+    cost: 1500,
     icon: "⚔️",
     theme: "blue-item"
   },
@@ -60,9 +60,55 @@ const EQUIP_ITEMS = [
     slot: "amulet",
     name: "Amuleto de Oro (Golden Amulet)",
     desc: "Grants a permanent +20% Gold bonus from completing quests.",
-    cost: 80,
+    cost: 2000,
     icon: "✨",
     theme: "gold-item"
+  },
+  {
+    key: "cloakOfStealth",
+    slot: "cloak",
+    name: "Capa de Sigilo (Cloak of Stealth)",
+    desc: "Grants a 15% chance to completely dodge damage on quiz errors.",
+    cost: 3000,
+    icon: "🧥",
+    theme: "blue-item"
+  },
+  {
+    key: "ringOfLife",
+    slot: "ring",
+    name: "Anillo de Vida (Ring of Life)",
+    desc: "Permanently raises your maximum Health (HP) pool to 150 HP.",
+    cost: 5000,
+    icon: "💍",
+    theme: "red-item"
+  },
+  {
+    key: "crownOfLegend",
+    slot: "head",
+    name: "Corona de Leyenda (Crown of Legend)",
+    desc: "A legendary crown for true lexical masters. Purely status / trophy.",
+    cost: 10000,
+    icon: "👑",
+    theme: "gold-item"
+  }
+];
+
+const PET_ITEMS = [
+  {
+    key: "juicyBone",
+    name: "Hueso Jugoso (Juicy Bone)",
+    desc: "Feed this to Narfy on the Dashboard. Heals you for +20 HP instantly.",
+    cost: 100,
+    icon: "🍖",
+    theme: "gold-item"
+  },
+  {
+    key: "funBall",
+    name: "Pelota Divertida (Fun Ball)",
+    desc: "Play fetch with Narfy on the Dashboard. Grants you +100 XP instantly.",
+    cost: 150,
+    icon: "🥎",
+    theme: "blue-item"
   }
 ];
 
@@ -76,9 +122,11 @@ const MYSTERY_JOKES = [
 ];
 
 export default function GameShop({ state, buyItem, useItem, buyEquipment, equipItem, setView }) {
-  const [shopTab, setShopTab] = useState("potions"); // "potions" or "gear"
+  const [shopTab, setShopTab] = useState("potions"); // "potions", "gear", "narfy"
   const [feedback, setFeedback] = useState("");
   const [mysteryText, setMysteryText] = useState("");
+
+  const maxHp = state.equipped?.ring === "ringOfLife" ? 150 : 100;
 
   const handleBuy = (item) => {
     const success = buyItem(item.key, item.cost);
@@ -93,6 +141,11 @@ export default function GameShop({ state, buyItem, useItem, buyEquipment, equipI
       setTimeout(() => {
         setFeedback("");
       }, 4000);
+    } else {
+      setFeedback("Not enough Gold coins!");
+      setTimeout(() => {
+        setFeedback("");
+      }, 3000);
     }
   };
 
@@ -102,7 +155,7 @@ export default function GameShop({ state, buyItem, useItem, buyEquipment, equipI
     if (success) {
       setFeedback(`Purchased and equipped ${item.name}!`);
     } else {
-      setFeedback("Not enough Gold coin coins!");
+      setFeedback("Not enough Gold coins!");
     }
     setTimeout(() => {
       setFeedback("");
@@ -146,7 +199,7 @@ export default function GameShop({ state, buyItem, useItem, buyEquipment, equipI
         </button>
       </div>
 
-      <div style={{ display: 'flex', gap: '12px', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '12px' }}>
+      <div style={{ display: 'flex', gap: '12px', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '12px', flexWrap: 'wrap' }}>
         <button 
           className={`btn ${shopTab === 'potions' ? 'btn-primary' : 'btn-secondary'}`} 
           onClick={() => setShopTab('potions')}
@@ -160,6 +213,13 @@ export default function GameShop({ state, buyItem, useItem, buyEquipment, equipI
           style={{ padding: '8px 16px', fontSize: '0.85rem' }}
         >
           🛡️ Equipo Permanente (Gear)
+        </button>
+        <button 
+          className={`btn ${shopTab === 'narfy' ? 'btn-primary' : 'btn-secondary'}`} 
+          onClick={() => setShopTab('narfy')}
+          style={{ padding: '8px 16px', fontSize: '0.85rem' }}
+        >
+          🐕 Artículos de Narfy (Pets)
         </button>
       </div>
 
@@ -185,7 +245,7 @@ export default function GameShop({ state, buyItem, useItem, buyEquipment, equipI
         {/* Main Shop Grid */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <div className="shop-grid">
-            {shopTab === "potions" ? (
+            {shopTab === "potions" && (
               SHOP_ITEMS.map(item => {
                 const count = state.inventory[item.key] || 0;
                 const canAfford = state.gold >= item.cost;
@@ -220,7 +280,9 @@ export default function GameShop({ state, buyItem, useItem, buyEquipment, equipI
                   </div>
                 );
               })
-            ) : (
+            )}
+
+            {shopTab === "gear" && (
               EQUIP_ITEMS.map(item => {
                 const isOwned = state.ownedEquipment?.includes(item.key);
                 const isEquipped = state.equipped?.[item.slot] === item.key;
@@ -271,6 +333,43 @@ export default function GameShop({ state, buyItem, useItem, buyEquipment, equipI
                 );
               })
             )}
+
+            {shopTab === "narfy" && (
+              PET_ITEMS.map(item => {
+                const count = state.inventory[item.key] || 0;
+                const canAfford = state.gold >= item.cost;
+                
+                return (
+                  <div key={item.key} className="glass-panel shop-card">
+                    <div>
+                      <div className="shop-item-top">
+                        <div className={`shop-item-icon-box ${item.theme}`}>
+                          {item.icon}
+                        </div>
+                        <div className="shop-item-cost">
+                          <Coins size={14} /> {item.cost} G
+                        </div>
+                      </div>
+                      
+                      <h3 className="shop-item-name">{item.name}</h3>
+                      <p className="shop-item-desc">{item.desc}</p>
+                    </div>
+
+                    <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Owned: {count}</span>
+                      <button 
+                        className={`btn ${canAfford ? 'btn-primary' : 'btn-secondary'}`}
+                        style={{ padding: '8px 16px', fontSize: '0.85rem' }}
+                        disabled={!canAfford}
+                        onClick={() => handleBuy(item)}
+                      >
+                        Buy Item
+                      </button>
+                    </div>
+                  </div>
+                );
+              })
+            )}
           </div>
 
           {/* Mystery Scroll Dialogue */}
@@ -313,7 +412,7 @@ export default function GameShop({ state, buyItem, useItem, buyEquipment, equipI
               <Coins size={16} /> Gold: {state.gold} G
             </span>
             <span style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--danger)', fontWeight: 'bold' }}>
-              <Heart size={16} fill="var(--danger)" /> HP: {state.hp} / 100
+              <Heart size={16} fill="var(--danger)" /> HP: {state.hp} / {maxHp}
             </span>
           </div>
 
@@ -326,7 +425,7 @@ export default function GameShop({ state, buyItem, useItem, buyEquipment, equipI
               <button 
                 className="btn btn-primary"
                 style={{ padding: '6px 12px', fontSize: '0.8rem' }}
-                disabled={(state.inventory.redPotion || 0) <= 0 || state.hp >= 100 || state.fainted}
+                disabled={(state.inventory.redPotion || 0) <= 0 || state.hp >= maxHp || state.fainted}
                 onClick={() => handleUse('redPotion')}
               >
                 Drink

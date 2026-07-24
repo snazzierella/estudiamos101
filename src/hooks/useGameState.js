@@ -13,6 +13,8 @@ const INITIAL_STATE = {
     redPotion: 0,
     goldenElixir: 0,
     streakShield: 0,
+    juicyBone: 0,
+    funBall: 0,
   },
   fainted: false,
   completedAdventures: [],
@@ -31,10 +33,26 @@ const INITIAL_STATE = {
     shield: null,
     weapon: null,
     amulet: null,
+    head: null,
+    ring: null,
+    cloak: null,
   },
   ownedEquipment: [],
   mistakes: [],
   autoSpeak: true,
+  dailyBounties: {
+    date: "",
+    questCount: 0,
+    chatMessageCount: 0,
+    perfectMiniGame: false,
+    claimed: {
+      quest: false,
+      chat: false,
+      minigame: false
+    }
+  },
+  wordMastery: {},
+  difficultyMode: "standard"
 };
 
 export function useGameState() {
@@ -61,6 +79,13 @@ export function useGameState() {
       if (prev.equipped && prev.equipped.weapon === "wisdomSword") {
         finalAmount = Math.ceil(amount * 1.2);
       }
+      // Difficulty multiplier
+      if (prev.difficultyMode === "relaxed") {
+        finalAmount = Math.ceil(finalAmount * 0.5);
+      } else if (prev.difficultyMode === "hardcore") {
+        finalAmount = Math.ceil(finalAmount * 2.0);
+      }
+
       let newXp = prev.xp + finalAmount;
       let newLevel = prev.level;
       let newHp = prev.hp;
@@ -68,11 +93,13 @@ export function useGameState() {
       let isLevelUp = false;
       const leveledBadges = [...prev.badges];
 
+      const maxHp = prev.equipped?.ring === "ringOfLife" ? 150 : 100;
+
       while (newXp >= newLevel * 100) {
         newXp -= newLevel * 100;
         newLevel += 1;
         newGold += 25;
-        newHp = 100;
+        newHp = maxHp;
         isLevelUp = true;
       }
 
@@ -101,6 +128,12 @@ export function useGameState() {
       if (prev.equipped && prev.equipped.amulet === "goldenAmulet") {
         finalAmount = Math.ceil(amount * 1.2);
       }
+      // Difficulty multiplier
+      if (prev.difficultyMode === "relaxed") {
+        finalAmount = Math.ceil(finalAmount * 0.5);
+      } else if (prev.difficultyMode === "hardcore") {
+        finalAmount = Math.ceil(finalAmount * 2.0);
+      }
       return {
         ...prev,
         gold: prev.gold + finalAmount
@@ -110,11 +143,19 @@ export function useGameState() {
 
   const takeDamage = (amount) => {
     setState(prev => {
-      let finalAmount = amount;
-      if (prev.equipped && prev.equipped.shield === "woodenShield") {
-        finalAmount = Math.max(1, amount - 5);
+      if (prev.difficultyMode === "relaxed") return prev;
+
+      // Cloak of Stealth: 15% dodge chance
+      if (prev.equipped?.cloak === "cloakOfStealth" && Math.random() <= 0.15) {
+        return prev;
       }
-      let newHp = Math.max(0, prev.hp - finalAmount);
+
+      let dmgBase = prev.difficultyMode === "hardcore" ? 30 : amount;
+      if (prev.equipped?.shield === "woodenShield") {
+        dmgBase = Math.max(1, dmgBase - 5);
+      }
+      
+      let newHp = Math.max(0, prev.hp - dmgBase);
       let newFainted = prev.fainted;
       const newBadges = [...prev.badges];
 
@@ -126,27 +167,40 @@ export function useGameState() {
         }
       }
 
+      let newQuestLevel = prev.questLevel;
+      if (newHp <= 0 && prev.difficultyMode === "hardcore") {
+        newQuestLevel = 1; // Fainting in hardcore resets questLevel to 1
+      }
+
       return {
         ...prev,
         hp: newHp,
-        fainted: newFainted
+        fainted: newFainted,
+        questLevel: newQuestLevel,
+        badges: newBadges
       };
     });
   };
 
   const heal = (amount) => {
-    setState(prev => ({
-      ...prev,
-      hp: Math.min(100, prev.hp + amount)
-    }));
+    setState(prev => {
+      const maxHp = prev.equipped?.ring === "ringOfLife" ? 150 : 100;
+      return {
+        ...prev,
+        hp: Math.min(maxHp, prev.hp + amount)
+      };
+    });
   };
 
   const revive = (hpAmount = 100) => {
-    setState(prev => ({
-      ...prev,
-      hp: hpAmount,
-      fainted: false
-    }));
+    setState(prev => {
+      const maxHp = prev.equipped?.ring === "ringOfLife" ? 150 : 100;
+      return {
+        ...prev,
+        hp: hpAmount === 100 ? maxHp : Math.min(maxHp, hpAmount),
+        fainted: false
+      };
+    });
   };
 
   const recordQuizPerformance = (correct, total) => {
@@ -325,22 +379,45 @@ export function useGameState() {
   const checkAndUpdateStreak = () => {
     setState(prev => {
       const today = new Date().toISOString().split('T')[0];
+      const maxHp = prev.equipped?.ring === "ringOfLife" ? 150 : 100;
       const isNewDay = prev.lastActiveDate && prev.lastActiveDate !== today;
-      let newHp = isNewDay ? 100 : prev.hp;
+      let newHp = isNewDay ? maxHp : prev.hp;
       let newFainted = isNewDay ? false : prev.fainted;
       
+      let newDailyBounties = prev.dailyBounties || {
+        date: today,
+        questCount: 0,
+        chatMessageCount: 0,
+        perfectMiniGame: false,
+        claimed: { quest: false, chat: false, minigame: false }
+      };
+
+      if (isNewDay || !newDailyBounties.date || newDailyBounties.date !== today) {
+        newDailyBounties = {
+          date: today,
+          questCount: 0,
+          chatMessageCount: 0,
+          perfectMiniGame: false,
+          claimed: { quest: false, chat: false, minigame: false }
+        };
+      }
+
       if (!prev.lastActiveDate) {
         return {
           ...prev,
           lastActiveDate: today,
           streak: 1,
-          hp: 100,
-          fainted: false
+          hp: maxHp,
+          fainted: false,
+          dailyBounties: newDailyBounties
         };
       }
 
       if (prev.lastActiveDate === today) {
-        return prev;
+        return {
+          ...prev,
+          dailyBounties: newDailyBounties
+        };
       }
 
       const lastDateObj = new Date(prev.lastActiveDate);
@@ -376,7 +453,8 @@ export function useGameState() {
         inventory: newInventory,
         badges: newBadges,
         hp: newHp,
-        fainted: newFainted
+        fainted: newFainted,
+        dailyBounties: newDailyBounties
       };
     });
   };
@@ -404,8 +482,18 @@ export function useGameState() {
         xpReward = Math.ceil(xpReward * 1.2);
       }
 
+      // Difficulty multiplier
+      if (prev.difficultyMode === "relaxed") {
+        goldReward = Math.ceil(goldReward * 0.5);
+        xpReward = Math.ceil(xpReward * 0.5);
+      } else if (prev.difficultyMode === "hardcore") {
+        goldReward = Math.ceil(goldReward * 2.0);
+        xpReward = Math.ceil(xpReward * 2.0);
+      }
+
       let newXp = prev.xp + xpReward;
       let newLevel = prev.level;
+      const maxHp = prev.equipped?.ring === "ringOfLife" ? 150 : 100;
       let newHp = prev.hp;
       let newGold = prev.gold + goldReward;
       let isLevelUp = false;
@@ -415,7 +503,7 @@ export function useGameState() {
         newXp -= newLevel * 100;
         newLevel += 1;
         newGold += 25;
-        newHp = 100;
+        newHp = maxHp;
         isLevelUp = true;
       }
 
@@ -426,6 +514,10 @@ export function useGameState() {
         leveledBadges.push("level_10");
       }
 
+      // Increment daily bounty for completing a campaign level
+      let newDailyBounties = { ...prev.dailyBounties };
+      newDailyBounties.questCount = (newDailyBounties.questCount || 0) + 1;
+
       return {
         ...prev,
         questLevel: nextLevel,
@@ -435,6 +527,7 @@ export function useGameState() {
         level: newLevel,
         hp: newHp,
         badges: leveledBadges,
+        dailyBounties: newDailyBounties,
         _levelUpFlag: isLevelUp ? Date.now() : prev._levelUpFlag
       };
     });
@@ -442,7 +535,8 @@ export function useGameState() {
   };
 
   const passStageReview = (score, totalQuizzes = 20) => {
-    const requiredScore = Math.ceil(totalQuizzes * 0.7); // 70% pass threshold
+    // 80% pass threshold for stage reviews (Boss battles)
+    const requiredScore = Math.ceil(totalQuizzes * 0.8);
     if (score < requiredScore) return false;
 
     setState(prev => {
@@ -463,8 +557,18 @@ export function useGameState() {
         xpReward = Math.ceil(xpReward * 1.2);
       }
 
+      // Difficulty multiplier
+      if (prev.difficultyMode === "relaxed") {
+        goldReward = Math.ceil(goldReward * 0.5);
+        xpReward = Math.ceil(xpReward * 0.5);
+      } else if (prev.difficultyMode === "hardcore") {
+        goldReward = Math.ceil(goldReward * 2.0);
+        xpReward = Math.ceil(xpReward * 2.0);
+      }
+
       let newXp = prev.xp + xpReward;
       let newLevel = prev.level;
+      const maxHp = prev.equipped?.ring === "ringOfLife" ? 150 : 100;
       let newHp = prev.hp;
       let newGold = prev.gold + goldReward;
       let isLevelUp = false;
@@ -473,7 +577,7 @@ export function useGameState() {
         newXp -= newLevel * 100;
         newLevel += 1;
         newGold += 25;
-        newHp = 100;
+        newHp = maxHp;
         isLevelUp = true;
       }
 
@@ -483,6 +587,10 @@ export function useGameState() {
       if (newLevel >= 10 && !newBadges.includes("level_10")) {
         newBadges.push("level_10");
       }
+
+      // Increment daily bounty
+      let newDailyBounties = { ...prev.dailyBounties };
+      newDailyBounties.questCount = (newDailyBounties.questCount || 0) + 1;
 
       return {
         ...prev,
@@ -495,6 +603,7 @@ export function useGameState() {
         hp: newHp,
         badges: newBadges,
         stageFlashcardsSeen: [],
+        dailyBounties: newDailyBounties,
         _levelUpFlag: isLevelUp ? Date.now() : prev._levelUpFlag
       };
     });
@@ -563,6 +672,142 @@ export function useGameState() {
     }));
   };
 
+  const claimBounty = (bountyType) => {
+    setState(prev => {
+      const bounties = prev.dailyBounties || {};
+      const claimed = bounties.claimed || {};
+      if (claimed[bountyType]) return prev;
+
+      let eligible = false;
+      if (bountyType === "quest" && (bounties.questCount || 0) >= 2) {
+        eligible = true;
+      } else if (bountyType === "chat" && (bounties.chatMessageCount || 0) >= 3) {
+        eligible = true;
+      } else if (bountyType === "minigame" && bounties.perfectMiniGame) {
+        eligible = true;
+      }
+
+      if (!eligible) return prev;
+
+      const newClaimed = { ...claimed, [bountyType]: true };
+      const newDaily = { ...bounties, claimed: newClaimed };
+
+      return {
+        ...prev,
+        gold: prev.gold + 50,
+        dailyBounties: newDaily
+      };
+    });
+  };
+
+  const incrementBountyCount = (bountyType) => {
+    setState(prev => {
+      const daily = prev.dailyBounties || {};
+      if (bountyType === "chat") {
+        return {
+          ...prev,
+          dailyBounties: {
+            ...daily,
+            chatMessageCount: (daily.chatMessageCount || 0) + 1
+          }
+        };
+      } else if (bountyType === "minigame") {
+        return {
+          ...prev,
+          dailyBounties: {
+            ...daily,
+            perfectMiniGame: true
+          }
+        };
+      }
+      return prev;
+    });
+  };
+
+  const feedNarfy = () => {
+    if ((state.inventory?.juicyBone || 0) <= 0) return false;
+    setState(prev => {
+      const newInv = { ...prev.inventory };
+      newInv.juicyBone -= 1;
+      const maxHp = prev.equipped?.ring === "ringOfLife" ? 150 : 100;
+      const newHp = Math.min(maxHp, prev.hp + 20);
+      return {
+        ...prev,
+        hp: newHp,
+        inventory: newInv
+      };
+    });
+    return true;
+  };
+
+  const playWithNarfy = () => {
+    if ((state.inventory?.funBall || 0) <= 0) return false;
+    setState(prev => {
+      const newInv = { ...prev.inventory };
+      newInv.funBall -= 1;
+
+      // Add 100 XP with multipliers directly
+      let xpBonus = 100;
+      if (prev.equipped && prev.equipped.weapon === "wisdomSword") {
+        xpBonus = Math.ceil(xpBonus * 1.2);
+      }
+      if (prev.difficultyMode === "relaxed") {
+        xpBonus = Math.ceil(xpBonus * 0.5);
+      } else if (prev.difficultyMode === "hardcore") {
+        xpBonus = Math.ceil(xpBonus * 2.0);
+      }
+
+      let newXp = prev.xp + xpBonus;
+      let newLevel = prev.level;
+      const maxHp = prev.equipped?.ring === "ringOfLife" ? 150 : 100;
+      let newHp = prev.hp;
+      let newGold = prev.gold;
+      let isLevelUp = false;
+      const leveledBadges = [...prev.badges];
+
+      while (newXp >= newLevel * 100) {
+        newXp -= newLevel * 100;
+        newLevel += 1;
+        newGold += 25;
+        newHp = maxHp;
+        isLevelUp = true;
+      }
+
+      return {
+        ...prev,
+        xp: newXp,
+        level: newLevel,
+        hp: newHp,
+        gold: newGold,
+        inventory: newInv,
+        badges: leveledBadges,
+        _levelUpFlag: isLevelUp ? Date.now() : prev._levelUpFlag
+      };
+    });
+    return true;
+  };
+
+  const updateWordMastery = (word, success) => {
+    setState(prev => {
+      const mastery = { ...prev.wordMastery };
+      const currentRating = mastery[word] !== undefined ? mastery[word] : 2;
+      let newRating = success ? currentRating + 1 : currentRating - 1;
+      newRating = Math.max(0, Math.min(5, newRating));
+      mastery[word] = newRating;
+      return {
+        ...prev,
+        wordMastery: mastery
+      };
+    });
+  };
+
+  const setDifficultyMode = (mode) => {
+    setState(prev => ({
+      ...prev,
+      difficultyMode: mode
+    }));
+  };
+
   const resetAllProgress = () => {
     setState(INITIAL_STATE);
   };
@@ -610,5 +855,11 @@ export function useGameState() {
     addMistake,
     removeMistake,
     toggleAutoSpeak,
+    claimBounty,
+    incrementBountyCount,
+    feedNarfy,
+    playWithNarfy,
+    updateWordMastery,
+    setDifficultyMode,
   };
 }
