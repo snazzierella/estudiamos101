@@ -30,7 +30,8 @@ export default function App() {
     passStageReview,
     resetAllProgress,
     setExcludeVosotros,
-    markFlashcardsSeen
+    markFlashcardsSeen,
+    recordWordAnsweredCorrectly
   } = useGameState();
 
   const [view, setView] = useState('dashboard');
@@ -91,6 +92,7 @@ export default function App() {
             advanceQuest={advanceQuest}
             passStageReview={passStageReview}
             markFlashcardsSeen={markFlashcardsSeen}
+            recordWordAnsweredCorrectly={recordWordAnsweredCorrectly}
             setView={setView}
             defaultTab={studyQuestTab}
           />

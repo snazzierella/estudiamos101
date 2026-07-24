@@ -26,6 +26,7 @@ const INITIAL_STATE = {
   questLevel: 1,
   isReviewReady: false,
   stageFlashcardsSeen: [],
+  wordsAnsweredCorrectly: [],
 };
 
 export function useGameState() {
@@ -245,6 +246,17 @@ export function useGameState() {
     });
   };
 
+  const recordWordAnsweredCorrectly = (spanishWord) => {
+    setState(prev => {
+      const list = prev.wordsAnsweredCorrectly || [];
+      if (list.includes(spanishWord)) return prev;
+      return {
+        ...prev,
+        wordsAnsweredCorrectly: [...list, spanishWord]
+      };
+    });
+  };
+
   const setApiKey = (key) => {
     setState(prev => ({
       ...prev,
@@ -433,5 +445,6 @@ export function useGameState() {
     resetAllProgress,
     setExcludeVosotros,
     markFlashcardsSeen,
+    recordWordAnsweredCorrectly,
   };
 }

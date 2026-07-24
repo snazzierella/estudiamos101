@@ -20,7 +20,7 @@ import {
   Play
 } from 'lucide-react';
 
-export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, recordQuizPerformance, advanceQuest, passStageReview, markFlashcardsSeen, setView, defaultTab = "quest" }) {
+export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, recordWordAnsweredCorrectly, recordQuizPerformance, advanceQuest, passStageReview, markFlashcardsSeen, setView, defaultTab = "quest" }) {
   const [activeTab, setActiveTab] = useState(defaultTab);
 
   useEffect(() => {
@@ -314,15 +314,55 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
     const questionText = isEsToEn ? item.spanish : formatEnglishPrompt(item.spanish, item.english);
 
     const distractors = [];
-    while (distractors.length < 3) {
-      const rand = vocabularyData[Math.floor(Math.random() * vocabularyData.length)];
-      const val = isEsToEn ? formatEnglishPrompt(rand.spanish, rand.english) : rand.spanish;
-      if (
-        val.toLowerCase() !== correctText.toLowerCase() && 
-        !distractors.includes(val) &&
-        val.length < 35
-      ) {
-        distractors.push(val);
+    const answeredCorrectlyBefore = state.wordsAnsweredCorrectly?.includes(item.spanish);
+
+    if (answeredCorrectlyBefore) {
+      // 1. Try to pull from same subcategory
+      const sameSub = vocabularyData.filter(rand => rand.subcategory === item.subcategory);
+      const shuffledSub = [...sameSub].sort(() => Math.random() - 0.5);
+      for (let rand of shuffledSub) {
+        const val = isEsToEn ? formatEnglishPrompt(rand.spanish, rand.english) : rand.spanish;
+        if (
+          val.toLowerCase() !== correctText.toLowerCase() && 
+          !distractors.includes(val) &&
+          val.length < 35
+        ) {
+          distractors.push(val);
+        }
+        if (distractors.length === 3) break;
+      }
+
+      // 2. Try to pull from same category if not enough
+      if (distractors.length < 3) {
+        const sameCat = vocabularyData.filter(rand => rand.category === item.category);
+        const shuffledCat = [...sameCat].sort(() => Math.random() - 0.5);
+        for (let rand of shuffledCat) {
+          const val = isEsToEn ? formatEnglishPrompt(rand.spanish, rand.english) : rand.spanish;
+          if (
+            val.toLowerCase() !== correctText.toLowerCase() && 
+            !distractors.includes(val) &&
+            val.length < 35
+          ) {
+            distractors.push(val);
+          }
+          if (distractors.length === 3) break;
+        }
+      }
+    }
+
+    // 3. Fallback to general pool if needed (or if first time)
+    if (distractors.length < 3) {
+      const shuffledAll = [...vocabularyData].sort(() => Math.random() - 0.5);
+      for (let rand of shuffledAll) {
+        const val = isEsToEn ? formatEnglishPrompt(rand.spanish, rand.english) : rand.spanish;
+        if (
+          val.toLowerCase() !== correctText.toLowerCase() && 
+          !distractors.includes(val) &&
+          val.length < 35
+        ) {
+          distractors.push(val);
+        }
+        if (distractors.length === 3) break;
       }
     }
     const choices = [correctText, ...distractors].sort(() => Math.random() - 0.5);
@@ -588,6 +628,12 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
       setQuestSelected(correctStr); // sets selector value to match correct key
       setHealTrigger(true);
       playSound('correct');
+      
+      const currentQ = questQuestions[questCurrentIdx];
+      if (recordWordAnsweredCorrectly && currentQ && currentQ.item) {
+        recordWordAnsweredCorrectly(currentQ.item.spanish);
+      }
+
       setTimeout(() => setHealTrigger(false), 500);
     } else {
       setQuestSelected(userStr); // marks it wrong
@@ -656,6 +702,11 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
       setQuestScore(prev => prev + 1);
       setHealTrigger(true);
       playSound('correct');
+      
+      if (recordWordAnsweredCorrectly && currentQuestQ && currentQuestQ.item) {
+        recordWordAnsweredCorrectly(currentQuestQ.item.spanish);
+      }
+
       setTimeout(() => setHealTrigger(false), 500);
     } else {
       setShakeTrigger(true);
