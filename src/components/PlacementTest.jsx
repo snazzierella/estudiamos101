@@ -1,84 +1,93 @@
 import React, { useState, useEffect } from 'react';
 import vocabularyData from '../data/vocabulary.json';
-import { getWordDifficulty, formatEnglishPrompt } from '../utils/difficultyMapper';
-import { generateFillInTheBlank } from '../utils/conjugationHelper';
+import { formatEnglishPrompt } from '../utils/difficultyMapper';
 import { Swords, ArrowRight, Trophy } from 'lucide-react';
 
 export default function PlacementTest({ completePlacement }) {
   const [started, setStarted] = useState(false);
-  const [currentIdx, setCurrentIdx] = useState(0); // 0 to 9
-  const [currentDifficulty, setCurrentDifficulty] = useState(2); // Starts at 2 (Easy)
+  const [currentIdx, setCurrentIdx] = useState(0); // 0 to 15
+  const [questionsList, setQuestionsList] = useState([]);
   const [activeQuestion, setActiveQuestion] = useState(null);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
 
-  // Generate a question based on current difficulty
-  const generateQuestion = (diffLevel) => {
-    // Filter words matching target difficulty rating
-    const matchingWords = vocabularyData.filter(item => getWordDifficulty(item) === diffLevel);
-    
-    if (matchingWords.length === 0) {
-      // Fallback if none found
-      return {
-        spanish: "hola",
-        correct: "hello",
-        choices: ["hello", "bye", "dog", "cat"],
-        difficulty: 1
-      };
-    }
+  // Generate 16 balanced questions (2 from each of the 8 core subcategories)
+  const generateQuestions = () => {
+    const targetSubcategories = [
+      "Greetings, Goodbyes, & Conversation",
+      "Family",
+      "Food and Drinks",
+      "People and Professions",
+      "Numbers",
+      "Time, Days, Months, and Seasons",
+      "Sports and Hobbies",
+      "Colors"
+    ];
 
-    // Pick a random word
-    const randWord = matchingWords[Math.floor(Math.random() * matchingWords.length)];
+    const generated = [];
 
-    if (randWord.category === "Sentences") {
-      const fillSpec = generateFillInTheBlank(randWord);
-      if (fillSpec) {
-        return {
-          spanish: fillSpec.sentence,
-          correct: fillSpec.correct,
-          choices: fillSpec.choices,
-          difficulty: diffLevel,
-          originalItem: randWord,
-          isFillInTheBlank: true,
-          meaning: fillSpec.meaning
-        };
-      }
-    }
-    
-    // Choose question translation direction: 0 = Spanish to English, 1 = English to Spanish
-    const qType = Math.random() > 0.5 ? 1 : 0;
-    const correctVal = qType === 1 ? randWord.spanish : formatEnglishPrompt(randWord.spanish, randWord.english);
-    const questionWord = qType === 1 ? formatEnglishPrompt(randWord.spanish, randWord.english) : randWord.spanish;
+    targetSubcategories.forEach(sub => {
+      // Find all vocabulary words matching this subcategory
+      const subWords = vocabularyData.filter(item => item.subcategory === sub);
+      if (subWords.length === 0) return;
 
-    // Generate distractors
-    const distractors = [];
-    while (distractors.length < 3) {
-      const randItem = vocabularyData[Math.floor(Math.random() * vocabularyData.length)];
-      const val = qType === 1 ? randItem.spanish : formatEnglishPrompt(randItem.spanish, randItem.english);
-      if (
-        val.toLowerCase() !== correctVal.toLowerCase() && 
-        !distractors.includes(val) &&
-        val.length < 35
-      ) {
-        distractors.push(val);
-      }
-    }
+      // Shuffle and pick 2 unique random words
+      const shuffled = [...subWords].sort(() => Math.random() - 0.5);
+      const picked = shuffled.slice(0, 2);
 
-    const choices = [correctVal, ...distractors].sort(() => Math.random() - 0.5);
+      picked.forEach(randWord => {
+        // Translation direction: 0 = Spanish to English, 1 = English to Spanish
+        const qType = Math.random() > 0.5 ? 1 : 0;
+        const correctVal = qType === 1 ? randWord.spanish : formatEnglishPrompt(randWord.spanish, randWord.english);
+        const questionWord = qType === 1 ? formatEnglishPrompt(randWord.spanish, randWord.english) : randWord.spanish;
 
-    return {
-      spanish: questionWord,
-      correct: correctVal,
-      choices: choices,
-      difficulty: diffLevel,
-      originalItem: randWord
-    };
+        // distractor generator: prioritizes same subcategory first
+        const distractors = [];
+        const shuffledSub = [...subWords].sort(() => Math.random() - 0.5);
+        for (let item of shuffledSub) {
+          const val = qType === 1 ? item.spanish : formatEnglishPrompt(item.spanish, item.english);
+          if (val.toLowerCase() !== correctVal.toLowerCase() && !distractors.includes(val) && val.length < 35) {
+            distractors.push(val);
+          }
+          if (distractors.length === 3) break;
+        }
+
+        // Fallback to general pool if we don't have 3 distractors
+        if (distractors.length < 3) {
+          const shuffledAll = [...vocabularyData].sort(() => Math.random() - 0.5);
+          for (let item of shuffledAll) {
+            const val = qType === 1 ? item.spanish : formatEnglishPrompt(item.spanish, item.english);
+            if (val.toLowerCase() !== correctVal.toLowerCase() && !distractors.includes(val) && val.length < 35) {
+              distractors.push(val);
+            }
+            if (distractors.length === 3) break;
+          }
+        }
+
+        const choices = [correctVal, ...distractors].sort(() => Math.random() - 0.5);
+
+        generated.push({
+          spanish: questionWord,
+          correct: correctVal,
+          choices: choices,
+          subcategory: sub,
+          originalItem: randWord
+        });
+      });
+    });
+
+    // Shuffle all 16 questions to mix topics organically
+    return generated.sort(() => Math.random() - 0.5);
   };
 
-  // Generate first question on mount
+  // Generate questions list on mount
   useEffect(() => {
-    setActiveQuestion(generateQuestion(2));
+    const list = generateQuestions();
+    setQuestionsList(list);
+    if (list.length > 0) {
+      setActiveQuestion(list[0]);
+    }
   }, []);
 
   const handleSelect = (choice) => {
@@ -93,66 +102,57 @@ export default function PlacementTest({ completePlacement }) {
   };
 
   const handleNext = () => {
-    const isCorrect = selectedAnswer.trim().toLowerCase() === activeQuestion.correct.trim().toLowerCase();
-    
-    // Determine next difficulty level adaptively
-    let nextDifficulty = currentDifficulty;
-    if (isCorrect) {
-      nextDifficulty = Math.min(5, currentDifficulty + 1);
-    } else {
-      nextDifficulty = Math.max(1, currentDifficulty - 1);
-    }
-
     setSelectedAnswer(null);
 
-    if (currentIdx < 9) {
-      setCurrentIdx(prev => prev + 1);
-      setCurrentDifficulty(nextDifficulty);
-      setActiveQuestion(generateQuestion(nextDifficulty));
+    if (currentIdx < 15) {
+      const nextIdx = currentIdx + 1;
+      setCurrentIdx(nextIdx);
+      setActiveQuestion(questionsList[nextIdx]);
     } else {
       setIsFinished(true);
     }
   };
 
   const getPlacementRank = () => {
-    if (currentDifficulty >= 5 && score >= 7) {
+    if (score >= 13) {
       return { 
         level: "Experto (Stage 7 - Verbs)", 
         stage: 7,
-        gold: score * 8, 
-        xp: score * 30, 
-        desc: "Increíble! You completed the quiz at high difficulty. You will start at Level 3 and skip straight to Stage 7 (Verb conjugations)!" 
+        gold: score * 10, 
+        xp: score * 40, 
+        desc: "Increíble! You completed the quiz with an excellent score. You will skip straight to Stage 7 (Verb conjugations)!" 
       };
     }
-    if (currentDifficulty >= 4 && score >= 5) {
+    if (score >= 9) {
       return { 
         level: "Intermedio Alto (Stage 5 - Time & Courses)", 
         stage: 5,
-        gold: score * 8, 
-        xp: score * 30, 
-        desc: "Bien hecho! You placed at intermediate difficulty. You will start at Level 2 and skip directly to Stage 5 (Time, Calendars & Courses)!" 
+        gold: score * 10, 
+        xp: score * 40, 
+        desc: "Bien hecho! You placed at intermediate difficulty. You will skip directly to Stage 5 (Time, Calendars & Courses)!" 
       };
     }
-    if (currentDifficulty >= 3 && score >= 4) {
+    if (score >= 5) {
       return { 
         level: "Intermedio (Stage 3 - City & Classroom)", 
         stage: 3,
-        gold: score * 8, 
-        xp: score * 30, 
+        gold: score * 10, 
+        xp: score * 40, 
         desc: "Muy bien! You placed at lower-intermediate difficulty. You will start at Stage 3 (Classroom, Cities, Colors)!" 
       };
     }
     return { 
       level: "Principiante (Stage 1 - Basics)", 
       stage: 1,
-      gold: score * 8, 
-      xp: score * 30, 
+      gold: score * 10, 
+      xp: score * 40, 
       desc: "Perfect! A clean slate. You will start at Level 1, Stage 1 (Greetings, Articles, Numbers) to learn the foundations." 
     };
   };
 
   const handleFinish = () => {
-    completePlacement(score, currentDifficulty);
+    const rank = getPlacementRank();
+    completePlacement(score, rank.stage);
   };
 
   if (!started) {
@@ -161,7 +161,7 @@ export default function PlacementTest({ completePlacement }) {
         <Swords size={60} color="var(--accent)" style={{ margin: '0 auto 20px', animation: 'float 3s ease-in-out infinite' }} />
         <h2 style={{ fontSize: '2rem', fontFamily: 'var(--font-display)', marginBottom: '12px' }}>Prueba de Nivel</h2>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: '1.5', marginBottom: '30px' }}>
-          Welcome to Vocab Aventura! This quick 10-question adaptive test determines your starting stage. Correct answers increase difficulty, while mistakes lower it.
+          Welcome to Estudiamos 101! This quick 16-question placement test determines your starting stage. It tests 2 words from each of our core vocabulary categories (Family, Food, Professions, Numbers, Calendar, Hobbies, Colors, and Greetings).
         </p>
         
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -187,12 +187,12 @@ export default function PlacementTest({ completePlacement }) {
         <div style={{ textAlign: 'center', padding: '10px' }}>
           <Trophy size={60} color="var(--gold)" style={{ margin: '0 auto 16px', animation: 'float 3s ease-in-out infinite' }} />
           <h2 style={{ fontSize: '2rem', fontFamily: 'var(--font-display)', marginBottom: '8px' }}>Evaluación Completada</h2>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '24px' }}>Adaptive assessment finished!</p>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '24px' }}>Assessment finished!</p>
           
           <div style={{ background: 'rgba(255,255,255,0.02)', padding: '24px', borderRadius: '16px', border: '1px solid var(--card-border)', marginBottom: '30px' }}>
-            <div style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Score / Final Difficulty</div>
+            <div style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Score / Total Questions</div>
             <div style={{ fontSize: '2.5rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--accent)', margin: '8px 0' }}>
-              {score} / 10 (Tier {currentDifficulty})
+              {score} / 16
             </div>
             
             <div style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--gold)', marginTop: '16px' }}>
@@ -227,27 +227,20 @@ export default function PlacementTest({ completePlacement }) {
       <div className="quiz-header">
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Swords size={20} color="var(--primary)" />
-          <span style={{ fontWeight: 700, fontFamily: 'var(--font-display)' }}>Placement (Adaptive Level: Tier {currentDifficulty})</span>
+          <span style={{ fontWeight: 700, fontFamily: 'var(--font-display)' }}>Placement Assessment</span>
         </div>
-        <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Question {currentIdx + 1} of 10</span>
+        <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Question {currentIdx + 1} of 16</span>
       </div>
 
       <div className="quiz-progress-track">
-        <div className="quiz-progress-fill" style={{ width: `${((currentIdx + 1) / 10) * 100}%` }}></div>
+        <div className="quiz-progress-fill" style={{ width: `${((currentIdx + 1) / 16) * 100}%` }}></div>
       </div>
 
       <div className="quiz-question-card">
         <div className="quiz-question-lbl">
-          {activeQuestion.isFillInTheBlank 
-            ? "Completar la frase (Fill in the blank):"
-            : "Translate this term:"}
+          Translate this term:
         </div>
         <h3 className="quiz-word">{activeQuestion.spanish}</h3>
-        {activeQuestion.isFillInTheBlank && (
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', fontStyle: 'italic', marginTop: '8px' }}>
-            ({activeQuestion.meaning})
-          </p>
-        )}
       </div>
 
       <div className="quiz-choices-grid">
@@ -280,15 +273,15 @@ export default function PlacementTest({ completePlacement }) {
           style={{ animation: 'pop-in 0.3s ease-out' }}
         >
           {selectedAnswer === activeQuestion.correct 
-            ? "¡Correcto! Well done. Moving to harder tier." 
-            : `Incorrecto. Correct translation: "${activeQuestion.correct}". Dropping difficulty tier.`
+            ? "¡Correcto! Bien hecho." 
+            : `Incorrecto. Correct translation: "${activeQuestion.correct}".`
           }
           <button 
             className="btn btn-primary" 
             onClick={handleNext}
             style={{ width: '100%', marginTop: '16px' }}
           >
-            {currentIdx === 9 ? "Finish Test" : "Next Question"} <ArrowRight size={16} />
+            {currentIdx === 15 ? "Finish Test" : "Next Question"} <ArrowRight size={16} />
           </button>
         </div>
       )}

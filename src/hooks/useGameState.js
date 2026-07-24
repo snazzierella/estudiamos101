@@ -255,10 +255,10 @@ export function useGameState() {
     }));
   };
 
-  const completePlacement = (score, finalDifficulty) => {
+  const completePlacement = (score, startingStage = 1) => {
     setState(prev => {
-      const startingGoldBonus = score * 8;
-      const startingXpBonus = score * 30;
+      const startingGoldBonus = score * 10;
+      const startingXpBonus = score * 40;
       
       let finalXp = prev.xp + startingXpBonus;
       let finalLevel = prev.level;
@@ -268,11 +268,6 @@ export function useGameState() {
         finalXp -= finalLevel * 100;
         finalLevel += 1;
       }
-
-      let startingStage = 1;
-      if (finalDifficulty >= 5) startingStage = 7;
-      else if (finalDifficulty >= 4) startingStage = 5;
-      else if (finalDifficulty >= 3) startingStage = 3;
 
       const newBadges = [...prev.badges];
       if (!newBadges.includes("placement_done")) {
