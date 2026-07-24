@@ -27,6 +27,14 @@ const INITIAL_STATE = {
   isReviewReady: false,
   stageFlashcardsSeen: [],
   wordsAnsweredCorrectly: [],
+  equipped: {
+    shield: null,
+    weapon: null,
+    amulet: null,
+  },
+  ownedEquipment: [],
+  mistakes: [],
+  autoSpeak: true,
 };
 
 export function useGameState() {
@@ -49,7 +57,11 @@ export function useGameState() {
 
   const addXp = (amount) => {
     setState(prev => {
-      let newXp = prev.xp + amount;
+      let finalAmount = amount;
+      if (prev.equipped && prev.equipped.weapon === "wisdomSword") {
+        finalAmount = Math.ceil(amount * 1.2);
+      }
+      let newXp = prev.xp + finalAmount;
       let newLevel = prev.level;
       let newHp = prev.hp;
       let newGold = prev.gold;
@@ -84,15 +96,25 @@ export function useGameState() {
   };
 
   const addGold = (amount) => {
-    setState(prev => ({
-      ...prev,
-      gold: prev.gold + amount
-    }));
+    setState(prev => {
+      let finalAmount = amount;
+      if (prev.equipped && prev.equipped.amulet === "goldenAmulet") {
+        finalAmount = Math.ceil(amount * 1.2);
+      }
+      return {
+        ...prev,
+        gold: prev.gold + finalAmount
+      };
+    });
   };
 
   const takeDamage = (amount) => {
     setState(prev => {
-      let newHp = Math.max(0, prev.hp - amount);
+      let finalAmount = amount;
+      if (prev.equipped && prev.equipped.shield === "woodenShield") {
+        finalAmount = Math.max(1, amount - 5);
+      }
+      let newHp = Math.max(0, prev.hp - finalAmount);
       let newFainted = prev.fainted;
       const newBadges = [...prev.badges];
 
@@ -303,12 +325,17 @@ export function useGameState() {
   const checkAndUpdateStreak = () => {
     setState(prev => {
       const today = new Date().toISOString().split('T')[0];
+      const isNewDay = prev.lastActiveDate && prev.lastActiveDate !== today;
+      let newHp = isNewDay ? 100 : prev.hp;
+      let newFainted = isNewDay ? false : prev.fainted;
       
       if (!prev.lastActiveDate) {
         return {
           ...prev,
           lastActiveDate: today,
-          streak: 1
+          streak: 1,
+          hp: 100,
+          fainted: false
         };
       }
 
@@ -347,7 +374,9 @@ export function useGameState() {
         lastActiveDate: today,
         streak: newStreak,
         inventory: newInventory,
-        badges: newBadges
+        badges: newBadges,
+        hp: newHp,
+        fainted: newFainted
       };
     });
   };
@@ -366,12 +395,47 @@ export function useGameState() {
         nextReview = true;
       }
 
+      let goldReward = 12;
+      let xpReward = 60;
+      if (prev.equipped && prev.equipped.amulet === "goldenAmulet") {
+        goldReward = Math.ceil(goldReward * 1.2);
+      }
+      if (prev.equipped && prev.equipped.weapon === "wisdomSword") {
+        xpReward = Math.ceil(xpReward * 1.2);
+      }
+
+      let newXp = prev.xp + xpReward;
+      let newLevel = prev.level;
+      let newHp = prev.hp;
+      let newGold = prev.gold + goldReward;
+      let isLevelUp = false;
+      const leveledBadges = [...prev.badges];
+
+      while (newXp >= newLevel * 100) {
+        newXp -= newLevel * 100;
+        newLevel += 1;
+        newGold += 25;
+        newHp = 100;
+        isLevelUp = true;
+      }
+
+      if (newLevel >= 5 && !leveledBadges.includes("level_5")) {
+        leveledBadges.push("level_5");
+      }
+      if (newLevel >= 10 && !leveledBadges.includes("level_10")) {
+        leveledBadges.push("level_10");
+      }
+
       return {
         ...prev,
         questLevel: nextLevel,
         isReviewReady: nextReview,
-        gold: prev.gold + 12,
-        xp: prev.xp + 60
+        gold: newGold,
+        xp: newXp,
+        level: newLevel,
+        hp: newHp,
+        badges: leveledBadges,
+        _levelUpFlag: isLevelUp ? Date.now() : prev._levelUpFlag
       };
     });
     return true;
@@ -390,18 +454,113 @@ export function useGameState() {
         newBadges.push("game_beaten");
       }
 
+      let goldReward = 50;
+      let xpReward = 200;
+      if (prev.equipped && prev.equipped.amulet === "goldenAmulet") {
+        goldReward = Math.ceil(goldReward * 1.2);
+      }
+      if (prev.equipped && prev.equipped.weapon === "wisdomSword") {
+        xpReward = Math.ceil(xpReward * 1.2);
+      }
+
+      let newXp = prev.xp + xpReward;
+      let newLevel = prev.level;
+      let newHp = prev.hp;
+      let newGold = prev.gold + goldReward;
+      let isLevelUp = false;
+
+      while (newXp >= newLevel * 100) {
+        newXp -= newLevel * 100;
+        newLevel += 1;
+        newGold += 25;
+        newHp = 100;
+        isLevelUp = true;
+      }
+
+      if (newLevel >= 5 && !newBadges.includes("level_5")) {
+        newBadges.push("level_5");
+      }
+      if (newLevel >= 10 && !newBadges.includes("level_10")) {
+        newBadges.push("level_10");
+      }
+
       return {
         ...prev,
         questStage: nextStage,
         questLevel: 1,
         isReviewReady: false,
-        gold: prev.gold + 50,
-        xp: prev.xp + 200,
+        gold: newGold,
+        xp: newXp,
+        level: newLevel,
+        hp: newHp,
         badges: newBadges,
-        stageFlashcardsSeen: []
+        stageFlashcardsSeen: [],
+        _levelUpFlag: isLevelUp ? Date.now() : prev._levelUpFlag
       };
     });
     return true;
+  };
+
+  const buyEquipment = (itemKey, cost, slot) => {
+    if (state.gold < cost) return false;
+    setState(prev => {
+      const owned = prev.ownedEquipment || [];
+      if (owned.includes(itemKey)) return prev;
+      const newOwned = [...owned, itemKey];
+      const newEquipped = { ...prev.equipped };
+      newEquipped[slot] = itemKey;
+
+      return {
+        ...prev,
+        gold: prev.gold - cost,
+        ownedEquipment: newOwned,
+        equipped: newEquipped
+      };
+    });
+    return true;
+  };
+
+  const equipItem = (itemKey, slot) => {
+    setState(prev => {
+      const owned = prev.ownedEquipment || [];
+      if (itemKey !== null && !owned.includes(itemKey)) return prev;
+
+      const newEquipped = { ...prev.equipped };
+      newEquipped[slot] = itemKey;
+
+      return {
+        ...prev,
+        equipped: newEquipped
+      };
+    });
+  };
+
+  const addMistake = (spanishWord) => {
+    setState(prev => {
+      const list = prev.mistakes || [];
+      if (list.includes(spanishWord)) return prev;
+      return {
+        ...prev,
+        mistakes: [...list, spanishWord]
+      };
+    });
+  };
+
+  const removeMistake = (spanishWord) => {
+    setState(prev => {
+      const list = prev.mistakes || [];
+      return {
+        ...prev,
+        mistakes: list.filter(w => w !== spanishWord)
+      };
+    });
+  };
+
+  const toggleAutoSpeak = () => {
+    setState(prev => ({
+      ...prev,
+      autoSpeak: !prev.autoSpeak
+    }));
   };
 
   const resetAllProgress = () => {
@@ -446,5 +605,10 @@ export function useGameState() {
     setExcludeVosotros,
     markFlashcardsSeen,
     recordWordAnsweredCorrectly,
+    buyEquipment,
+    equipItem,
+    addMistake,
+    removeMistake,
+    toggleAutoSpeak,
   };
 }

@@ -7,6 +7,7 @@ import GameShop from './components/GameShop';
 import AiChat from './components/AiChat';
 import MiniGames from './components/MiniGames';
 import BadgeTrophy from './components/BadgeTrophy';
+import MistakesDungeon from './components/MistakesDungeon';
 import { Sparkles, Trophy, Settings, RefreshCw, Key, ArrowLeft, Swords } from 'lucide-react';
 import './App.css';
 
@@ -31,7 +32,12 @@ export default function App() {
     resetAllProgress,
     setExcludeVosotros,
     markFlashcardsSeen,
-    recordWordAnsweredCorrectly
+    recordWordAnsweredCorrectly,
+    buyEquipment,
+    equipItem,
+    addMistake,
+    removeMistake,
+    toggleAutoSpeak
   } = useGameState();
 
   const [view, setView] = useState('dashboard');
@@ -93,6 +99,8 @@ export default function App() {
             passStageReview={passStageReview}
             markFlashcardsSeen={markFlashcardsSeen}
             recordWordAnsweredCorrectly={recordWordAnsweredCorrectly}
+            addMistake={addMistake}
+            toggleAutoSpeak={toggleAutoSpeak}
             setView={setView}
             defaultTab={studyQuestTab}
           />
@@ -100,7 +108,28 @@ export default function App() {
       case 'chat':
         return <AiChat state={state} setApiKey={setApiKey} setView={setView} />;
       case 'shop':
-        return <GameShop state={state} buyItem={buyItem} useItem={useItem} setView={setView} />;
+        return (
+          <GameShop 
+            state={state} 
+            buyItem={buyItem} 
+            useItem={useItem} 
+            buyEquipment={buyEquipment} 
+            equipItem={equipItem} 
+            setView={setView} 
+          />
+        );
+      case 'dungeon':
+        return (
+          <MistakesDungeon 
+            state={state} 
+            takeDamage={takeDamage} 
+            heal={heal} 
+            removeMistake={removeMistake} 
+            addXp={addXp}
+            addGold={addGold}
+            setView={setView} 
+          />
+        );
       case 'games':
         return (
           <MiniGames 

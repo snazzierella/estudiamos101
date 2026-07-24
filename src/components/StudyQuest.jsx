@@ -20,7 +20,7 @@ import {
   Play
 } from 'lucide-react';
 
-export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, recordWordAnsweredCorrectly, recordQuizPerformance, advanceQuest, passStageReview, markFlashcardsSeen, setView, defaultTab = "quest" }) {
+export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, recordWordAnsweredCorrectly, recordQuizPerformance, advanceQuest, passStageReview, markFlashcardsSeen, addMistake, toggleAutoSpeak, setView, defaultTab = "quest" }) {
   const [activeTab, setActiveTab] = useState(defaultTab);
 
   useEffect(() => {
@@ -125,6 +125,15 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
       setRedemptionSuccess(false);
     }
   }, [state.fainted, questStarted]);
+
+  // Autoplay TTS for card introductions
+  useEffect(() => {
+    if (questStarted && currentQuestQ && currentQuestQ.isCardIntro && state.autoSpeak) {
+      if (!questFlipped) {
+        speakSpanish(currentQuestQ.item.spanish);
+      }
+    }
+  }, [questStarted, questCurrentIdx, questFlipped]);
 
   // Filter free practice cards when category changes
   useEffect(() => {
@@ -666,6 +675,10 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
         return [...prev, currentQ];
       });
 
+      if (addMistake && currentQ && currentQ.item) {
+        addMistake(currentQ.item.spanish);
+      }
+
       takeDamage(15);
       setTimeout(() => setShakeTrigger(false), 500);
     }
@@ -691,6 +704,10 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
       setPracticeSelected(userStr);
       setShakeTrigger(true);
       playSound('wrong');
+      const currentQ = practiceQuestions[practiceCurrentIdx];
+      if (addMistake && currentQ && currentQ.item) {
+        addMistake(currentQ.item.spanish);
+      }
       if (!state.fainted) takeDamage(15);
       setTimeout(() => setShakeTrigger(false), 500);
     }
@@ -736,6 +753,10 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
         if (prev.some(q => q.questionWord === currentQuestQ.questionWord)) return prev;
         return [...prev, currentQuestQ];
       });
+
+      if (addMistake && currentQuestQ && currentQuestQ.item) {
+        addMistake(currentQuestQ.item.spanish);
+      }
 
       takeDamage(15);
       setTimeout(() => setShakeTrigger(false), 500);
@@ -961,6 +982,10 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
     } else {
       setShakeTrigger(true);
       playSound('wrong');
+      const currentQ = practiceQuestions[practiceCurrentIdx];
+      if (addMistake && currentQ && currentQ.item) {
+        addMistake(currentQ.item.spanish);
+      }
       if (!state.fainted) takeDamage(15);
       setTimeout(() => setShakeTrigger(false), 500);
     }
@@ -1016,21 +1041,36 @@ export default function StudyQuest({ state, addXp, addGold, takeDamage, revive, 
 
       {/* Tab Switcher */}
       {!questStarted && !practiceQuizStarted && !redemptionActive && (
-        <div style={{ display: 'flex', gap: '8px', background: 'rgba(255,255,255,0.03)', padding: '6px', borderRadius: '14px', width: 'fit-content' }}>
-          <button 
-            className={`btn ${activeTab === 'quest' ? 'btn-primary' : 'btn-secondary'}`}
-            style={{ padding: '8px 16px', fontSize: '0.85rem' }}
-            onClick={() => setActiveTab("quest")}
-          >
-            Quest Campaign (Búsqueda)
-          </button>
-          <button 
-            className={`btn ${activeTab === 'practice' ? 'btn-primary' : 'btn-secondary'}`}
-            style={{ padding: '8px 16px', fontSize: '0.85rem' }}
-            onClick={() => setActiveTab("practice")}
-          >
-            Practice Deck (Práctica)
-          </button>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: '20px' }}>
+          <div style={{ display: 'flex', gap: '8px', background: 'rgba(255,255,255,0.03)', padding: '6px', borderRadius: '14px', width: 'fit-content' }}>
+            <button 
+              className={`btn ${activeTab === 'quest' ? 'btn-primary' : 'btn-secondary'}`}
+              style={{ padding: '8px 16px', fontSize: '0.85rem' }}
+              onClick={() => setActiveTab("quest")}
+            >
+              Quest Campaign (Búsqueda)
+            </button>
+            <button 
+              className={`btn ${activeTab === 'practice' ? 'btn-primary' : 'btn-secondary'}`}
+              style={{ padding: '8px 16px', fontSize: '0.85rem' }}
+              onClick={() => setActiveTab("practice")}
+            >
+              Practice Deck (Práctica)
+            </button>
+          </div>
+          
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.02)', padding: '6px 12px', borderRadius: '10px', border: '1px solid var(--card-border)' }}>
+            <input 
+              type="checkbox" 
+              id="autoSpeakCheckbox" 
+              checked={state.autoSpeak ?? true} 
+              onChange={toggleAutoSpeak} 
+              style={{ cursor: 'pointer', accentColor: 'var(--primary)' }}
+            />
+            <label htmlFor="autoSpeakCheckbox" style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', cursor: 'pointer', fontWeight: 600 }}>
+              🔊 Auto-pronunciar
+            </label>
+          </div>
         </div>
       )}
 

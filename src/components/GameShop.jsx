@@ -36,6 +36,36 @@ const SHOP_ITEMS = [
   }
 ];
 
+const EQUIP_ITEMS = [
+  {
+    key: "woodenShield",
+    slot: "shield",
+    name: "Escudo de Madera (Wooden Shield)",
+    desc: "Reduces error damage from 15 HP to 10 HP in quizzes.",
+    cost: 60,
+    icon: "🛡️",
+    theme: "gold-item"
+  },
+  {
+    key: "wisdomSword",
+    slot: "weapon",
+    name: "Espada de Sabiduría (Wisdom Sword)",
+    desc: "Grants a permanent +20% XP boost on correct quest answers.",
+    cost: 75,
+    icon: "⚔️",
+    theme: "blue-item"
+  },
+  {
+    key: "goldenAmulet",
+    slot: "amulet",
+    name: "Amuleto de Oro (Golden Amulet)",
+    desc: "Grants a permanent +20% Gold bonus from completing quests.",
+    cost: 80,
+    icon: "✨",
+    theme: "gold-item"
+  }
+];
+
 const MYSTERY_JOKES = [
   "¿Por qué el libro de matemáticas estaba triste? ¡Porque tenía muchos problemas! 😂",
   "Grammar Tip: Remember that 'ser' is for permanent qualities (identity, origin) and 'estar' is for temporary states (emotions, locations). Think of PLACE for estar: Position, Location, Action, Condition, Emotion!",
@@ -45,7 +75,8 @@ const MYSTERY_JOKES = [
   "¿Cómo se dice 'one hair' en inglés? ¡O'hare! 💈"
 ];
 
-export default function GameShop({ state, buyItem, useItem, setView }) {
+export default function GameShop({ state, buyItem, useItem, buyEquipment, equipItem, setView }) {
+  const [shopTab, setShopTab] = useState("potions"); // "potions" or "gear"
   const [feedback, setFeedback] = useState("");
   const [mysteryText, setMysteryText] = useState("");
 
@@ -63,6 +94,34 @@ export default function GameShop({ state, buyItem, useItem, setView }) {
         setFeedback("");
       }, 4000);
     }
+  };
+
+  const handleBuyGear = (item) => {
+    if (!buyEquipment) return;
+    const success = buyEquipment(item.key, item.cost, item.slot);
+    if (success) {
+      setFeedback(`Purchased and equipped ${item.name}!`);
+    } else {
+      setFeedback("Not enough Gold coin coins!");
+    }
+    setTimeout(() => {
+      setFeedback("");
+    }, 3000);
+  };
+
+  const handleEquipToggle = (item) => {
+    if (!equipItem) return;
+    const isEquipped = state.equipped?.[item.slot] === item.key;
+    if (isEquipped) {
+      equipItem(null, item.slot);
+      setFeedback(`Unequipped ${item.name}.`);
+    } else {
+      equipItem(item.key, item.slot);
+      setFeedback(`Equipped ${item.name}!`);
+    }
+    setTimeout(() => {
+      setFeedback("");
+    }, 3000);
   };
 
   const handleUse = (key) => {
@@ -84,6 +143,23 @@ export default function GameShop({ state, buyItem, useItem, setView }) {
         </div>
         <button className="btn btn-secondary" onClick={() => setView('dashboard')}>
           <ArrowLeft size={16} /> Back to Hub
+        </button>
+      </div>
+
+      <div style={{ display: 'flex', gap: '12px', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '12px' }}>
+        <button 
+          className={`btn ${shopTab === 'potions' ? 'btn-primary' : 'btn-secondary'}`} 
+          onClick={() => setShopTab('potions')}
+          style={{ padding: '8px 16px', fontSize: '0.85rem' }}
+        >
+          🧪 Consumibles (Potions)
+        </button>
+        <button 
+          className={`btn ${shopTab === 'gear' ? 'btn-primary' : 'btn-secondary'}`} 
+          onClick={() => setShopTab('gear')}
+          style={{ padding: '8px 16px', fontSize: '0.85rem' }}
+        >
+          🛡️ Equipo Permanente (Gear)
         </button>
       </div>
 
@@ -109,40 +185,92 @@ export default function GameShop({ state, buyItem, useItem, setView }) {
         {/* Main Shop Grid */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <div className="shop-grid">
-            {SHOP_ITEMS.map(item => {
-              const count = state.inventory[item.key] || 0;
-              const canAfford = state.gold >= item.cost;
-              
-              return (
-                <div key={item.key} className="glass-panel shop-card">
-                  <div>
-                    <div className="shop-item-top">
-                      <div className={`shop-item-icon-box ${item.theme}`}>
-                        {item.icon}
+            {shopTab === "potions" ? (
+              SHOP_ITEMS.map(item => {
+                const count = state.inventory[item.key] || 0;
+                const canAfford = state.gold >= item.cost;
+                
+                return (
+                  <div key={item.key} className="glass-panel shop-card">
+                    <div>
+                      <div className="shop-item-top">
+                        <div className={`shop-item-icon-box ${item.theme}`}>
+                          {item.icon}
+                        </div>
+                        <div className="shop-item-cost">
+                          <Coins size={14} /> {item.cost} G
+                        </div>
                       </div>
-                      <div className="shop-item-cost">
-                        <Coins size={14} /> {item.cost} G
-                      </div>
+                      
+                      <h3 className="shop-item-name">{item.name}</h3>
+                      <p className="shop-item-desc">{item.desc}</p>
                     </div>
-                    
-                    <h3 className="shop-item-name">{item.name}</h3>
-                    <p className="shop-item-desc">{item.desc}</p>
-                  </div>
 
-                  <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Owned: {count}</span>
-                    <button 
-                      className={`btn ${canAfford ? 'btn-primary' : 'btn-secondary'}`}
-                      style={{ padding: '8px 16px', fontSize: '0.85rem' }}
-                      disabled={!canAfford}
-                      onClick={() => handleBuy(item)}
-                    >
-                      Buy Item
-                    </button>
+                    <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Owned: {count}</span>
+                      <button 
+                        className={`btn ${canAfford ? 'btn-primary' : 'btn-secondary'}`}
+                        style={{ padding: '8px 16px', fontSize: '0.85rem' }}
+                        disabled={!canAfford}
+                        onClick={() => handleBuy(item)}
+                      >
+                        Buy Item
+                      </button>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })
+            ) : (
+              EQUIP_ITEMS.map(item => {
+                const isOwned = state.ownedEquipment?.includes(item.key);
+                const isEquipped = state.equipped?.[item.slot] === item.key;
+                const canAfford = state.gold >= item.cost;
+                
+                return (
+                  <div key={item.key} className="glass-panel shop-card" style={{ border: isEquipped ? '1.5px solid var(--primary)' : '1px solid var(--card-border)' }}>
+                    <div>
+                      <div className="shop-item-top">
+                        <div className={`shop-item-icon-box ${item.theme}`}>
+                          {item.icon}
+                        </div>
+                        {!isOwned && (
+                          <div className="shop-item-cost">
+                            <Coins size={14} /> {item.cost} G
+                          </div>
+                        )}
+                      </div>
+                      
+                      <h3 className="shop-item-name">{item.name}</h3>
+                      <p className="shop-item-desc">{item.desc}</p>
+                    </div>
+
+                    <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                        {isOwned ? (isEquipped ? "Equipped" : "Owned") : "Not owned"}
+                      </span>
+                      {isOwned ? (
+                        <button 
+                          className={`btn ${isEquipped ? 'btn-secondary' : 'btn-accent'}`}
+                          style={{ padding: '8px 16px', fontSize: '0.85rem' }}
+                          onClick={() => handleEquipToggle(item)}
+                        >
+                          {isEquipped ? "Unequip" : "Equip"}
+                        </button>
+                      ) : (
+                        <button 
+                          className={`btn ${canAfford ? 'btn-primary' : 'btn-secondary'}`}
+                          style={{ padding: '8px 16px', fontSize: '0.85rem' }}
+                          disabled={!canAfford}
+                          onClick={() => handleBuyGear(item)}
+                        >
+                          Buy & Equip
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                );
+              })
+            )}
           </div>
 
           {/* Mystery Scroll Dialogue */}

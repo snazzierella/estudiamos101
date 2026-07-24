@@ -152,6 +152,44 @@ export default function Dashboard({ state, useItem, setView, setStudyQuestTab, o
               <p className="menu-card-desc">View your trophy room and check which milestones and badges you have unlocked.</p>
             </div>
           </div>
+
+          {/* Card 7: Mistakes Dungeon */}
+          <div 
+            className="glass-panel menu-card" 
+            onClick={() => setView('dungeon')}
+            style={{ 
+              border: state.mistakes?.length > 0 ? '1.5px solid var(--danger)' : '1px solid var(--card-border)',
+              position: 'relative'
+            }}
+          >
+            <div className="menu-card-icon" style={{ background: 'rgba(239, 68, 68, 0.1)', color: 'var(--danger)', borderColor: 'rgba(239, 68, 68, 0.2)' }}>
+              ⚔️
+            </div>
+            <div>
+              <h3 className="menu-card-title">Mazmorra de Errores (Mistakes Dungeon)</h3>
+              <p className="menu-card-desc">
+                {state.mistakes?.length > 0 
+                  ? `Defeat the ${state.mistakes.length} ghost words you answered incorrectly!` 
+                  : "Dungeon clear! No recent mistakes. Practice quests to find ghost words."}
+              </p>
+            </div>
+            {state.mistakes?.length > 0 && (
+              <span style={{ 
+                position: 'absolute', 
+                top: '12px', 
+                right: '12px', 
+                background: 'var(--danger)', 
+                color: '#fff', 
+                fontSize: '0.7rem', 
+                fontWeight: 'bold', 
+                padding: '2px 8px', 
+                borderRadius: '10px',
+                boxShadow: '0 0 10px var(--danger-glow)' 
+              }}>
+                {state.mistakes.length} GHOSTS
+              </span>
+            )}
+          </div>
         </div>
       </div>
 
@@ -178,6 +216,61 @@ export default function Dashboard({ state, useItem, setView, setStudyQuestTab, o
                 {state.streak}
               </div>
               <div className="quick-stat-lbl">Streak</div>
+            </div>
+          </div>
+
+          {/* Equipment Slots */}
+          <div style={{ marginTop: '20px', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '16px', textAlign: 'left' }}>
+            <h4 style={{ fontSize: '0.8rem', textTransform: 'uppercase', color: 'var(--text-secondary)', letterSpacing: '0.05em', marginBottom: '10px', fontWeight: 600 }}>Equipamiento (Gear)</h4>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+              <div 
+                onClick={() => setView('shop')}
+                style={{ 
+                  background: 'rgba(255,255,255,0.02)', 
+                  border: state.equipped?.weapon ? '1px dashed var(--primary)' : '1px dashed rgba(255,255,255,0.1)', 
+                  borderRadius: '10px', 
+                  padding: '8px', 
+                  textAlign: 'center', 
+                  cursor: 'pointer',
+                  transition: 'var(--transition-smooth)'
+                }}
+                title={state.equipped?.weapon === 'wisdomSword' ? "Wisdom Sword (+20% XP)" : "Click to go to Shop"}
+              >
+                <div style={{ fontSize: '1.2rem', marginBottom: '2px' }}>{state.equipped?.weapon === 'wisdomSword' ? "⚔️" : "🫳"}</div>
+                <div style={{ fontSize: '0.65rem', color: state.equipped?.weapon ? 'var(--text-primary)' : 'var(--text-muted)' }}>Espada</div>
+              </div>
+              <div 
+                onClick={() => setView('shop')}
+                style={{ 
+                  background: 'rgba(255,255,255,0.02)', 
+                  border: state.equipped?.shield ? '1px dashed var(--primary)' : '1px dashed rgba(255,255,255,0.1)', 
+                  borderRadius: '10px', 
+                  padding: '8px', 
+                  textAlign: 'center', 
+                  cursor: 'pointer',
+                  transition: 'var(--transition-smooth)'
+                }}
+                title={state.equipped?.shield === 'woodenShield' ? "Wooden Shield (-5 damage taken)" : "Click to go to Shop"}
+              >
+                <div style={{ fontSize: '1.2rem', marginBottom: '2px' }}>{state.equipped?.shield === 'woodenShield' ? "🛡️" : "🫳"}</div>
+                <div style={{ fontSize: '0.65rem', color: state.equipped?.shield ? 'var(--text-primary)' : 'var(--text-muted)' }}>Escudo</div>
+              </div>
+              <div 
+                onClick={() => setView('shop')}
+                style={{ 
+                  background: 'rgba(255,255,255,0.02)', 
+                  border: state.equipped?.amulet ? '1px dashed var(--primary)' : '1px dashed rgba(255,255,255,0.1)', 
+                  borderRadius: '10px', 
+                  padding: '8px', 
+                  textAlign: 'center', 
+                  cursor: 'pointer',
+                  transition: 'var(--transition-smooth)'
+                }}
+                title={state.equipped?.amulet === 'goldenAmulet' ? "Golden Amulet (+20% Gold)" : "Click to go to Shop"}
+              >
+                <div style={{ fontSize: '1.2rem', marginBottom: '2px' }}>{state.equipped?.amulet === 'goldenAmulet' ? "✨" : "🫳"}</div>
+                <div style={{ fontSize: '0.65rem', color: state.equipped?.amulet ? 'var(--text-primary)' : 'var(--text-muted)' }}>Amuleto</div>
+              </div>
             </div>
           </div>
 

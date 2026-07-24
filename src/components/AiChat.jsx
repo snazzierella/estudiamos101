@@ -27,35 +27,43 @@ const UNIQUE_SPANISH_WORDS = getUniqueWords();
 const MOCK_CONVERSATION_STEPS = [
   {
     trigger: "start",
-    reply: "¡Hola! ¿Cómo estás? Me llamo Mateo. ¿Cómo te llamas tú?"
+    reply: "¡Hola! ¿Cómo estás? Me llamo Mateo. ¿Cómo te llamas tú?",
+    suggestions: ["Hola Mateo.", "Hola, estoy bien.", "Me llamo Sofía."]
   },
   {
     trigger: "name",
-    reply: "Mucho gusto. Yo soy de México, un país muy bonito, y vivo en un apartamento pequeño en la ciudad. ¿De dónde eres tú?"
+    reply: "Mucho gusto. Yo soy de México, un país muy bonito, y vivo en un apartamento pequeño en la ciudad. ¿De dónde eres tú?",
+    suggestions: ["Soy de Chicago.", "Yo soy de España.", "Soy de Nueva York."]
   },
   {
     trigger: "origin",
-    reply: "¡Qué bien! Yo soy estudiante en la universidad. Estudio informática, biología y español. Es difícil pero interesante. ¿Qué estudias tú?"
+    reply: "¡Qué bien! Yo soy estudiante en la universidad. Estudio informática, biología y español. Es difícil pero interesante. ¿Qué estudias tú?",
+    suggestions: ["Estudio historia.", "Yo estudio física.", "Estudio español."]
   },
   {
     trigger: "study",
-    reply: "Excelente. Por la mañana tengo clases y por la tarde me gusta practicar deportes. Juego al fútbol en el estadio y nado en la piscina. ¿Qué pasatiempo te gusta a ti?"
+    reply: "Excelente. Por la mañana tengo clases y por la tarde me gusta practicar deportes. Juego al fútbol en el estadio y nado en la piscina. ¿Qué pasatiempo te gusta a ti?",
+    suggestions: ["Me gusta leer.", "Prefiero jugar tenis.", "Nadar es divertido."]
   },
   {
     trigger: "hobby",
-    reply: "¡Qué divertido! Hoy el clima está soleado y hace calor. ¿Qué tiempo hace hoy en tu ciudad?"
+    reply: "¡Qué divertido! Hoy el clima está soleado y hace calor. ¿Qué tiempo hace hoy en tu ciudad?",
+    suggestions: ["Hace frío.", "Está lloviendo.", "Hace mucho sol."]
   },
   {
     trigger: "weather",
-    reply: "Interesante. Tengo un perro muy cómico que se llama Narfy. Es mi mascota favorita. ¿Tienes mascotas en tu casa?"
+    reply: "Interesante. Tengo un perro muy cómico que se llama Narfy. Es mi mascota favorita. ¿Tienes mascotas en tu casa?",
+    suggestions: ["Tengo un gato.", "No tengo mascotas.", "Tengo dos perros."]
   },
   {
     trigger: "pet",
-    reply: "¡Me encanta! Bueno, tengo hambre ahora y voy a almorzar tacos con queso, cebolla y salsa picante, y a beber agua fría. ¿Qué comida prefieres para el almuerzo?"
+    reply: "¡Me encanta! Bueno, tengo hambre ahora y voy a almorzar tacos con queso, cebolla y salsa picante, y a beber agua fría. ¿Qué comida prefieres para el almuerzo?",
+    suggestions: ["Prefiero el pollo.", "Me gusta la pizza.", "Quiero comer ensalada."]
   },
   {
     trigger: "food",
-    reply: "¡Qué sabroso! Lo siento, tengo un examen ahora y tengo que estudiar en la biblioteca. Buena suerte con tu español. ¡Hasta luego y adiós!"
+    reply: "¡Qué sabroso! Lo siento, tengo un examen ahora y tengo que estudiar en la biblioteca. Buena suerte con tu español. ¡Hasta luego y adiós!",
+    suggestions: ["¡Buena suerte!", "Hasta luego.", "¡Adiós Mateo!"]
   }
 ];
 
@@ -73,6 +81,7 @@ export default function AiChat({ state, setApiKey, setView }) {
   const [showKeyModal, setShowKeyModal] = useState(false);
   const [tempKey, setTempKey] = useState(state.apiKeys.gemini || "");
   const [mockStepIdx, setMockStepIdx] = useState(0);
+  const [suggestions, setSuggestions] = useState(["¡Hola Elena!", "Mucho gusto.", "Hola, buenos días."]);
 
   const messagesEndRef = useRef(null);
 
@@ -140,11 +149,8 @@ export default function AiChat({ state, setApiKey, setView }) {
     }
   };
 
-  const handleSendMessage = async (e) => {
-    e.preventDefault();
-    if (!inputText.trim() || loading) return;
-
-    const userText = inputText.trim();
+  const submitUserMessage = async (userText) => {
+    if (loading) return;
     const nowStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     
     // Add user message
@@ -157,6 +163,7 @@ export default function AiChat({ state, setApiKey, setView }) {
     
     setMessages(prev => [...prev, userMsg]);
     setInputText("");
+    setSuggestions([]);
     setLoading(true);
 
     const apiKey = state.apiKeys.gemini;
@@ -166,9 +173,11 @@ export default function AiChat({ state, setApiKey, setView }) {
       setTimeout(() => {
         const step = MOCK_CONVERSATION_STEPS[mockStepIdx];
         let replyText = "Lo siento, tengo clase ahora. ¡Nos vemos luego! ¡Adiós!";
+        let nextSuggestions = ["Hasta luego.", "Adiós.", "Gracias."];
         
         if (step) {
           replyText = step.reply;
+          nextSuggestions = step.suggestions || [];
           setMockStepIdx(prev => prev + 1);
         }
 
@@ -180,6 +189,7 @@ export default function AiChat({ state, setApiKey, setView }) {
         };
         
         setMessages(prev => [...prev, botMsg]);
+        setSuggestions(nextSuggestions);
         setLoading(false);
       }, 1000);
       
@@ -193,7 +203,9 @@ You are talking to a student. You MUST only communicate in Spanish.
 CRITICAL MANDATE: You can ONLY use the following Spanish words in your response: [${vocabContext}, hola, adios, gracias, qué, por qué, cómo, dónde, cuándo, quién].
 Do not use any verb forms, nouns, or adjectives outside of this list.
 Keep your answers brief (1-2 short sentences maximum). Speak in simple, clear grammar.
-Do not output translations. Respond directly in Spanish.`;
+Do not output translations. Respond directly in Spanish.
+
+CRITICAL SUGGESTION FORMATTING: At the very end of your response, you MUST output a bracketed list of exactly 3 short suggested student replies (max 4 words each) in Spanish using ONLY the vocabulary list. Format it exactly like this: [Suggestion 1 | Suggestion 2 | Suggestion 3]. Do not forget this bracketed list at the end of your response.`;
 
         // Retrieve last 6 messages to keep context
         const contextHistory = messages.slice(-6).map(m => `${m.role === 'user' ? 'Student' : 'Elena'}: ${m.text}`).join('\n');
@@ -215,7 +227,7 @@ Do not output translations. Respond directly in Spanish.`;
               }
             ],
             generationConfig: {
-              maxOutputTokens: 100,
+              maxOutputTokens: 150,
               temperature: 0.5
             }
           })
@@ -229,6 +241,16 @@ Do not output translations. Respond directly in Spanish.`;
         let botText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Lo siento, no comprendo.";
         botText = botText.trim();
 
+        let parsedSuggestions = [];
+        const match = botText.match(/\[(.*?)\]/);
+        if (match) {
+          const raw = match[1];
+          parsedSuggestions = raw.split("|").map(s => s.trim());
+          botText = botText.replace(/\[.*?\]/, "").trim();
+        } else {
+          parsedSuggestions = ["Sí.", "No.", "No comprendo."];
+        }
+
         const botMsg = {
           id: Date.now().toString(),
           role: "bot",
@@ -237,6 +259,7 @@ Do not output translations. Respond directly in Spanish.`;
         };
 
         setMessages(prev => [...prev, botMsg]);
+        setSuggestions(parsedSuggestions);
       } catch (err) {
         console.error("Gemini API Error:", err);
         const errMsg = {
@@ -246,10 +269,17 @@ Do not output translations. Respond directly in Spanish.`;
           time: nowStr
         };
         setMessages(prev => [...prev, errMsg]);
+        setSuggestions(["Intentar de nuevo"]);
       } finally {
         setLoading(false);
       }
     }
+  };
+
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    if (!inputText.trim() || loading) return;
+    submitUserMessage(inputText.trim());
   };
 
   const isDemo = !state.apiKeys.gemini;
@@ -331,6 +361,24 @@ Do not output translations. Respond directly in Spanish.`;
           )}
           <div ref={messagesEndRef} />
         </div>
+
+        {/* Suggestion Chips */}
+        {suggestions.length > 0 && !loading && (
+          <div style={{ display: 'flex', gap: '8px', padding: '10px 16px', flexWrap: 'wrap', borderTop: '1px solid rgba(255,255,255,0.05)', background: 'rgba(0,0,0,0.05)' }}>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', marginRight: '6px' }}>Suggestions:</span>
+            {suggestions.map((sug, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => submitUserMessage(sug)}
+                className="btn btn-secondary"
+                style={{ padding: '6px 12px', fontSize: '0.8rem', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.08)' }}
+              >
+                {sug}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Input Bar */}
         <form onSubmit={handleSendMessage} className="chat-input-bar">
